@@ -1,0 +1,1 @@
+export const DES_SEL_STEP_TIMEOUT = 1300;

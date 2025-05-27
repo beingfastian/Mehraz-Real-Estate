@@ -1,0 +1,10 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "next/no-img-element": "off", // Disable the warning for using <img>
+    "react/no-unescaped-entities": "off", // Disable the warning for unescaped entities
+    "react/jsx-key": "off", // Disable the warning for missing key prop in iterators
+    "react-hooks/rules-of-hooks": "off", // Disable the warning for hooks rules
+    "react-hooks/exhaustive-deps": "off" // Disable the warning for missing dependencies in useEffect
+  }
+}
