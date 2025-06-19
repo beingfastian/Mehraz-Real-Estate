@@ -38,7 +38,7 @@ const menuDataItems = [
   { text: "go home", href: "/", src: goHomeIcon },
   { text: "services", href: null, src: servicesIcon },
   { text: "saved", href: "/", src: SavedIcon },
-  { text: "blog", href: "/", src: blogIcon },
+  { text: "blog", href: "/blog", src: blogIcon },
   { text: "contact us", href: "/contact-us", src: contactUsIcon },
   { text: "about us", href: "/about-us", src: aboutUsIcon },
   { text: "team & apply", href: "/team-apply", src: teamAndApplyIcon },

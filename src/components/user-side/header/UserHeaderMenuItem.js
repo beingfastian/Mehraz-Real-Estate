@@ -13,7 +13,10 @@ const UserHeaderMenuItem = ({
 }) => {
   return (
     <>
-      <li className={`m-0.5 ${isHide ? "hidden sm:block" : ""}  text-black/90 base-text-0`}>
+      <li
+        className={`m-0.5 ${
+          isHide ? "hidden sm:block" : ""
+        }  text-black/90 base-text-0`}>
         {href ? (
           <Link
             href={href}
@@ -24,7 +27,7 @@ const UserHeaderMenuItem = ({
               alt={text}
               height={24}
               // className="h-[29px] w-auto md:h-6 sm:h-5"
-                 className="h-8 w-auto md:h-6 sm:h-5"
+              className="h-8 w-auto md:h-6 sm:h-5"
             />
             <span>{text}</span>
           </Link>
@@ -36,12 +39,9 @@ const UserHeaderMenuItem = ({
             }}
             className="uppercase w-full flex items-center header-list-item-gap border-b-2 md:border-b border-accent-1-extra-light header-list-item-pad relative ">
             <Image src={src} alt={text} className="h-[29px] w-auto sm:h-5" />
-            <span className="">
-              {text}
-            </span>
+            <span className="">{text}</span>
             <FaChevronRight
               className={`h-auto transition-transform duration-300 absolute right-2 header-arrow-size `}
-              
             />
           </button>
         )}

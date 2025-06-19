@@ -37,17 +37,20 @@ const UserHeader = () => {
               />
             </Link>
             <div className="flex items-center gap-9">
-
-            <UserHeaderMeetBtn />
-            <button className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
-              <CiChat1 size={23} strokeWidth={1.3} />
-              <span className="sm-text">CHAT</span>
-            </button>
+              <UserHeaderMeetBtn />
+              <Link href="/chat" passHref legacyBehavior>
+                <a className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
+                  <CiChat1 size={23} strokeWidth={1.3} />
+                  <span className="sm-text">CHAT</span>
+                </a>
+              </Link>
             </div>
 
-            <button className="hidden sm:inline text-white">
-              <CiChat1 size={20} className="h-6 w-auto stroke-1" />
-            </button>
+            <Link href="/chat" passHref legacyBehavior>
+              <a className="hidden sm:inline text-white">
+                <CiChat1 size={20} className="h-6 w-auto stroke-1" />
+              </a>
+            </Link>
 
             <UserHeaderMenu />
           </div>
