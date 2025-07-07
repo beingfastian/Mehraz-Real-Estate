@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import DesignCarouselMain from "../designs/DesignCarouselMain";
 import {
@@ -9,15 +10,14 @@ import {
   couch,
 } from "@/assets";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // Import from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-const MaterialCarousel = () => {
-  // Define the array of materials with icons, headings, and content
+const MaterialCarousel = ({ selectedMaterial, setSelectedMaterial }) => {
   const materials = [
     {
       icon: whitewall,
       alt: "White wall icon",
-      heading: "Building",
+      heading: "BUILDING",
       content: "Grey Structure",
     },
     {
@@ -29,7 +29,7 @@ const MaterialCarousel = () => {
     {
       icon: couch,
       alt: "Couch icon",
-      heading: "FINISH",
+      heading: "FURNITURE",
       content: "& Decor",
     },
     {
@@ -43,9 +43,14 @@ const MaterialCarousel = () => {
   return (
     <DesignCarouselMain slidesCount={1}>
       <div className="w-full h-auto rounded-xl overflow-hidden flex justify-center">
-        <div className="w-[90%] sm:w-[85%] p-2 h-auto rounded-2xl flex flex-wrap gap-3 justify-center">
+        <div className="w-[90%] sm:w-[85%] p-4 h-auto rounded-2xl flex flex-wrap gap-4 justify-center">
           {materials.map((material, index) => (
-            <MaterialCard key={index} material={material} />
+            <MaterialCard 
+              key={index} 
+              material={material}
+              isSelected={selectedMaterial === material.heading}
+              onClick={() => setSelectedMaterial(material.heading)}
+            />
           ))}
         </div>
       </div>
@@ -53,21 +58,25 @@ const MaterialCarousel = () => {
   );
 };
 
-// Component to render each material card
-const MaterialCard = ({ material }) => {
-  const router = useRouter(); // Initialize the router
+const MaterialCard = ({ material, isSelected, onClick }) => {
+  const router = useRouter();
 
   const handleCardClick = () => {
-    // Navigate to the dynamic route with material.heading
+    onClick();
     const heading = material.heading.toLowerCase();
     router.push(
       `/buy-materials?materialcategory=${encodeURIComponent(heading)}`,
     );
   };
+
   return (
     <div
-      className="w-[190px] h-[190px] xl:w-[150px] xl:h-[150px] lg:w-[100px] lg:h-[100px] sm:h-[100px] sm:w-[100px] flex imagenum cursor-pointer"
-      onClick={handleCardClick}>
+      className={`w-[190px] h-[190px] xl:w-[150px] xl:h-[150px] lg:w-[120px] lg:h-[120px] sm:h-[110px] sm:w-[110px] 
+        flex imagenum cursor-pointer transition-all duration-200 ${isSelected ? 
+        'border-4 border-yellow-400 rounded-lg transform scale-105' : 
+        'border-2 border-transparent hover:border-gray-300'}`}
+      onClick={handleCardClick}
+    >
       <div className="relative flex justify-center items-center flex-col w-full h-full bg-cover bg-center">
         <Image
           src={material.icon}
@@ -76,17 +85,19 @@ const MaterialCard = ({ material }) => {
           height={55}
           className="z-20"
         />
-        <div className="z-20 text-white text-center flex flex-col items-center">
-          <span className="font-bold text-2xl">{material.heading}</span>
-          <span className="text-base">{material.content}</span>
+        <div className="z-20 text-white text-center flex flex-col items-center mt-2">
+          <span className="font-bold text-xl sm:text-lg">{material.heading}</span>
+          <span className="text-sm">{material.content}</span>
         </div>
         <Image
           src={landpic}
           alt="Background Decoration"
-          width={500}
-          height={300}
-          className="absolute top-0 left-0 w-full h-full bg-white z-10"
+          fill
+          className="absolute top-0 left-0 w-full h-full object-cover z-10"
         />
+        {isSelected && (
+          <div className="absolute inset-0 bg-black bg-opacity-30 z-15 rounded-md"></div>
+        )}
       </div>
     </div>
   );

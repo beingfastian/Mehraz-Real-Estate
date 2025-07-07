@@ -1,4 +1,4 @@
-import { BuyMaterialsPage } from "@/components";
+import { BuyMaterialsPage,} from "@/components";
 import React from "react";
 
 const page = () => {

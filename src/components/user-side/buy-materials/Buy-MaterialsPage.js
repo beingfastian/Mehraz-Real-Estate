@@ -11,6 +11,7 @@ import {
   Card,
   SpecificDetail,
   UserProtectedRoute,
+  UserHeader,
 } from "@/components";
 import {
   industrialImage,

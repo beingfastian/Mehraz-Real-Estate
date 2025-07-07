@@ -11,130 +11,6 @@ import UButton from "../UButton";
 import Backbutton from "@/components/Backbutton";
 import UserScreenSpinner from "../UserScreenSpinner";
 import OrderListCard from "./OrderListCard";
-// initial Values
-const defaultDesign = {
-  id: "hajfkajlj214141",
-  title: "Design Title",
-  area: {
-    id: "4jB5BRiha5F45jcGzTEE",
-    area: 10,
-    category: "UPTO_18",
-    unit: "MARLA",
-  },
-  floors: {
-    id: "GywcLbBL9cjTxRq6GgX9",
-    name: "FIRST",
-  },
-  familyUnit: {
-    id: "GywcLbBL9cjTxRq6GgX9",
-    name: "ONE UNIT",
-  },
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  descriptionOp1: "moon",
-  descriptionOp2: "moon",
-  style: {
-    name: "MODERN",
-    budget: "LOW",
-  },
-  images: [
-    "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ],
-  imagesOp1: [
-    "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ],
-  imagesOp2: [
-    "https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ],
-  designCost: 10000,
-  constructionCost: 200000000,
-  op1Name: "first",
-  op2Name: "second",
-  materials: [
-    {
-      image:
-        "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "marble",
-      vendor: "vendor",
-      price: "1500 PKR/CFT",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "marble",
-      vendor: "vendor",
-      price: "1500 PKR/CFT",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "marble",
-      vendor: "vendor",
-      price: "1500 PKR/CFT",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "marble",
-      vendor: "vendor",
-      price: "1500 PKR/CFT",
-    },
-  ],
-  programs: [
-    {
-      category: "bedroom",
-      quantity: 3,
-      subCategories: [
-        {
-          space: "main bedroom",
-          size: "12 by 6 feet",
-        },
-        {
-          space: "second bedroom",
-          size: "10 by 6 feet",
-        },
-        {
-          space: "third bedroom",
-          size: "10 by 5 feet",
-        },
-      ],
-    },
-    {
-      category: "bathroom",
-      quantity: 3,
-      subCategories: [
-        {
-          space: "main bathroom",
-          size: "6 by 6 feet",
-        },
-        {
-          space: "second bathroom",
-          size: "6 by 6 feet",
-        },
-        {
-          space: "third bathroom",
-          size: "6 by 6 feet",
-        },
-      ],
-    },
-    {
-      category: "kitchen",
-      quantity: 1,
-      subCategories: [
-        {
-          space: "kitchen",
-          size: "12 by 6 feet",
-        },
-      ],
-    },
-  ],
-};
 
 const OrderList = ({ setStep }) => {
   const headers = [
@@ -151,8 +27,73 @@ const OrderList = ({ setStep }) => {
       subheading: "PRICES YOU'LL LOVE",
     },
   ];
-  // dummy array remove with actual data
-  const OrderListItem = [1];
+
+  // Sample order data
+  const orders = [
+    {
+      id: 1,
+      images: [
+        "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      ],
+      name: "Marble Tiles",
+      vendor: "Stone World",
+      rate: "1500 PKR/CFT",
+      orderedAs: "10,000 Bricks (1 Quantity)",
+      specs: "Premium quality marble with polished finish",
+      description: "High durability marble tiles suitable for flooring and walls. Water resistant and easy to clean.",
+      quantity: 5,
+      totalCost: 7500
+    },
+    {
+      id: 2,
+      images: [
+        "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      ],
+      name: "Ceramic Tiles",
+      vendor: "Tile Masters",
+      rate: "800 PKR/CFT",
+      orderedAs: "5,000 Tiles (2 Quantity)",
+      specs: "Glossy finish ceramic tiles",
+      description: "Modern ceramic tiles with glossy finish. Perfect for bathrooms and kitchens. Scratch resistant.",
+      quantity: 10,
+      totalCost: 8000
+    },
+    {
+      id: 3,
+      images: [
+        "https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      ],
+      name: "Wooden Flooring",
+      vendor: "Nature Wood",
+      rate: "2500 PKR/CFT",
+      orderedAs: "3,000 Planks (1 Quantity)",
+      specs: "Oak wood flooring",
+      description: "Premium quality oak wood flooring with UV coating. Adds warmth to any space.",
+      quantity: 3,
+      totalCost: 7500
+    },
+    {
+      id: 4,
+      images: [
+        "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      ],
+      name: "Granite Countertop",
+      vendor: "Stone Solutions",
+      rate: "3500 PKR/CFT",
+      orderedAs: "2 Slabs (1 Quantity)",
+      specs: "Black galaxy granite",
+      description: "Premium black galaxy granite for kitchen countertops. Heat resistant and durable.",
+      quantity: 2,
+      totalCost: 7000
+    }
+  ];
+
+  const totalCost = orders.reduce((sum, order) => sum + order.totalCost, 0);
+
   return (
     <Suspense fallback={UserScreenSpinner}>
       <motion.section
@@ -166,8 +107,8 @@ const OrderList = ({ setStep }) => {
               <Backbutton />
             </span>
           </div>
-          <div className=" right-side flex-1">
-            <div className=" upper-bar flex justify-center items-center">
+          <div className="right-side flex-1">
+            <div className="upper-bar flex justify-center items-center">
               <span>
                 <Image
                   src={buyMaterialDarkIcon}
@@ -178,25 +119,25 @@ const OrderList = ({ setStep }) => {
                 />
               </span>
               <div className="flex items-center flex-wrap gap-2 justify-between flex-1">
-                <span className=" flex flex-col justify-center items-center">
-                  <p className=" text-[25px] xl:text-[25px] lg:text-[25px] md:text-[20px] sm:text-[20px] text-light-text">
+                <span className="flex flex-col justify-center items-center">
+                  <p className="text-[25px] xl:text-[25px] lg:text-[25px] md:text-[20px] sm:text-[20px] text-light-text">
                     FAST & FREE DELIVERY
                   </p>
-                  <span className=" text-light-text text-[15px] xl:text-[25px] lg:text-[25px] md:text-[20px] sm:text-[20px]">
+                  <span className="text-light-text text-[15px] xl:text-[25px] lg:text-[25px] md:text-[20px] sm:text-[20px]">
                     WITHIN 2 DAYS
                   </span>
                 </span>
-                <div className=" text-[32px] text-light-text font-bold">
+                <div className="text-[32px] text-light-text font-bold">
                   ORDER LIST
                 </div>
                 <div className="flex justify-center items-center gap-2">
                   <UButton
                     text={
-                      <span className=" flex justify-around items-center">
+                      <span className="flex justify-around items-center">
                         <Image
                           src={messageIcon}
                           className="mr-[10px]"
-                          alt="message icon here "
+                          alt="message icon here"
                         />
                         <span>GET</span>
                         <span className="font-bold ml-[2px]">ASSIST</span>
@@ -208,14 +149,25 @@ const OrderList = ({ setStep }) => {
               </div>
             </div>
             <hr className="mb-[25px]" />
-            <div
-              className={`bottom-bar w-full h-[511px] ${
-                OrderListItem.length > 1 && "overflow-y-scroll"
-              }`}>
-              {OrderListItem &&
-                OrderListItem.map((value, index) => {
-                  return <OrderListCard />;
-                })}
+            
+            {/* Order Cards Container with Scroll */}
+            <div className="bottom-bar w-full h-[511px] overflow-y-auto">
+              {orders.map((order) => (
+                <OrderListCard key={order.id} order={order} />
+              ))}
+            </div>
+            
+            {/* Total Cost and Confirm Order Section */}
+            <div className="mt-6 flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-2xl font-bold">
+                Total Order Cost: <span className="text-primary">{totalCost.toLocaleString()} PKR</span>
+              </div>
+<button 
+  className="bg-black text-white px-8 py-3 rounded-lg text-xl font-bold hover:bg-gray-800 transition-colors"
+  onClick={() => alert('Order confirmed!')}
+>
+  CONFIRM ORDER
+</button>
             </div>
           </div>
         </div>

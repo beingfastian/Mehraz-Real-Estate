@@ -1,87 +1,98 @@
 "use client";
 
+import { FiMessageSquare, FiSend, FiPhone, FiX, FiPaperclip, FiImage } from "react-icons/fi";
+import { useState } from "react";
+import HeroBanner from "@/components/HeroBanner";
 import Image from "next/image";
-import Link from "next/link";
-import { FiMessageSquare, FiCalendar, FiSend } from "react-icons/fi";
 
-export default function LandingSection() {
+export default function ChatSupportPage() {
+  const [messages, setMessages] = useState([
+    { from: "recipient", text: "Hi! How can I help you today?" },
+  ]);
+  const [input, setInput] = useState("");
+
+  const handleSend = () => {
+    if (input.trim() === "") return;
+    setMessages([...messages, { from: "user", text: input }]);
+    setInput("");
+  };
+
   return (
-    <div className="flex min-h-screen h-screen max-h-screen font-sans overflow-hidden">
-      {/* Left Side */}
-      <div className="flex-1 bg-white flex flex-col justify-start items-start px-6 sm:px-12 py-12 text-gray-800 w-full h-full">
-        <p className="uppercase text-sm tracking-wide text-gray-500 mb-4 w-full">
-          Explore . Meet Your Needs . Live Better
-        </p>
-
-        <h1 className="text-5xl sm:text-6xl font-medium text-left leading-tight mb-6 w-full">
-          Building the <br />
-          <span className="text-blue-900 font-black">NEW PAKISTAN</span>
-        </h1>
-
-        <div className="bg-[#caa64d] px-8 py-4 rounded-sm text-white text-xl font-semibold shadow-sm mb-6 w-full">
-          <span className="text-white font-bold">SAVE</span>
-          <span className="text-white"> TIME . EFFORT . MONEY</span>
-        </div>
-
-        <p className="uppercase text-xs tracking-[0.25em] text-gray-600 mb-2 w-full">
-          Land . Design . Materials . Construction
-        </p>
-
-        <p className="text-xs text-gray-400 mb-8 w-full">
-          FOR ALL LAND AUTHORITIES DHA, LDA, FDA, CDA, KDA & MORE
-        </p>
-
-        <div className="flex items-center gap-6 mb-2 w-full">
-          <button className="bg-gradient-to-b from-yellow-300 to-yellow-500 hover:from-yellow-400 hover:to-yellow-600 text-gray-900 font-semibold px-8 py-3 text-base rounded shadow w-full sm:w-auto">
-            WHY MEHRAZ ?
-          </button>
-
-          <p className="text-sm sm:text-base text-green-800 font-medium w-full sm:w-auto">
-            BUILD <span className="font-bold">BETTER</span> .
-            <br className="sm:hidden" /> BUILD{" "}
-            <span className="font-bold">SUSTAINABLE</span> .
-          </p>
-        </div>
-
-        <div className="w-full h-[180px] rounded overflow-hidden mt-0">
+    <div className="flex h-[calc(100vh-6rem)] w-full overflow-hidden">
+      {/* Left : Homepage Hero */}
+      <div className="w-1/2 bg-white p-8 overflow-hidden pt-[2rem]">
+        <HeroBanner />
+        {/* Rounded Image below Hero */}
+        <div className="mt-12 rounded-2xl overflow-hidden shadow-md relative w-full h-[250px]">
           <Image
-            src="/images/user-side/renovative.png"
-            alt="Design Preview"
-            width={360}
-            height={180}
-            className="w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80"
+            alt="Decorative"
+            fill
+            className="object-cover"
           />
         </div>
       </div>
 
-      {/* Right Side */}
-      <div className="flex-1 bg-gray-50 h-full flex flex-col border-l border-gray-200 max-h-screen">
-        {/* Chat header with icon */}
-        <div className="bg-white p-4 border-b border-gray-200 flex items-center">
-          <FiMessageSquare className="text-gray-600 mr-2" size={20} />
-          <h2 className="text-lg font-medium text-gray-800">CHAT</h2>
+      {/* Right : Chat support */}
+      <div className="w-1/2 bg-gray-50 flex flex-col border-l border-gray-300">
+        {/* Header */}
+{/* Header */}
+<div className="flex items-center justify-between px-4 py-3 border-b bg-white">
+  <div className="flex items-center gap-2">
+    <FiMessageSquare size={20} className="text-gray-700" />
+    <h2 className="text-lg font-semibold text-gray-800">Chat Support</h2>
+    <span className="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Online</span>
+  </div>
+  <div className="flex gap-2">
+    <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2">
+      <FiPhone size={16} />
+    </button>
+    <button className="bg-red-500 hover:bg-red-600 text-white rounded-full p-2">
+      <FiX size={16} />
+    </button>
+  </div>
+</div>
+
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`max-w-[75%] px-4 py-2 rounded-xl text-sm ${
+                msg.from === "user"
+                  ? "bg-blue-100 self-end ml-auto"
+                  : "bg-gray-200 self-start mr-auto"
+              }`}
+            >
+              {msg.text}
+            </div>
+          ))}
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-2 overflow-y-auto min-h-[580px] max-h-[580px]">
-          <p className="text-gray-400 text-sm font-medium">END CHAT</p>
-        </div>
-
-        {/* Action buttons and input */}
-        <div className="bg-white p-4 border-t border-gray-200">
-          {/* Schedule call button with calendar icon */}
-          <button className="w-full flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-md mb-4 transition-colors">
-            <FiCalendar size={18} />
-            <span>SCHEDULE A CALL</span>
+        {/* Input Box */}
+        <div className="p-4 border-t bg-white flex items-center gap-2">
+          <button className="text-gray-500 hover:text-blue-500">
+            <span role="img" aria-label="emoji">😊</span>
           </button>
-
-          {/* Message input with send icon */}
-          <div className="relative">
+          <button className="text-gray-500 hover:text-blue-500">
+            <FiPaperclip size={18} />
+          </button>
+          <button className="text-gray-500 hover:text-blue-500">
+            <FiImage size={18} />
+          </button>
+          <div className="relative flex-1">
             <input
-              type="text"
-              placeholder="TYPE HERE..."
-              className="w-full border border-gray-300 rounded-md py-2.5 px-4 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Type your message..."
+              className="w-full border border-gray-300 rounded-full py-2 px-4 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600">
+            <button
+              onClick={handleSend}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-800"
+            >
               <FiSend size={18} />
             </button>
           </div>

@@ -154,7 +154,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 3.5rem;
-  height: 4rem;
+  height: 0rem;
   background: #d1b75b;
   cursor: pointer;
   -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 100%, 0% 100%, 0% 25%);
