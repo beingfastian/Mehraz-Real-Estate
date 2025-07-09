@@ -43,13 +43,20 @@ const MaterialCarousel = ({ selectedMaterial, setSelectedMaterial }) => {
   return (
     <DesignCarouselMain slidesCount={1}>
       <div className="w-full h-auto rounded-xl overflow-hidden flex justify-center">
-        <div className="w-[90%] sm:w-[85%] p-4 h-auto rounded-2xl flex flex-wrap gap-4 justify-center">
+        <div className="w-[90%] sm:w-[85%] p-4 h-auto rounded-2xl flex flex-wrap gap-12 justify-center">
           {materials.map((material, index) => (
             <MaterialCard 
               key={index} 
               material={material}
               isSelected={selectedMaterial === material.heading}
-              onClick={() => setSelectedMaterial(material.heading)}
+              onClick={() => {
+  if (selectedMaterial === material.heading) {
+    setSelectedMaterial(null); // Deselect if already selected
+  } else {
+    setSelectedMaterial(material.heading); // Select new one
+  }
+}}
+
             />
           ))}
         </div>

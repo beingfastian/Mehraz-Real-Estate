@@ -38,51 +38,64 @@ const Screen1 = ({ setStep, heading, subheading }) => {
                 }}
         className="relative z-[1] min-h-full w-full flex items-center justify-center bg-fast-homes bg-no-repeat bg-center bg-cover before:absolute before:z-[-1] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-gradient-to-b before:from-[#000000e6] before:to-[#3c3c3cb3] flex-grow h-full"
       >
-        <div className="h-full w-full flex justify-center items-center flex-col">
-          <div className="w-[50%] md:w-[80%] sm:w-[100%] flex justify-center items-center flex-col">
-            {/* Icon/Image */}
-            <div>
-              {pathname === "/high-custom" && (
-                <svg
-                  width="154"
-                  height="158"
-                  className="relative left-6"
-                  viewBox="0 0 154 158"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* your SVG goes here */}
-                </svg>
-              )}
-              {pathname === "/buy-property" && (
-                <Image src={buildingicon} alt="building" priority />
-              )}
-              {pathname === "/buy-materials" && (
-                <Image
-                  src={buyMaterialLightIcon}
-                  alt="building"
-                  priority
-                  height={100}
-                  width={100}
-                />
-              )}
-            </div>
+<div className="flex items-center justify-center w-full mt-6">
+  {/* Icon Left */}
+  <div className="w-[200px] h-[200px] mr-8">
+    {pathname === "/high-custom" && (
+      <svg
+        width="200"
+        height="200"
+        viewBox="0 0 154 158"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* your SVG here */}
+      </svg>
+    )}
+    {pathname === "/buy-property" && (
+      <Image
+        src={buildingicon}
+        alt="building"
+        width={200}
+        height={200}
+        priority
+      />
+    )}
+    {pathname === "/buy-materials" && (
+      <Image
+        src={buyMaterialLightIcon}
+        alt="building"
+        width={200}
+        height={200}
+        priority
+      />
+    )}
+  </div>
 
-            {/* Heading */}
-            <div className="text-white mt-4 text-5xl sm:text-2xl border-b border-white text-center">
-              {heading.normaltext} <b>{heading.boldtext}</b>
-            </div>
+  {/* Heading + Subheading */}
+  <div className="flex flex-col items-start">
+    {/* Heading */}
+    <div className="flex items-center uppercase text-[96px] leading-[1] tracking-[0] font-proxima space-x-4 text-white">
+      <span className="font-[400]">{heading.normaltext}</span>
+      <span className="font-[700]">{heading.boldtext}</span>
+    </div>
 
-            {/* Subheading */}
-            <div
-              className={`text-white mt-4 ${
-                pathname === "/buy-materials" ? "" : "mt-12"
-              }`}
-            >
-              {subheading.normaltext} <b>{subheading.boldtext}</b>
-            </div>
-          </div>
-        </div>
+    {/* Divider Line */}
+    <div className="w-[932.09px] h-px bg-white/50 mt-6 mb-4" />
+
+    {/* Subheading */}
+    <div className="text-white/70 text-[32px] leading-[1] tracking-[0.02em] font-[400] uppercase font-proxima">
+      GREY STRUCTURE . FINISHING . LANDSCAPING . FURNITURE
+    </div>
+
+    {/* Additional Text Below Subheading */}
+<div className="absolute bottom-[150px] left-[530px] text-white/10 text-[36px] leading-[1] tracking-[0] text-center uppercase font-proxima mt-4">
+  <span className="font-[700]">CUSTOM DESIGNED STORE </span>
+  <span className="font-[400]">ONLY THE BEST FOR YOU</span>
+</div>
+  </div>
+</div>
+
       </motion.div>
     </div>
   );

@@ -11,13 +11,16 @@ import {
 import { UserHeader } from "@/components";
 import { landpic } from "@/assets";
 import MaterialCarousel from "./MaterialCarousel";
-
+import searchIcon from "@/assets/icons/searchIcon.svg"; // your actual path
 import localBackgroundImage from "@/assets/images/bg.jpg";
+import { toast } from "react-toastify";
 
 
 const Screen3 = ({ setStep }) => {
   const pathname = usePathname();
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [searchText, setSearchText] = useState("");
+
 
   return (
     <div className="flex flex-grow h-full absolute top-0 left-0 w-full">
@@ -38,51 +41,106 @@ const Screen3 = ({ setStep }) => {
               ${pathname == "/buy-materials" ? "h-[100%]" : "h-[50vh]"}
               w-[70%] md:w-[80%] sm:w-[100%] flex justify-center items-center flex-col`}>
             <div className="w-full">
-              <div className="flex justify-center items-center gap-1">
-                <Image
-                  src={buyMaterialLightIcon}
-                  priority={true}
-                  height={70}
-                  width={70}
-                  alt="building"
-                />
-                <span className="text-white text-[27px] pl-[20px]">
-                  <b>TELL US WHAT YOU NEED </b>SO WE FIND THE PERFECT FIT FOR
-                  YOU
-                </span>
-              </div>
-              <div className="flex justify-center items-center flex-col">
+<div className="relative w-full flex justify-center items-center flex-col mt-[-100px]">
+  {/* Icon and Heading */}
+  <div className="flex w-full items-center justify-center gap-4 ml-[-120px]">
+    <Image src={buyMaterialLightIcon} alt="icon" width={120} height={60} />
+    <h2 className="text-white text-[32px] font-bold uppercase text-center leading-none opacity-90 font-[Proxima Nova] pl-[25px]">
+      TELL US WHAT YOU NEED{" "}
+      <span className="font-normal">
+        SO WE FIND THE PERFECT FIT FOR YOU
+      </span>
+    </h2>
+  </div>
+
+  {/* Search Bar with Icon */}
+              <div
+                className="relative flex items-center justify-center mt-[40px]"
+                style={{ width: "1024px", height: "60px" }}
+              >
+                {/* Icon OUTSIDE the input box */}
+                <div className="absolute left-[-55px]">
+                  <Image
+                    src={searchIcon}
+                    alt="Search"
+                    width={60}
+                    height={30}
+                    style={{
+                      filter:
+                        "brightness(50%) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(180deg)",
+                    }}
+                  />
+                </div>
                 <input
                   type="text"
                   placeholder="I NEED A-CLASS BRICKS, AN ECO-FRIENDLY PAINT, A CONVERTABLE SOFA"
-                  className="bg-transparent border border-white rounded-full text-white w-[70%] p-2 px-4 mt-4"
+                  onChange={(e) => setSearchText(e.target.value)}
+                  className="w-[95%] h-full px-[6px] bg-transparent border-[1.5px] border-white text-white placeholder-white/60 rounded-full text-center"
+                  style={{
+                    fontWeight: 400,
+                    fontSize: "25px",
+                    lineHeight: "100%",
+                    textAlign: "center",
+                  }}
                 />
               </div>
-              <div className="w-[50%] flex justify-center items-center mx-auto my-4">
-                <div className="w-[40%] h-[1px] bg-white"></div>
-                <span className="text-white text-xl mx-4 my-2">OR</span>
-                <div className="w-[40%] h-[1px] bg-white"></div>
+  {/* Divider */}
+  <div className="w-[50%] flex justify-center items-center mx-auto my-[50px]">
+    <div className="w-[40%] h-[1px] bg-white/30"></div>
+    <span className="text-white/60 text-[32px] mx-4 my-2">OR</span>
+    <div className="w-[40%] h-[1px] bg-white/30"></div>
+  </div>
+
+  {/* SELECT Label */}
+              <div className="w-full flex justify-center items-center relative">
+                <div className="absolute px-4  bg-[#d9d9d9] px-[80px] py-[5px] rounded-[10px]">
+                  <span className="text-[#2f2f2f]/90 text-[24px] font-semibold uppercase opacity-65">
+                    SELECT
+                  </span>
+                </div>
               </div>
-              {/* Carousel section */}
-              <div className="w-full min-h-36 h-auto border border-white rounded-3xl flex justify-center items-center">
-                <MaterialCarousel 
-                  selectedMaterial={selectedMaterial}
-                  setSelectedMaterial={setSelectedMaterial}
-                />
-              </div>
-              <div className="w-full text-center mt-6">
+
+  {/* Carousel Box */}
+  <div className="w-full min-h-36 h-auto border border-white rounded-[50px] flex justify-center items-center px-6 py-4">
+    <MaterialCarousel
+      selectedMaterial={selectedMaterial}
+      setSelectedMaterial={setSelectedMaterial}
+    />
+  </div>
+
+  {/* GO + SKIP Buttons */}
+  <div className="flex justify-center mt-6">
                 <button
                   type="button"
-                  className={`py-2.5 px-8 sm:px-5 mb-2 text-sm text-black focus:outline-none bg-[white]
-                    border border-white hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 
-                    dark:focus:ring-gray-800 dark:bg-gray-800 dark:text-gray-800 dark:border-gray-800 
-                    dark:hover:text-gray-800 dark:hover:bg-gray-800 hover:bg-transparent hover:border-white 
-                    font-bold mx-auto ${!selectedMaterial ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  onClick={() => selectedMaterial && setStep(prev => prev + 1)}
-                  disabled={!selectedMaterial}>
+                  className="text-black hover:text-white hover:bg-transparent mt-[50px] font-bold border border-white transition-colors duration-300"
+                  style={{
+                    width: "200px",
+                    height: "56px",
+                    borderRadius: "4px",
+                    backgroundColor: "#FFFFFF",
+                    boxShadow: "4px 4px 4px 0px rgba(0, 0, 0, 0.4)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontWeight: 700,
+                    fontSize: "26px",
+                    lineHeight: "32px",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                        position: 'absolute',
+                  }}
+onClick={() => {
+  if (!selectedMaterial && !searchText.trim()) {
+    toast.error("Please select a material or enter your requirement");
+    return;
+  }
+  setStep((prev) => prev + 1);
+}}
+                >
                   GO
                 </button>
-              </div>
+  </div>
+</div>
             </div>
           </div>
         </div>
