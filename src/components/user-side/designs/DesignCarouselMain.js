@@ -30,9 +30,7 @@ const DesignCarouselMain = ({ children, slidesCount = 1, className = "" }) => {
     nextArrow: <CustomNextArrow />,
     dots: false,
     infinite: true,
-
     slidesToShow: 1,
-
     slidesToScroll: 1,
     responsive: [
       {
@@ -50,10 +48,11 @@ const DesignCarouselMain = ({ children, slidesCount = 1, className = "" }) => {
       },
     ],
   };
+
   return (
     <>
       <div className={`w-full relative flex-center ${className}`}>
-        <div className={`relative w-[90%]`}>
+        <div className="relative w-[90%]">
           {slidesCount > 1 ? (
             <Slider {...sliderSettings} ref={sliderRef}>
               {children}
@@ -62,11 +61,14 @@ const DesignCarouselMain = ({ children, slidesCount = 1, className = "" }) => {
             <div>{children}</div>
           )}
         </div>
+
         {slidesCount > 1 && (
           <>
             <button
               onClick={previousSlide}
-              className="block sm:hidden absolute top-1/2 -translate-y-1/2 left-0 bg-[#EFEFEF]/60 p-3 rounded-full hover:bg-[#EFEFEF]/90">
+              className="block sm:hidden absolute left-0 bg-[#EFEFEF]/60 p-3 rounded-full hover:bg-[#EFEFEF]/90 
+              top-1/2 -translate-y-1/2 group-[.custom-arrow-up]:top-[35%] group-[.custom-arrow-up]:-translate-y-[35%]"
+            >
               <FaChevronLeft
                 className="text-[#2f2f2f]"
                 size={24}
@@ -76,7 +78,12 @@ const DesignCarouselMain = ({ children, slidesCount = 1, className = "" }) => {
             </button>
             <button
               onClick={nextSlide}
-              className="block sm:hidden absolute top-1/2 -translate-y-1/2 right-0 bg-[#EFEFEF]/60 p-3 rounded-full hover:bg-[#EFEFEF]/90">
+              className="<button
+  onClick={nextSlide}
+  className={`block sm:hidden absolute right-0 bg-[#EFEFEF]/60 p-3 rounded-full hover:bg-[#EFEFEF]/90 
+              top-1/2 -translate-y-1/2 group-[.custom-arrow-up]:top-[35%] group-[.custom-arrow-up]:-translate-y-[35%]`}>
+"
+            >
               <FaChevronRight
                 className="text-[#2f2f2f]"
                 size={24}

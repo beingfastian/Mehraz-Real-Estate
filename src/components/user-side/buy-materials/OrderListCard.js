@@ -1,96 +1,65 @@
 import React from "react";
 import Image from "next/image";
 
-const OrderListCard = ({ order }) => {
+const OrderListCard = () => {
   return (
-    <div className="w-full flex flex-col items-center mb-6">
-      {/* Main Card Row */}
-      <div className="flex w-[96%] border shadow-lg rounded-lg overflow-hidden">
-        {/* Product Image */}
-        <div className="relative w-[250px] h-[230px] flex-shrink-0">
-          <Image
-            src={order.images[0]}
-            alt="Product image"
-            layout="fill"
-            objectFit="cover"
-          />
+    <div className="flex justify-center items-center h-[243px] flex-col mt-[-25px]">
+      <div className="h-[179px] w-[96%] flex rounded-[10px] border-2 shadow-lg overflow-hidden">
+        
+        {/* Stacked Images */}
+        <div className="relative w-[800px] flex items-center justify-start pl-4">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute top-0"
+              style={{
+                left: `${i * 30}px`,
+                zIndex: 10 - i,
+              }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop"
+                alt="Material"
+                width={270}
+                height={180}
+                className="rounded-[6px] border-[1px] border-black shadow-md object-cover"
+              />
+            </div>
+          ))}
         </div>
 
-        {/* Card Content */}
-        <div className="flex flex-1 flex-row items-stretch p-4 gap-6">
-          {/* Left Section - Product Info */}
-{/* Left Section - Product Info */}
-<div className="flex flex-col justify-between w-[25%]">
-  <div>
-    <h2 className="text-xl font-semibold truncate">{order.name}</h2>
-    <p className="text-base text-gray-700 truncate">{order.vendor}</p>
-  </div>
-</div>
-
-
-          {/* Divider */}
-          <div className="w-px bg-gray-300 mx-2" />
-
-          {/* Middle Section - Order Details */}
-          <div className="flex flex-col justify-between w-[35%]">
-            <div className="flex justify-between">
-              <span className="text-sm font-semibold text-gray-800">ORDERED AS</span>
-              <span className="text-sm text-gray-700">{order.orderedAs}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-semibold text-gray-800">SPECS</span>
-              <span className="text-sm text-gray-700 truncate">{order.specs}</span>
-            </div>
-            <div className="text-sm text-gray-600 max-h-[60px] overflow-y-auto">
-              {order.description}
-            </div>
+        {/* Name, Vendor, Rate */}
+        <div className="h-full w-[50%] mx-2 flex flex-col">
+          <div className="font-bold text-[24px] leading-[24px] my-[10px]">NAME</div>
+          <div className="font-medium text-[22px] leading-8 text-[#2F2F2F]">VENDOR</div>
+          <hr />
+          <div className="font-bold text-[#2F2F2F] text-[24px]">RATE</div>
+          <div className="mt-2 text-[20px] w-full h-[40px] rounded-[50px] p-2 border border-black text-black font-medium text-left">
+            1500 PKR/CFT
           </div>
+        </div>
 
-          {/* Divider */}
-          <div className="w-px bg-gray-300 mx-2" />
-
-{/* Right Section - Rate, Quantity & Cost */}
-<div className="flex flex-col justify-between w-[35%] items-end">
-  {/* RATE Row - Top right */}
-  <div className="mb-auto w-full flex justify-between">
-    <span className="text-sm font-semibold text-gray-800">RATE</span>
-    <span className="text-sm text-gray-700">{order.rate}</span>
-  </div>
-
-  {/* QUANTITY above TOTAL */}
-  <div className="mb-[10px]">
-    <div className="flex items-center gap-2">
-      <label className="text-sm font-semibold text-gray-800">QUANTITY</label>
-      <input
-        type="number"
-        defaultValue={order.quantity}
-        min="1"
-        className="w-[120px] h-[38px] text-sm border border-gray-300 rounded-full px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
-  </div>
-
-  {/* TOTAL & COST */}
-  <div className="border rounded-md px-4 py-2 bg-gray-50 w-full max-w-[330px]">
-    <div className="flex justify-between items-center">
-      <div>
-        <span className="text-sm font-semibold text-gray-700">TOTAL</span>
-        <span className="ml-2 text-sm text-gray-600">
-          {order.quantity * 1000} Units
-        </span>
-      </div>
-      <div>
-        <span className="text-sm font-semibold text-gray-700">COST</span>
-        <span className="ml-2 text-sm text-gray-600">
-          {order.totalCost.toLocaleString()} PKR
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
+        {/* Order Details */}
+        <div className="h-full flex-grow mx-2 flex flex-col w-[90%]">
+          <div className="w-full flex justify-between items-center h-[33%]">
+            <span className="font-bold text-[24px]">ORDERED AS</span>
+            <span>
+              <span className="text-base text-[#2F2F2FCC]">per</span>
+              <span className="text-xl text-[#2F2F2F]"> 10,000 Bricks </span>
+              <span className="text-base text-[#2F2F2FCC]">(1 Quantity)</span>
+            </span>
+          </div>
+          <hr />
+          <div className="w-full flex justify-between items-center h-[33%]">
+            <span className="font-bold text-[24px]">SPECS</span>
+            <span>
+              <span className="text-xl text-[#2F2F2F]"> Description here........................ </span>
+            </span>
+          </div>
+          <hr />
+          <div className="text-base text-[#2F2F2FCC] h-[33%] overflow-y-auto">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt nobis dicta impedit, mollitia perferendis pariatur.
+          </div>
         </div>
       </div>
     </div>

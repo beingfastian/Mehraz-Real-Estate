@@ -33,71 +33,94 @@ export default function ChatSupportPage() {
         </div>
       </div>
 
-      {/* Right : Chat support */}
-      <div className="w-1/2 bg-gray-50 flex flex-col border-l border-gray-300">
-        {/* Header */}
-{/* Header */}
-<div className="flex items-center justify-between px-4 py-3 border-b bg-white">
-  <div className="flex items-center gap-2">
-    <FiMessageSquare size={20} className="text-gray-700" />
-    <h2 className="text-lg font-semibold text-gray-800">Chat Support</h2>
-    <span className="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Online</span>
+{/* Right : Chat support */}
+<div className="w-1/2 flex flex-col" style={{ backgroundColor: "#f4f4f4" }}>
+  {/* Header */}
+  <div
+    className="flex items-center justify-between px-4 py-3"
+    style={{ backgroundColor: "#2d2d2d", color: "#fff" }}
+  >
+    {/* Left: Arrow + End Chat */}
+    <div className="flex items-center gap-3">
+      <button className="bg-[#3A3A3A] p-2 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+      <button className="text-white text-sm border border-white px-4 py-1 rounded-md font-medium hover:bg-white hover:text-black transition">
+        END CHAT
+      </button>
+    </div>
+
+    {/* Right: Schedule + Icons */}
+    <div className="flex items-center gap-4 text-sm">
+      <span className="cursor-pointer text-white hover:underline">SCHEDULE A CALL</span>
+      <FiPhone size={18} className="text-white cursor-pointer" title="Call History" />
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-[18px] w-[18px] text-white cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 12c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
+      </svg>
+    </div>
   </div>
-  <div className="flex gap-2">
-    <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2">
-      <FiPhone size={16} />
+
+  {/* Messages */}
+  <div className="flex-1 overflow-y-auto p-4 space-y-3">
+    {messages.map((msg, i) => (
+      <div
+        key={i}
+        className={`max-w-[75%] px-4 py-2 rounded-xl text-sm ${
+          msg.from === "user"
+            ? "bg-blue-100 self-end ml-auto"
+            : "bg-white self-start mr-auto"
+        }`}
+      >
+        {msg.text}
+      </div>
+    ))}
+  </div>
+
+  {/* Message Input */}
+{/* Message Input */}
+<div className="bg-white p-3 flex items-center justify-between gap-2 rounded-t-xl shadow-inner">
+  {/* Input Container with Emoji, Input, Attachments & Camera */}
+  <div className="relative flex-1 flex items-center border border-gray-300 rounded-full px-3 py-2 gap-2">
+    {/* Emoji (left inside input) */}
+    <button className="text-gray-500 hover:text-blue-500" title="Emoji">
+      😊
     </button>
-    <button className="bg-red-500 hover:bg-red-600 text-white rounded-full p-2">
-      <FiX size={16} />
+
+    {/* Typing Field */}
+    <input
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      onKeyDown={(e) => e.key === "Enter" && handleSend()}
+      placeholder="Type here..."
+      className="flex-1 text-sm border-none outline-none bg-transparent"
+    />
+
+    {/* Attachment Icon (inside input) */}
+    <button className="text-gray-500 hover:text-blue-500" title="Attach File">
+      <FiPaperclip size={18} />
+    </button>
+
+    {/* Image Icon (inside input) */}
+    <button className="text-gray-500 hover:text-blue-500" title="Attach Image">
+      <FiImage size={18} />
     </button>
   </div>
+
+  {/* Mic Icon (outside input) */}
+  <button
+    className="text-gray-700 hover:text-blue-600 border border-gray-400 rounded-full p-2"
+    title="Voice Message"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-[16px] w-[16px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14a4 4 0 004-4V7a4 4 0 00-8 0v3a4 4 0 004 4zm0 0v4m0 0H9m3 0h3" />
+    </svg>
+  </button>
 </div>
 
+</div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`max-w-[75%] px-4 py-2 rounded-xl text-sm ${
-                msg.from === "user"
-                  ? "bg-blue-100 self-end ml-auto"
-                  : "bg-gray-200 self-start mr-auto"
-              }`}
-            >
-              {msg.text}
-            </div>
-          ))}
-        </div>
-
-        {/* Input Box */}
-        <div className="p-4 border-t bg-white flex items-center gap-2">
-          <button className="text-gray-500 hover:text-blue-500">
-            <span role="img" aria-label="emoji">😊</span>
-          </button>
-          <button className="text-gray-500 hover:text-blue-500">
-            <FiPaperclip size={18} />
-          </button>
-          <button className="text-gray-500 hover:text-blue-500">
-            <FiImage size={18} />
-          </button>
-          <div className="relative flex-1">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Type your message..."
-              className="w-full border border-gray-300 rounded-full py-2 px-4 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            <button
-              onClick={handleSend}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-800"
-            >
-              <FiSend size={18} />
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

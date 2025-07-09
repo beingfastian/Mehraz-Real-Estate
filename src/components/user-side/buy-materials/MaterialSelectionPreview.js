@@ -15,6 +15,7 @@ import { searchIcon, messageIcon, tickIcon } from "@/assets";
 import UButton from "../UButton";
 import DesignCarouselMain from "../designs/DesignCarouselMain";
 import BlackButton from "../BlackButton";
+import OrderListCardPr from "./OrderListCardPr";
 
 // temp data
 const defaultDesign = {
@@ -377,15 +378,15 @@ const defaultDesign = {
   ],
 };
 
-const MaterialSelectionPage = ({ setStep }) => {
+const MaterialSelectionPreview = ({ setStep }) => {
   const borderColor = "#00000033";
   const [design, setDesign] = useState(null);
-  const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [hoveredMaterial, setHoveredMaterial] = useState(null);
-const [selectedCategory, setSelectedCategory] = useState("ALL");
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [showFilter, setShowFilter] = useState(false);
   const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
-    const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     city: "Faisalabad",
     cost: "LOW TO HIGH",
     quality: null,
@@ -395,12 +396,11 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
     setDesign(defaultDesign);
   };
 
-    // Group materials into chunks of 4 for carousel slides
-
+  // Group materials into chunks of 12 for carousel slides
   const groupedMaterials = [];
   if (design?.materials) {
-    for (let i = 0; i < design.materials.length; i += 18) {
-      groupedMaterials.push(design.materials.slice(i, i + 18));
+    for (let i = 0; i < design.materials.length; i += 12) {
+      groupedMaterials.push(design.materials.slice(i, i + 12));
     }
   }
 
@@ -459,14 +459,23 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
   };
 
   const handleMaterialSelect = (material) => {
-    setSelectedMaterial(material === selectedMaterial ? null : material);
+    setSelectedMaterials(prev => {
+      if (prev.some(m => m.name === material.name)) {
+        return prev.filter(m => m.name !== material.name);
+      }
+      return [...prev, material];
+    });
+  };
+
+  const isMaterialSelected = (material) => {
+    return Array.isArray(selectedMaterials) && selectedMaterials.some(m => m.name === material.name);
   };
 
   useEffect(() => {
     fetchDesignData();
   }, []);
 
-    const handleFilterChange = (filterName, value) => {
+  const handleFilterChange = (filterName, value) => {
     setFilters(prev => ({
       ...prev,
       [filterName]: value
@@ -474,7 +483,6 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
   };
 
   const applyFilters = () => {
-    // Here you would implement your actual filtering logic
     console.log("Applying filters:", filters);
     setShowFilter(false);
   };
@@ -487,13 +495,11 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
     
     let filtered = [...category.materials];
     
-    // Apply quality filter
     if (filters.quality) {
       const [min, max] = filters.quality.split('-').map(Number);
       filtered = filtered.filter(material => material.rating >= min && material.rating <= max);
     }
     
-    // Apply price sorting
     if (filters.cost === "LOW TO HIGH") {
       filtered.sort((a, b) => parseFloat(a.price.replace(/[^0-9.]/g, '')) - parseFloat(b.price.replace(/[^0-9.]/g, '')));
     } else if (filters.cost === "HIGH TO LOW") {
@@ -512,7 +518,6 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
         className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] sm:p-0"
       >
         <div className="max-w-8xl w-auto min-h-[500px] max-h-page-user-inner mx-auto px-4 pt-8 h-[80vh] flex flex-col">
-          {/* Keep the exact same top bar as before */}
           <div className="top-bar flex">
             <div className="left-side">
               <span onClick={() => setStep(prev => prev - 1)}>
@@ -557,87 +562,83 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
                     />
                   </div>
                   <div className="flex justify-center items-center gap-2">
-                {/* Filter Button with Popup */}
-                <div className="relative">
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 border border-black rounded-md hover:bg-gray-100 transition"
-                    onClick={() => setShowFilter(prev => !prev)}
-                  >
-                    <Image src={boyIcon} alt="Filter" width={20} height={20} />
-                    FILTER
-                  </button>
-
-                  {showFilter && (
-                    <div className="absolute top-14 right-0 bg-white border border-gray-300 rounded-lg shadow-lg w-[350px] z-50 p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <Image src={boyIcon} alt="Filter Icon" width={20} height={20} />
-                          <p className="font-semibold">FILTER</p>
-                        </div>
-                        <button 
-                          onClick={() => setShowFilter(false)} 
-                          className="text-gray-500 hover:text-black text-xl"
-                        >
-                          ×
-                        </button>
-                      </div>
-
-                      {/* City and Cost Dropdowns */}
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <select 
-                          className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                          value={filters.city}
-                          onChange={(e) => handleFilterChange('city', e.target.value)}
-                        >
-                          <option value="Faisalabad">Faisalabad</option>
-                          <option value="Lahore">Lahore</option>
-                          <option value="Karachi">Karachi</option>
-                        </select>
-                        <select 
-                          className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                          value={filters.cost}
-                          onChange={(e) => handleFilterChange('cost', e.target.value)}
-                        >
-                          <option value="LOW TO HIGH">LOW TO HIGH</option>
-                          <option value="HIGH TO LOW">HIGH TO LOW</option>
-                        </select>
-                      </div>
-
-                      {/* Quality Rating Tags */}
-                      <div className="mb-4">
-                        <p className="text-sm font-semibold mb-2">SPECIFIC QUALITY RATINGS</p>
-                        <div className="flex justify-between gap-2">
-                          <button 
-                            className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '0-5' ? 'bg-yellow-300 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
-                            onClick={() => handleFilterChange('quality', filters.quality === '0-5' ? null : '0-5')}
-                          >
-                            0–5
-                          </button>
-                          <button 
-                            className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '6-7' ? 'bg-orange-300 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
-                            onClick={() => handleFilterChange('quality', filters.quality === '6-7' ? null : '6-7')}
-                          >
-                            6–7
-                          </button>
-                          <button 
-                            className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '8-10' ? 'bg-blue-400 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
-                            onClick={() => handleFilterChange('quality', filters.quality === '8-10' ? null : '8-10')}
-                          >
-                            8–10
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Apply Changes */}
-                      <button 
-                        className="w-full bg-black text-white py-2 rounded-md mt-2 hover:bg-gray-800 transition"
-                        onClick={applyFilters}
+                    <div className="relative">
+                      <button
+                        className="flex items-center gap-2 px-4 py-2 border border-black rounded-md hover:bg-gray-100 transition"
+                        onClick={() => setShowFilter(prev => !prev)}
                       >
-                        APPLY CHANGES
+                        <Image src={boyIcon} alt="Filter" width={20} height={20} />
+                        FILTER
                       </button>
+
+                      {showFilter && (
+                        <div className="absolute top-14 right-0 bg-white border border-gray-300 rounded-lg shadow-lg w-[350px] z-50 p-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                              <Image src={boyIcon} alt="Filter Icon" width={20} height={20} />
+                              <p className="font-semibold">FILTER</p>
+                            </div>
+                            <button 
+                              onClick={() => setShowFilter(false)} 
+                              className="text-gray-500 hover:text-black text-xl"
+                            >
+                              ×
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4 mb-4">
+                            <select 
+                              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                              value={filters.city}
+                              onChange={(e) => handleFilterChange('city', e.target.value)}
+                            >
+                              <option value="Faisalabad">Faisalabad</option>
+                              <option value="Lahore">Lahore</option>
+                              <option value="Karachi">Karachi</option>
+                            </select>
+                            <select 
+                              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                              value={filters.cost}
+                              onChange={(e) => handleFilterChange('cost', e.target.value)}
+                            >
+                              <option value="LOW TO HIGH">LOW TO HIGH</option>
+                              <option value="HIGH TO LOW">HIGH TO LOW</option>
+                            </select>
+                          </div>
+
+                          <div className="mb-4">
+                            <p className="text-sm font-semibold mb-2">SPECIFIC QUALITY RATINGS</p>
+                            <div className="flex justify-between gap-2">
+                              <button 
+                                className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '0-5' ? 'bg-yellow-300 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
+                                onClick={() => handleFilterChange('quality', filters.quality === '0-5' ? null : '0-5')}
+                              >
+                                0–5
+                              </button>
+                              <button 
+                                className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '6-7' ? 'bg-orange-300 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
+                                onClick={() => handleFilterChange('quality', filters.quality === '6-7' ? null : '6-7')}
+                              >
+                                6–7
+                              </button>
+                              <button 
+                                className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '8-10' ? 'bg-blue-400 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
+                                onClick={() => handleFilterChange('quality', filters.quality === '8-10' ? null : '8-10')}
+                              >
+                                8–10
+                              </button>
+                            </div>
+                          </div>
+
+                          <button 
+                            className="w-full bg-black text-white py-2 rounded-md mt-2 hover:bg-gray-800 transition"
+                            onClick={applyFilters}
+                          >
+                            APPLY CHANGES
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
                     <UButton
                       text={
                         <span className="flex justify-around items-center">
@@ -659,25 +660,24 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
             </div>
           </div>
 
-          <div className="Material-container relative flex-1">
-<aside className="flex gap-3 px-4 overflow-x-hidden -ml-[-250px]">
-  {["ALL", "TREES", "WOOD", "STONE", "GLASS"].map((category, i) => (
-    <button
-      key={i}
-      onClick={() => setSelectedCategory(category)}
-      className={`whitespace-nowrap px-[50px] py-2 rounded-full border font-medium
-        ${
-          selectedCategory === category
-            ? "bg-gray-800 text-white border-black font-semibold"
-            : "bg-white text-black border-black"
-        }`}
-    >
-      {category} (9)
-    </button>
-  ))}
-</aside>
+          <div className="Material-container relative flex-1 space-y-1">
+            <aside className="flex gap-3 px-4 overflow-x-hidden -ml-[-250px]">
+              {["ALL", "TREES", "WOOD", "STONE", "GLASS"].map((category, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`whitespace-nowrap px-[50px] py-2 rounded-full border font-medium
+                    ${
+                      selectedCategory === category
+                        ? "bg-gray-800 text-white border-black font-semibold"
+                        : "bg-white text-black border-black"
+                    }`}
+                >
+                  {category} (9)
+                </button>
+              ))}
+            </aside>
 
-            {/* Keep the same left sidebar */}
             <div className={`left-side absolute h-[80%] top-[263px] transform -translate-y-1/2 rounded-full flex justify-around items-center flex-col w-[58px] hover:min-w-[200px] hover:w-auto hover:rounded-lg border border-1 border-[${borderColor}] bg-[#ffffff] z-10`}>
               {materials?.map((value, index) => (
                 <div
@@ -686,8 +686,8 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
                     selectedCategory === index 
                     ? 'bg-[#f0d4b1] border border-[#e6a87f]' 
                     : 'bg-gray-100 hover:bg-gray-200 border border-transparent'
-                }`}
-                onClick={() => setSelectedCategory(index)}
+                  }`}
+                  onClick={() => setSelectedCategory(index)}
                 >
                   <Image
                     src={value.icon}
@@ -704,50 +704,66 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
               ))}
             </div>
 
-{/* Updated Carousel with 18 materials per slide (3x6 grid) */}
+<div className="-mt-[50px]">
+  <OrderListCardPr selectedMaterials={selectedMaterials} />
+</div>
+
             <div className="right-carousel sm:w-full w-[90%] ml-auto">
-              <div className="h-full w-full">
-                <DesignCarouselMain slidesCount={groupedMaterials.length}>
+              <div className="h-full w-full -mt-[30px]">
+                <DesignCarouselMain slidesCount={groupedMaterials.length} className="custom-arrow-up">
                   {groupedMaterials.map((materialGroup, slideIndex) => (
                     <div 
                       key={slideIndex}
                       className="h-[50vh] min-h-[400px] max-h-[auto] lg:h-[40vh] sm:h-[30vh] xs:h-[25vh] rounded-xl overflow-hidden !grid grid-cols-6 grid-rows-3 gap-2 p-2"
                     >
-                      {materialGroup.map((material, index) => (
-                        <div
-                          key={index}
-                          className="w-full h-full p-1 rounded-lg relative border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col"
-                          onMouseEnter={(e) => handleMaterialHover(material, e)}
-                          onMouseLeave={handleMaterialLeave}
-                          onClick={() => setStep(prev => prev + 1)}
-                        >
-                          <div className="w-full h-20 rounded-md overflow-hidden relative flex-shrink-0">
-                            <Image
-                              src={material.image}
-                              layout="fill"
-                              objectFit="cover"
-                              alt={`Material ${material.name}`}
-                              className="w-full h-full"
-                            />
-                            {selectedMaterial?.name === material.name && (
+                      {materialGroup.map((material, index) => {
+                        const isSelected = isMaterialSelected(material);
+                        return (
+                          <div
+                            key={index}
+                            className={`w-full h-full p-1 rounded-lg relative border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col ${
+                              isSelected ? 'bg-[#21254A] text-white' : 'bg-white'
+                            }`}
+                            onMouseEnter={(e) => handleMaterialHover(material, e)}
+                            onMouseLeave={handleMaterialLeave}
+                            onClick={() => handleMaterialSelect(material)}
+                          >
+                            <div className="w-full h-20 rounded-md overflow-hidden relative flex-shrink-0">
                               <Image
-                                src={tickIcon}
-                                width={20}
-                                height={20}
-                                alt="Selected"
-                                className="absolute top-1 right-1"
+                                src={material.image}
+                                layout="fill"
+                                objectFit="cover"
+                                alt={`Material ${material.name}`}
+                                className="w-full h-full"
                               />
-                            )}
+                              <div className={`absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center ${
+                                isSelected ? 'bg-blue-500' : 'bg-gray-200'
+                              }`}>
+                                <Image
+                                  src={tickIcon}
+                                  width={12}
+                                  height={12}
+                                  alt="Selected"
+                                  className={isSelected ? 'bg-blue-500 opacity-[100%]' : 'opacity-50'}
+                                />
+                              </div>
+                            </div>
+                            <div className="mt-1 p-1 flex-grow flex flex-col">
+                              <h4 className={`font-bold text-xs uppercase truncate ${
+                                isSelected ? 'text-white' : 'text-black'
+                              }`}>{material.name}</h4>
+                              <p className={`text-[10px] truncate ${
+                                isSelected ? 'text-gray-300' : 'text-gray-600'
+                              }`}>{material.vendor}</p>
+                              <p className={`text-[10px] mt-auto rounded-full px-1 py-0.5 truncate ${
+                                isSelected ? 'bg-[#3a3f6d] text-white' : 'bg-gray-100'
+                              }`}>
+                                {material.price}
+                              </p>
+                            </div>
                           </div>
-                          <div className="mt-1 p-1 flex-grow flex flex-col">
-                            <h4 className="font-bold text-xs uppercase truncate">{material.name}</h4>
-                            <p className="text-[10px] text-gray-600 truncate">{material.vendor}</p>
-                            <p className="text-[10px] mt-auto bg-gray-100 rounded-full px-1 py-0.5 truncate">
-                              {material.price}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ))}
                 </DesignCarouselMain>
@@ -755,39 +771,8 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
             </div>
           </div>
           
-          {/* Keep the same hover preview */}
-          {hoveredMaterial && (
-            <div 
-              className="fixed bg-white p-4 border border-gray-300 shadow-lg rounded-lg z-50 w-[400px]"
-              style={{
-                left: `${previewPosition.x + 20}px`,
-                top: `${previewPosition.y + 20}px`
-              }}
-            >
-              <div className="flex">
-                <Image
-                  src={hoveredMaterial.image}
-                  width={150}
-                  height={100}
-                  alt={hoveredMaterial.name}
-                  className="rounded-md"
-                />
-                <div className="ml-4">
-                  <h3 className="font-bold text-xl">{hoveredMaterial.name}</h3>
-                  <p className="text-gray-600">{hoveredMaterial.vendor}</p>
-                  <p className="font-bold mt-2">{hoveredMaterial.price}</p>
-                </div>
-              </div>
-              <div className="mt-3">
-                <p className="text-sm text-gray-700">{hoveredMaterial.description}</p>
-                <p className="text-sm mt-2"><span className="font-semibold">Specs:</span> {hoveredMaterial.specs}</p>
-                <p className="text-sm mt-1"><span className="font-semibold">Quantity:</span> {hoveredMaterial.quantity}</p>
-              </div>
-            </div>
-          )}
-          
-          <div className="flex justify-end items-center mt-1">
-            <BlackButton onclickfunction={() => setStep(prev => prev + 2)} />
+          <div className="flex justify-end items-center mt-[-100px]">
+            <BlackButton onclickfunction={() => setStep(prev => prev + 1)} />
           </div>
         </div>
       </motion.section>
@@ -795,4 +780,4 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
   );
 };
 
-export default MaterialSelectionPage;
+export default MaterialSelectionPreview;
