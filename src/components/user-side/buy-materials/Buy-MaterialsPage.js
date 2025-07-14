@@ -30,7 +30,6 @@ import { custom2, customicon, myVerseImage } from "@/assets";
 import Screen2 from "./Screen2";
 import Screen3 from "./Screen3";
 import MaterialSelectionPage from "./MaterialSelectionPage";
-import MaterialSelectionPreview from "./MaterialSelectionPreview";
 import OrderList from "./OrderList";
 const defaultStep1Screen2FormData = {
   city: "",
@@ -155,8 +154,7 @@ const BuyMaterialsPage = () => {
           {step === 4 && (
             <MaterialSelectionPage setStep={setStep} materials={materials} />
           )}
-          {step === 6 && <OrderList setStep={setStep} />}
-          {step === 5 && <MaterialSelectionPreview setStep={setStep} />}
+          {step === 5 && <OrderList setStep={setStep} />}
         </div>
       </motion.section>
     </Suspense>

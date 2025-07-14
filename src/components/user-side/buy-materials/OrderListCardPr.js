@@ -47,7 +47,7 @@ const OrderListCardPr = ({ selectedMaterials = [] }) => {
 
   return (
     <div className="flex justify-center items-center w-[82%] h-[243px] flex-col -ml-[-180px] mt-[-25px]">
-      <div className="h-[179px] w-[96%] flex rounded-[10px] border-2 shadow-lg overflow-hidden">
+      <div className="h-[179px] w-[96%] flex rounded-[10px] border-2 shadow-lg overflow-hidden bg-white">
         {/* Stacked Images - showing animation with hardcoded images */}
         <div className="relative w-[800px] flex items-center justify-start pl-4">
           {[...Array(4)].map((_, i) => (

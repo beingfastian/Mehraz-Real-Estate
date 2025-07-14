@@ -7,14 +7,14 @@ import React from "react";
 const Payment = () => {
   return (
     <PageWrapper>
-      <div className="f-col gap-[1.8125rem] justify-center">
+      <div className="f-col gap-[1.8125rem] mt-[50px] justify-center">
         <PaymentTitle title="PAYMENT" />
         <div
-          className="payment-box-size rounded-[10px] md:rounded-lg sm:rounded-md
+          className="payment-box-size mt-[80px] rounded-[10px] md:rounded-lg sm:rounded-md
          bg-[#dcdcdc]/25 shadow-payment-card flex-center gap-1 sm:gap-0.5">
           <p className="text-center">
             <span className="base-text font-bold text-[#606060]">
-              TOTAL AMOUNT =
+              AMOUNT =
             </span>
           </p>
           <div>

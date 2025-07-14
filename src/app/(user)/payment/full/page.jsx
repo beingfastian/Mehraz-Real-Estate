@@ -4,70 +4,43 @@ import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
 import PaymentTitle from "@/components/payment/paymentTitle";
 import { formatNumber } from "@/helper/helper";
 import React, { useState } from "react";
+import Image from "next/image";
+import { bankIcon, QRScanImage } from "@/assets";
 import { payemntServices } from "../data";
 import PaymentModal from "@/components/payment/paymentModal";
+import BlackButton from "../../../../components/user-side/BlackButton";
+import { IoIosAdd } from "react-icons/io";
 
 const PaymentFull = () => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [pageState, setPageState] = useState("summary"); // "summary", "paymentMethod"
   const handleOptionChange = option => {
     setSelectedOption(option);
   };
+  const totalPrice = 120000; // You can move this to props or backend later
   return (
     <PageWrapper>
       <div className="f-col gap-9 items-center">
-        <PaymentTitle title="final payment" />
-        <div className="flex flex-row lg:flex-col gap-16 lg:gap-10 md:gap-8 sm:gap-6 items-center w-full justify-center ">
-          <div class="max-w-[534px] w-full h-[492px] md:h-[400px] sm:h-[300px] rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 shadow-payment-box flex-center flex-col gap-14 lg:gap-10 md:gap-8 sm:gap-6 px-[59px] lg:px-[30px] md:px-[20px]">
-            <div className="f-col gap-1 w-full">
-              <p className="payment-full-box-title">
-                <span className="font-bold">TOTAL </span>
-                <span>PAYMENT</span>
-              </p>
-              <div class="payment-full-box-amount">
-                <p class="payment-full-box-amount-text">AMOUNT PKR</p>
-              </div>
-            </div>
-            <div className="f-col gap-1 w-full">
-              <p className="payment-full-box-title">
-                <span className="font-bold">advance </span>
-                <span>PAYMENT</span>
-              </p>
-              <div class="payment-full-box-amount">
-                <p class="payment-full-box-amount-text">
-                  {formatNumber(125000)} PKR
-                </p>
-              </div>
-            </div>
-            <div className="f-col gap-1 items-center w-full">
-              <p className="payment-full-box-title font-bold">
-                <span>remaining </span>
-                <span>PAYMENT</span>
-              </p>
-              <div class="payment-full-box-amount !bg-[#F8F3C7]">
-                <p class="text-black opacity-75 text-large-1 text-center uppercase">
-                  {formatNumber(125000)} PKR
-                </p>
-              </div>
-              <div className="flex gap-1 items-center">
-                <p class="text-xl font-medium text-line-through text-accent-gray-light-2">
-                  140,000
-                </p>
-                <p class="text-large-1 font-medium uppercase">
-                  <span class="text-danger">120,000</span>
-                  <span> </span>
-                  <span class="normal-text-3 font-medium text-[#2f2f2f]">
-                    PKR
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+        <PaymentTitle title="payment" />
+        {pageState === "summary" && (
+        <div className="flex flex-col lg:flex-col gap-8 lg:gap-10 md:gap-8 sm:gap-6 items-center w-full justify-center ">
+<div className="f-col max-w-[550px] w-full mt-[80px]">
+  <div className="flex justify-center w-full">
+    <div
+      className="w-[65%] p-4 text-center bg-white rounded-md base-text bold text-[#606060] py-[30px]"
+      style={{ boxShadow: "0px 0px 10px 8px rgba(0, 0, 0, 0.1)" }}
+    >
+      AMOUNT = <b className="bold text-[28px] text-black">{totalPrice}</b> PKR
+    </div>
+  </div>
+</div>
+
+              <Line className={"w-[500px] h-[1px] bg-accent-black opacity-30"} />
           <div className="f-col gap-12 lg:gap-10 md:gap-8 sm:gap-6 max-w-[550px] w-full">
             <div className="f-col gap-5 md:gap-4 sm:gap-3 w-full">
               <p class="opacity-70 normal-text text-center uppercase text-accent-black">
                 Payment Options
               </p>
-              <Line className={"w-full h-[1px] bg-accent-black"} />
             </div>
             <div className="f-col gap-[30px] lg:gap-[20px] md:gap-[15px] ">
               <div
@@ -114,7 +87,121 @@ const PaymentFull = () => {
               </div>
             </div>
           </div>
+    {/* Black button */}
+<div className="flex-center justify-center mt-8">
+            <BlackButton onclickfunction={() => setPageState("paymentMethod")}   customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
+</div>
         </div>
+        
+        )}
+
+{pageState === "paymentMethod" && (
+        <div className="w-full pt-[130px] flex flex-row lg:flex-col items-stretch lg:items-center justify-center h-full gap-[81px] lg:gap-[40px] md:gap-[20px] sm:gap-[10px]">
+          {/* left start */}
+          <div className="max-w-[467px] pt-[25px] f-col items-end gap-[34px] md:gap-[20px] sm:gap-[10px] w-full">
+            <div className="max-w-[375px] w-full rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 py-2.5 md:py-2 sm:py-1.5 shadow-payment-box flex-center">
+              <div className="base-text bold text-[#606060]">AMOUNT =</div>
+              <div>
+                <p className="base-text-0 font-medium md:font-normal text-line-through text-accent-gray-light-2">
+                  140,000
+                </p>
+                <div className="text-large-1 font-medium md:font-normal uppercase">
+                  <span className="text-danger">120,000</span>
+                  <span> </span>
+                  <span className="normal-text-3 font-medium text-[#2f2f2f]">
+                    PKR
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="max-w-[452.39px] w-full py-2.5 md:py-2 sm:py-1.5 rounded-[50px] md:rounded-[40px] sm:rounded-[35px] bg-[#5680f5] flex justify-between items-center px-[47px] md:px-[35px] sm:px-[30px] gap-5">
+              <div className="f-col gap-5">
+                <p className="normal-text bold text-left uppercase text-white">
+                  scan to pay
+                </p>
+                <div className="text-xs text-left uppercase text-white">
+                  <span className="text-xs font-bold text-left uppercase text-white">
+                    scan qr
+                  </span>
+                  <span> </span>
+                  <span className="text-xs text-left uppercase text-white">
+                    W/ your payment app
+                  </span>
+                </div>
+              </div>
+              <div className="max-w-[210px] h-auto bg-white rounded-xl md:rounded-lg sm:rounded-md">
+                <Image
+                  src={QRScanImage}
+                  alt="QR Scan"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+          {/* left end */}
+
+          {/* mid start */}
+          <div>
+            <Line className="h-full w-[1px] bg-black/40" />
+          </div>
+          {/* mid end */}
+
+          {/* right start */}
+          <div className="max-w-[478px] w-full f-col gap-6 md:gap-5 sm:gap-4">
+            <div className="base-text-0 text-left uppercase text-accent-black">
+              <span className="bold">pay through any service</span>
+              <span> to this account, upload payment receipt here</span>
+            </div>
+            <div className="payment-advance-box--right-container">
+              <div className="payment-advance-box--right-text">
+                <span>ACCOUNT</span>
+                <span className="bold"> DETAILS</span>
+              </div>
+              <div className="w-full pt-3 md:pt-2.5 sm:pt-2 pb-3.5 md:pb-3 sm:pb-2.5 rounded-[10px] md:rounded-lg sm:rounded-md bg-white hover:bg-gray-100 transition-all duration-300 border border-black/70 shadow-payment-box-shadow flex-center gap-3.5 md:gap-2.5 sm:gap-2 cursor-pointer">
+                <Image
+                  src={bankIcon}
+                  alt="bank icon"
+                  className={`w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px] object-contain`}
+                />
+
+                <div className="opacity-70 base-text text-left text-black">
+                  <span>
+                    View{" "}
+                  </span>
+                  <span className="bold">
+                    Payment Details
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="payment-advance-box--right-container">
+            <div className="payment-advance-box--right-text">
+                <span>Transaction</span>
+                <span className="bold"> Receipt</span>
+              </div>
+
+
+              <div className="w-full py-[9px] md:py-[7px] sm:py-[5px] rounded-full bg-[#efefef]/50 hover:bg-gray-100 transition-all duration-300 border border-black/[0.15] shadow-copy flex-center gap-3.5 cursor-pointer">
+                <div className="w-[36px] md:w-[30px] sm:w-[25px] h-[36px] md:h-[30px] sm:h-[25px] rounded-full bg-accent-black opacity-60 flex-center">
+
+                  <IoIosAdd className="text-white w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px]" />
+                </div>
+                <p className="opacity-70 normal-text bold text-center text-black uppercase underline">
+                  UPLOAD
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* right end */}
+                  {/* NEXT button - fixed to bottom right */}
+          <div className="fixed bottom-[150px] right-[150px] justify-end items-center mt-1">
+            <BlackButton onclickfunction={() => setPageState("summary")}     text="DONE"  customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
+          </div>
+        </div>
+)}
+
+
       </div>
       {/* <PaymentModal /> */}
     </PageWrapper>
@@ -122,3 +209,4 @@ const PaymentFull = () => {
 };
 
 export default PaymentFull;
+

@@ -1,1 +1,4 @@
-export const payemntServices = ["service", "gateway"];
+export const payemntServices = [
+  "PAYMENT GATEWAY",
+  "PAYMENT THROUGH ANY SERVICE",
+];

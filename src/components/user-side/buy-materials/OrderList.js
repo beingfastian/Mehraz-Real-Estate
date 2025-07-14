@@ -26,7 +26,7 @@ const OrderList = ({ setStep }) => {
       >
         <div className="top-bar flex">
           <div className="left-side">
-            <span onClick={() => setStep(prev => prev - 2)}>
+            <span onClick={() => setStep(prev => prev - 1)}>
               <Backbutton />
             </span>
           </div>
@@ -95,7 +95,7 @@ const OrderList = ({ setStep }) => {
                     className={`w-full py-2 mb-2 rounded-full border font-medium ${
                       selectedCategory === category
                         ? "bg-gray-800 text-white border-black font-semibold"
-                        : "bg-white text-black border-black"
+                        : "bg-white text-black border-black hover:text-white hover:bg-gray-800"
                     }`}
                   >
                     {category} (9)
@@ -123,9 +123,11 @@ const OrderList = ({ setStep }) => {
                 <strong>TOTAL COST</strong>
                 <span className="ml-4">100,000 PKR</span>
               </div>
+              <a href="\login">
               <button className="bg-gradient-to-r from-[#002B5B] to-[#00688B] text-white px-6 py-2 rounded-full text-lg font-semibold">
                 CONFIRM ORDER
               </button>
+              </a>
             </div>
           </div>
         </div>

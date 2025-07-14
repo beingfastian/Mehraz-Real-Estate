@@ -11,10 +11,14 @@ import {
 } from "@/assets";
 import Backbutton from "@/components/Backbutton";
 import Image from "next/image";
-import { searchIcon, messageIcon, tickIcon } from "@/assets";
+import { searchIcon, messageIcon, tickIcon, rightArrowIcon, chevronRightIcon } from "@/assets";
 import UButton from "../UButton";
 import DesignCarouselMain from "../designs/DesignCarouselMain";
 import BlackButton from "../BlackButton";
+import DesSelSelect from "../fast-homes/design-selection/DesSelSelect";
+import OrderListCardPr from "./OrderListCardPr";
+
+
 
 // temp data
 const defaultDesign = {
@@ -380,9 +384,11 @@ const defaultDesign = {
 const MaterialSelectionPage = ({ setStep }) => {
   const borderColor = "#00000033";
   const [design, setDesign] = useState(null);
-  const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [hoveredMaterial, setHoveredMaterial] = useState(null);
 const [selectedCategory, setSelectedCategory] = useState("ALL");
+const [popupMaterial, setPopupMaterial] = useState(null);
+const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [showFilter, setShowFilter] = useState(false);
   const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
     const [filters, setFilters] = useState({
@@ -390,7 +396,8 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
     cost: "LOW TO HIGH",
     quality: null,
   });
-  
+
+
   const fetchDesignData = async () => {
     setDesign(defaultDesign);
   };
@@ -444,6 +451,39 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
       heading: "ECONOMIC",
       subheading: "PRICES YOU'LL LOVE",
     },
+  ];
+
+    const cities = [
+    { id: 1, name: "Karachi" },
+    { id: 2, name: "Lahore" },
+    { id: 3, name: "Islamabad" },
+    { id: 4, name: "Rawalpindi" },
+    { id: 5, name: "Faisalabad" },
+    { id: 6, name: "Peshawar" },
+    { id: 7, name: "Quetta" },
+    { id: 8, name: "Multan" },
+    { id: 9, name: "Sialkot" },
+    { id: 10, name: "Gujranwala" },
+    { id: 11, name: "Hyderabad" },
+    { id: 12, name: "Sukkur" },
+    { id: 13, name: "Bahawalpur" },
+    { id: 14, name: "Mardan" },
+    { id: 15, name: "Sargodha" },
+    { id: 16, name: "Abbottabad" },
+    { id: 17, name: "Mingora" },
+    { id: 18, name: "Gujrat" },
+    { id: 19, name: "Rahim Yar Khan" },
+    { id: 20, name: "Muzaffarabad" },
+    { id: 21, name: "Jhelum" },
+    { id: 22, name: "Sahiwal" },
+    { id: 23, name: "Dera Ghazi Khan" },
+    { id: 24, name: "Nawabshah" },
+    { id: 25, name: "Mirpur Khas" },
+  ];
+
+  const budget = [
+    { id: 1, name: "High to Low" },
+    { id: 2, name: "Low to High" },
   ];
 
   const handleMaterialHover = (material, event) => {
@@ -567,76 +607,214 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
                     FILTER
                   </button>
 
-                  {showFilter && (
-                    <div className="absolute top-14 right-0 bg-white border border-gray-300 rounded-lg shadow-lg w-[350px] z-50 p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <Image src={boyIcon} alt="Filter Icon" width={20} height={20} />
-                          <p className="font-semibold">FILTER</p>
-                        </div>
-                        <button 
-                          onClick={() => setShowFilter(false)} 
-                          className="text-gray-500 hover:text-black text-xl"
-                        >
-                          ×
-                        </button>
-                      </div>
+{showFilter && (
+  <div className="absolute top-14 right-0 bg-white border border-gray-300 rounded-lg shadow-lg w-[560px] z-50 p-6">
+    
+    {/* Top Bar - Centered Filter Icon + Text */}
+<div className="flex items-center justify-between mb-2">
+  <div className="flex items-center justify-center gap-2 flex-1"> {/* Added justify-center and flex-1 */}
+    <Image
+      src={boyIcon}
+      alt="Filter Icon"
+      width={40}
+      height={40}
+      className="opacity-50"
+    />
+    <p className="text-[20px] uppercase font-[400] font-[FONTSPRING DEMO - Proxima Nova] text-black/80">
+      Filter
+    </p>
+  </div>
+  <button
+    onClick={() => setShowFilter(false)}
+    className="text-[#2f2f2f] hover:text-black text-[24px] leading-none"
+  >
+    ×
+  </button>
+</div>
 
-                      {/* City and Cost Dropdowns */}
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <select 
-                          className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                          value={filters.city}
-                          onChange={(e) => handleFilterChange('city', e.target.value)}
-                        >
-                          <option value="Faisalabad">Faisalabad</option>
-                          <option value="Lahore">Lahore</option>
-                          <option value="Karachi">Karachi</option>
-                        </select>
-                        <select 
-                          className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                          value={filters.cost}
-                          onChange={(e) => handleFilterChange('cost', e.target.value)}
-                        >
-                          <option value="LOW TO HIGH">LOW TO HIGH</option>
-                          <option value="HIGH TO LOW">HIGH TO LOW</option>
-                        </select>
-                      </div>
+    {/* Divider */}
+    <div className="border-b border-black opacity-30 mb-4"></div>
 
-                      {/* Quality Rating Tags */}
-                      <div className="mb-4">
-                        <p className="text-sm font-semibold mb-2">SPECIFIC QUALITY RATINGS</p>
-                        <div className="flex justify-between gap-2">
-                          <button 
-                            className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '0-5' ? 'bg-yellow-300 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
-                            onClick={() => handleFilterChange('quality', filters.quality === '0-5' ? null : '0-5')}
-                          >
-                            0–5
-                          </button>
-                          <button 
-                            className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '6-7' ? 'bg-orange-300 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
-                            onClick={() => handleFilterChange('quality', filters.quality === '6-7' ? null : '6-7')}
-                          >
-                            6–7
-                          </button>
-                          <button 
-                            className={`text-xs px-3 py-1 rounded-full transition ${filters.quality === '8-10' ? 'bg-blue-400 font-bold' : 'bg-gray-200 hover:bg-gray-300'}`}
-                            onClick={() => handleFilterChange('quality', filters.quality === '8-10' ? null : '8-10')}
-                          >
-                            8–10
-                          </button>
-                        </div>
-                      </div>
+    {/* Dropdowns - City & Cost */}
+    <div className="flex gap-4 mb-6">
+      {/* City Dropdown */}
+      <div className="flex flex-col w-1/2 items-center mx-[35px]">
+        <label
+          className="text-black/90 mb-3 uppercase"
+          style={{
+            fontFamily: "FONTSPRING DEMO - Proxima Nova",
+            fontWeight: 600,
+            fontSize: "18px",
+            lineHeight: "100%",
+            letterSpacing: "0%",
+            textAlign: "center",
+          }}
+        >
+          CITY
+        </label>
+        <DesSelSelect
+          options={[
+            { label: "SELECT CITY", value: "" },
+            ...cities.map((city) => ({ label: city.name, value: city.name })),
+          ]}
+          selectedOption={filters.city}
+          selectHandler={(value) => handleFilterChange("city", value)}
+          customStyle={{
+            container: {
+              height: "44px",
+              border: "1px solid rgba(40,40,40,0.6)",
+            },
+            text: {
+              fontSize: "14px",
+              fontWeight: 400,
+            },
+            chevronContainer: {
+              width: "50px",
+              height: "44px",
+            },
+            chevronIcon: {
+              fontSize: "16px",
+            },
+          }}
+        />
+      </div>
 
-                      {/* Apply Changes */}
-                      <button 
-                        className="w-full bg-black text-white py-2 rounded-md mt-2 hover:bg-gray-800 transition"
-                        onClick={applyFilters}
-                      >
-                        APPLY CHANGES
-                      </button>
-                    </div>
-                  )}
+      {/* Cost Dropdown */}
+      <div className="flex flex-col w-1/2 items-center mx-[35px]">
+        <label
+          className="text-black/90 mb-3 uppercase"
+          style={{
+            fontFamily: "FONTSPRING DEMO - Proxima Nova",
+            fontWeight: 600,
+            fontSize: "18px",
+            lineHeight: "100%",
+            letterSpacing: "0%",
+            textAlign: "center",
+          }}
+        >
+          COST
+        </label>
+        <DesSelSelect
+          options={budget.map((b) => ({ label: b.name, value: b.name }))}
+          selectedOption={filters.cost}
+          selectHandler={(value) => handleFilterChange("cost", value)}
+          customStyle={{
+            container: {
+              height: "44px",
+              border: "1px solid rgba(40,40,40,0.6)",
+            },
+            text: {
+              fontSize: "14px",
+              fontWeight: 400,
+            },
+            chevronContainer: {
+              width: "50px",
+              height: "44px",
+            },
+            chevronIcon: {
+              fontSize: "16px",
+            },
+          }}
+        />
+      </div>
+    </div>
+
+    {/* Divider */}
+    <div className="border-b border-black opacity-30 mb-4"></div>
+
+    {/* Rating Tags */}
+<div className="flex justify-between items-start mb-4 px-2">
+  {/* Left Text Block */}
+  <div className="flex flex-col text-center">
+    <span
+      style={{
+        fontFamily: "FONTSPRING DEMO - Proxima Nova",
+        fontWeight: 400,
+        fontSize: "18px",
+        lineHeight: "100%",
+        letterSpacing: "0%",
+        color: "rgba(47, 47, 47, 0.7)",
+        textTransform: "uppercase",
+      }}
+    >
+      SPECIFIC QUALITY
+    </span>
+    <span
+      style={{
+        fontFamily: "FONTSPRING DEMO - Proxima Nova",
+        fontWeight: 700,
+        fontSize: "18px",
+        lineHeight: "100%",
+        letterSpacing: "0%",
+        color: "rgba(47, 47, 47, 0.7)",
+        textTransform: "uppercase",
+      }}
+    >
+      RATINGS
+    </span>
+  </div>
+
+  {/* Right Buttons */}
+  <div className="flex gap-3">
+    {[
+      { label: "0–5", color: "#F8D570" },
+      { label: "6–7", color: "#00B9FF" },
+      { label: "8–10", color: "#00FF80" },
+    ].map(({ label, color }) => (
+      <button
+        key={label}
+        className={`flex items-center justify-between w-[80px] h-[32px] px-3 py-1 rounded-[6px] border border-[#C0C0C0] transition-all duration-200 ${
+          filters.quality === label
+            ? "bg-white font-bold shadow-sm"
+            : "bg-white hover:bg-gray-100"
+        }`}
+        onClick={() =>
+          handleFilterChange("quality", filters.quality === label ? null : label)
+        }
+        style={{
+          fontFamily: "FONTSPRING DEMO - Proxima Nova",
+          fontWeight: 400,
+          fontSize: "14px",
+          lineHeight: "100%",
+          letterSpacing: "0%",
+          color: "#2F2F2F",
+        }}
+      >
+        {label}
+        <span
+          className="w-[14px] h-[14px] rounded-full ml-2"
+          style={{ backgroundColor: color }}
+        ></span>
+      </button>
+    ))}
+  </div>
+</div>
+
+
+    {/* Divider */}
+    <div className="border-b border-black opacity-30 mb-4"></div>
+
+    {/* Apply Button */}
+<div className="flex justify-center mt-4">
+  <button
+    onClick={applyFilters}
+    className="w-[220px] h-[48px] bg-[#323232] text-white text-[13px] font-semibold uppercase rounded-[4px] shadow-md hover:bg-[#1f1f1f] transition"
+    style={{
+      padding: "14px 50px",
+      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      gap: "10px",
+    }}
+  >
+    APPLY CHANGES
+  </button>
+</div>
+
+
+  </div>
+)}
+
+
+
                 </div>
                     <UButton
                       text={
@@ -669,7 +847,7 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
         ${
           selectedCategory === category
             ? "bg-gray-800 text-white border-black font-semibold"
-            : "bg-white text-black border-black"
+            : "bg-white text-black border-black hover:bg-gray-800 hover:text-white"
         }`}
     >
       {category} (9)
@@ -679,84 +857,141 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
 
             {/* Keep the same left sidebar */}
             <div className={`left-side absolute h-[80%] top-[263px] transform -translate-y-1/2 rounded-full flex justify-around items-center flex-col w-[58px] hover:min-w-[200px] hover:w-auto hover:rounded-lg border border-1 border-[${borderColor}] bg-[#ffffff] z-10`}>
-              {materials?.map((value, index) => (
-                <div
-                  key={index}
-                  className={`rounded-full bg-bg-dull border border-1 border-[${borderColor}] w-full overflow-hidden flex cursor-pointer ${
-                    selectedCategory === index 
-                    ? 'bg-[#f0d4b1] border border-[#e6a87f]' 
-                    : 'bg-gray-100 hover:bg-gray-200 border border-transparent'
-                }`}
-                onClick={() => setSelectedCategory(index)}
-                >
-                  <Image
-                    src={value.icon}
-                    alt={value.alt}
-                    height={100}
-                    width={100}
-                    className={`h-[55px] w-[55px] p-1`}
-                  />
-                  <div className="flex flex-col justify-center items-center">
-                    <p className="text-sm font-medium">{value?.heading}</p>
-                    <span className="text-xxs">{value?.content}</span>
-                  </div>
-                </div>
-              ))}
+{materials?.map((value, index) => (
+  <React.Fragment key={index}>
+    {index !== 0 && <div className="w-[70%] h-[1px] bg-gray-300 mx-auto" />}  {/* Divider */}
+    
+    <div
+      className={`rounded-full bg-bg-dull w-full overflow-hidden flex cursor-pointer
+        ${selectedCategory === index 
+          ? 'bg-[#fce7cc] border border-[#e6a87f]' 
+          : 'bg-gray-100 hover:bg-gray-200 border border-transparent'}
+      `}
+      onClick={() => setSelectedCategory(index)}
+    >
+      <Image
+        src={value.icon}
+        alt={value.alt}
+        height={100}
+        width={100}
+        className={`h-[55px] w-[55px] p-1`}
+      />
+      <div className="flex flex-col justify-center items-center">
+        <p className="text-sm font-medium">{value?.heading}</p>
+        <span className="text-xxs">{value?.content}</span>
+      </div>
+    </div>
+  </React.Fragment>
+))}
+
+
             </div>
 
 {/* Updated Carousel with 18 materials per slide (3x6 grid) */}
-            <div className="right-carousel sm:w-full w-[90%] ml-auto">
-              <div className="h-full w-full">
-                <DesignCarouselMain slidesCount={groupedMaterials.length}>
-                  {groupedMaterials.map((materialGroup, slideIndex) => (
-                    <div 
-                      key={slideIndex}
-                      className="h-[50vh] min-h-[400px] max-h-[auto] lg:h-[40vh] sm:h-[30vh] xs:h-[25vh] rounded-xl overflow-hidden !grid grid-cols-6 grid-rows-3 gap-2 p-2"
-                    >
-                      {materialGroup.map((material, index) => (
-                        <div
-                          key={index}
-                          className="w-full h-full p-1 rounded-lg relative border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col"
-                          onMouseEnter={(e) => handleMaterialHover(material, e)}
-                          onMouseLeave={handleMaterialLeave}
-                          onClick={() => setStep(prev => prev + 1)}
-                        >
-                          <div className="w-full h-20 rounded-md overflow-hidden relative flex-shrink-0">
-                            <Image
-                              src={material.image}
-                              layout="fill"
-                              objectFit="cover"
-                              alt={`Material ${material.name}`}
-                              className="w-full h-full"
-                            />
-                            {selectedMaterial?.name === material.name && (
-                              <Image
-                                src={tickIcon}
-                                width={20}
-                                height={20}
-                                alt="Selected"
-                                className="absolute top-1 right-1"
-                              />
-                            )}
-                          </div>
-                          <div className="mt-1 p-1 flex-grow flex flex-col">
-                            <h4 className="font-bold text-xs uppercase truncate">{material.name}</h4>
-                            <p className="text-[10px] text-gray-600 truncate">{material.vendor}</p>
-                            <p className="text-[10px] mt-auto bg-gray-100 rounded-full px-1 py-0.5 truncate">
-                              {material.price}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </DesignCarouselMain>
+<div className="right-carousel sm:w-full w-[90%] ml-auto relative"> {/* Added relative positioning */}
+  <div className="h-full w-full">
+    <DesignCarouselMain slidesCount={groupedMaterials.length}>
+      {groupedMaterials.map((materialGroup, slideIndex) => (
+        <div 
+          key={slideIndex}
+          className="h-[58vh] min-h-[460px] lg:h-[48vh] sm:h-[36vh] xs:h-[30vh] rounded-xl overflow-hidden !grid grid-cols-6 grid-rows-3 gap-x-2 gap-y-4 p-2"
+        >
+          {materialGroup.map((material, index) => {
+            const isSelected = selectedMaterials.some(selected => selected.name === material.name);
+            return (
+              <div
+                key={index}
+                className={`w-[145px] h-[150px] rounded-[10px] relative border border-gray-200 shadow-md hover:shadow-lg transition-all flex flex-col ${
+                  isSelected ? 'bg-[#21254A]' : 'bg-white'
+                }`}
+                onMouseEnter={(e) => handleMaterialHover(material, e)}
+                onMouseLeave={handleMaterialLeave}
+                onClick={(e) => {
+                  if (isSelected) {
+                    setSelectedMaterials(prev => 
+                      prev.filter(selected => selected.name !== material.name)
+                    );
+                    setPopupMaterial(null); // Close popup when deselected
+                  } else {
+                    setSelectedMaterials(prev => [...prev, material]);
+    setPopupMaterial({
+      ...material,
+      rowIndex: Math.floor(index / 6) // Assuming 6 columns per row
+                    });
+                  }
+                }}
+              >
+                {/* Material Image */}
+                <div className="w-full h-[85px] rounded-[5px] overflow-hidden relative">
+                  <Image
+                    src={material.image}
+                    layout="fill"
+                    objectFit="cover"
+                    alt={`Material ${material.name}`}
+                    className="w-full h-full"
+                  />
+                  {/* Tick icon - shown only when selected */}
+                  {isSelected && (
+                    <Image
+                      src={tickIcon}
+                      width={28}
+                      height={28}
+                      alt="Tick"
+                      className="absolute top-[4px] right-[4px] opacity-100 transition-opacity duration-200"
+                    />
+                  )}
+                </div>
+
+                {/* Material Info */}
+                <div className="mt-1 flex-grow flex flex-col px-1">
+                  <h4 className={`font-bold text-[15px] uppercase truncate font-[FONTSPRING DEMO - Proxima Nova] ${
+                    isSelected ? 'text-white' : 'text-[#1f1f1f]'
+                  }`}>
+                    {material.name}
+                  </h4>
+                  <p className={`text-[14px] truncate font-[FONTSPRING DEMO - Proxima Nova] ${
+                    isSelected ? 'text-white opacity-80' : 'text-[#2f2f2f]'
+                  }`}>
+                    {material.vendor}
+                  </p>
+                  <p className={`text-[14px] mt-auto rounded-full px-2 py-0.5 truncate font-[Milliard] ${
+                    isSelected 
+                      ? 'bg-white/20 text-white border-white' 
+                      : 'bg-gray-100 border border-black opacity-80'
+                  }`}>
+                    {material.price}
+                  </p>
+                </div>
               </div>
-            </div>
+            );
+          })}
+        </div>
+      ))}
+    </DesignCarouselMain>
+  </div>
+
+  {/* Popup Card */}
+  {popupMaterial && (
+    <div 
+      className="absolute z-50" 
+      style={{
+        left: `-150px`, // Position to the right of the selected item
+        top: `${popupMaterial.rowIndex === 0 ? '335px' : '0px'}`
+      }}
+    >
+      
+<OrderListCardPr 
+selectedMaterials={selectedMaterials}
+  material={popupMaterial}
+  onClose={() => setPopupMaterial(null)}
+/>
+    </div>
+  )}
+</div>
           </div>
           
           {/* Keep the same hover preview */}
-          {hoveredMaterial && (
+          {/* {hoveredMaterial && (
             <div 
               className="fixed bg-white p-4 border border-gray-300 shadow-lg rounded-lg z-50 w-[400px]"
               style={{
@@ -784,10 +1019,10 @@ const [selectedCategory, setSelectedCategory] = useState("ALL");
                 <p className="text-sm mt-1"><span className="font-semibold">Quantity:</span> {hoveredMaterial.quantity}</p>
               </div>
             </div>
-          )}
+          )} */}
           
           <div className="flex justify-end items-center mt-1">
-            <BlackButton onclickfunction={() => setStep(prev => prev + 2)} />
+            <BlackButton onclickfunction={() => setStep(prev => prev + 1)} />
           </div>
         </div>
       </motion.section>

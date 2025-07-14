@@ -6,7 +6,7 @@ const PageWrapper = ({ children }) => {
   return (
     <div className="bg-transparent container relative page-top-padding">
       <div className="relative">
-        <div className="absolute top-0 left-0">
+        <div className="absolute top-4 left-0">
           <BackBtn />
         </div>
       </div>

@@ -7,13 +7,33 @@ import { bankIcon, QRScanImage } from "@/assets";
 import Image from "next/image";
 import Line from "@/components/common/Line/Line";
 import { IoIosAdd } from "react-icons/io";
+import BlackButton from "../../../../components/user-side/BlackButton";
+import { payemntServices } from "../data";
 
 const PaymentAdvance = () => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [pageState, setPageState] = useState("select"); // "select" or "summary"
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+
+
 
   const handleOptionChange = optionId => {
     setSelectedOption(optionId);
   };
+
+const totalPrice = 120000; // You can move this to props or backend later
+
+const paymentOptionsData = [
+  { id: "1", title: "50% or 0.5%", percentage: 0.5 },
+  { id: "2", title: "60% or 1%", percentage: 0.6 },
+  { id: "3", title: "70% or 2.5%", percentage: 0.7 },
+  { id: "4", title: "80% or 5%", percentage: 0.8 },
+  { id: "5", title: "90% or 7.5%", percentage: 0.9 },
+  { id: "6", title: "100% or 10%", percentage: 1.0 },
+];
+
+
+
 
   return (
     <PageWrapper>
@@ -22,83 +42,130 @@ const PaymentAdvance = () => {
         <div
           className="max-w-[41.875rem] max-auto-width h-auto  rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 overflow-hidden"
           style={{ boxShadow: "0px 5px 30px 10px rgba(0,0,0,0.1)" }}>
-          <div className="bg-[#f0f0f0]/50 h-auto py-2 w-full flex-center gap-1">
-            <p className="text-center">
-              <span className="base-text bold text-[#606060]">
-                TOTAL AMOUNT =
+{pageState === "select" && (
+  <>
+    {/* Only show if no option is selected yet */}
+    {!selectedOption && (
+      <>
+        <div className="bg-[#f0f0f0]/50 h-auto py-2 w-full flex-center gap-1">
+          <p className="text-center">
+            <span className="base-text bold text-[#606060]">
+              TOTAL AMOUNT =
+            </span>
+          </p>
+          <div>
+            <p className="base-text-0 font-medium md:font-normal text-line-through text-accent-gray-light-2">
+              140,000
+            </p>
+            <p className="text-large-1 font-medium md:font-normal uppercase">
+              <span className="text-danger">120,000</span>
+              <span> </span>
+              <span className="normal-text-3 font-medium text-[#2f2f2f]">
+                PKR
               </span>
             </p>
-            <div>
-              <p className="base-text-0 font-medium md:font-normal text-line-through text-accent-gray-light-2">
-                140,000
-              </p>
-              <p className="text-large-1 font-medium md:font-normal uppercase">
-                <span className="text-danger">120,000</span>
-                <span> </span>
-                <span className="normal-text-3 font-medium text-[#2f2f2f]">
-                  PKR
-                </span>
-              </p>
-            </div>
-          </div>
-          <div className="f-col gap-3 pt-1 pb-6 px-[45px] md:px-[30px] sm:px-[15px] transition-all duration-300"> 
-            <p className="base-text-0 text-center uppercase text-accent-black/50">
-              select any option that suits you
-            </p>
-              <AdvancePaymentSelection
-                title="50% or 0.5%"
-                amount="120,000,000"
-                currency="PKR"
-                isSelected={selectedOption === "1"}
-                onChange={() => handleOptionChange("1")}
-                id="1"  
-              />
-              <AdvancePaymentSelection
-                title="60% or 1%"
-                amount="120,000,000"
-                currency="PKR"
-                isSelected={selectedOption === "2"}
-                onChange={() => handleOptionChange("2")}
-                id="2"  
-              />
-         
-              <AdvancePaymentSelection
-                title="70% or 2.5%"
-                amount="120,000,000"
-                currency="PKR"
-                isSelected={selectedOption === "3"}
-                onChange={() => handleOptionChange("3")}
-                id="3"  
-              />
-              <AdvancePaymentSelection
-                title="80% or 5%"
-                amount="120,000,000"
-                currency="PKR"
-                isSelected={selectedOption === "4"}
-                onChange={() => handleOptionChange("4")}
-                id="4"  
-              />
-              <AdvancePaymentSelection
-                title="90% or 7.5%"
-                amount="120,000,000"
-                currency="PKR"
-                isSelected={selectedOption === "5"}
-                onChange={() => handleOptionChange("5")}
-                id="5"  
-              />
-              <AdvancePaymentSelection
-                title="100% or 10%"
-                amount="120,000,000"
-                currency="PKR"
-                isSelected={selectedOption === "6"}
-                onChange={() => handleOptionChange("6")}
-                id="6"  
-              />
-             
-  
           </div>
         </div>
 
+        <p className="base-text-0 text-center uppercase text-accent-black/50 mt-3">
+          select any option that suits you
+        </p>
+      </>
+    )}
+
+    {/* Options List */}
+    <div className="f-col gap-3 pt-1 pb-20 px-[45px] md:px-[30px] sm:px-[15px] transition-all duration-300">
+      <div className="base-text text-[#606060] text-center text-[20px] py-[15px]">
+      Total Amount = {totalPrice} PKR
+      </div>
+{paymentOptionsData.map((option) => (
+  <AdvancePaymentSelection
+    key={option.id}
+    title={option.title}
+    amount={new Intl.NumberFormat().format(totalPrice * option.percentage)}
+    currency="PKR"
+    isSelected={selectedOption === option.id}
+    onChange={() => handleOptionChange(option.id)}
+    id={option.id}
+  />
+))}
+
+    </div>
+
+    {/* Bottom bar for selected option */}
+    {selectedOption && (
+      <>
+      <div className="w-[70%] h-[2px] bg-[#606060]/50 mx-auto my-4"></div>
+
+        <div className="flex flex-center  w-full px-5 py-3 bg-white z-40 pb-[25px]">
+          <span className="base-text bold text-[#606060] text-center">
+            ADVANCE AMOUNT = <b className="bold text-black text-[28px]">{new Intl.NumberFormat().format(
+            totalPrice *
+              (paymentOptionsData.find(o => o.id === selectedOption)?.percentage || 0)
+          )}</b> PKR
+        </span>
+        </div>
+
+        {/* NEXT button - fixed to bottom right */}
+          <div className="fixed bottom-[130px] right-[400px] justify-end items-center mt-1">
+            <BlackButton onclickfunction={() => setPageState("summary")}   customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
+          </div>
+      </>
+    )}
+  </>
+)}
+        </div>
+                <div
+          className="max-w-[41.875rem] max-auto-width h-auto pt-[150px] rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 overflow-hidden"
+          >
+
+{pageState === "summary" && (
+  <div className="f-col gap-12 lg:gap-10 md:gap-8 sm:gap-6 w-full bg-transparent">
+    <div className="f-col gap-5 md:gap-4 sm:gap-3 w-full">
+      <p className="opacity-70 normal-text text-center uppercase text-accent-black">
+        Payment Options
+      </p>
+      <Line className={"w-full h-[2px] bg-accent-black opacity-20"} />
+    </div>
+
+    <div className="f-col gap-[30px] lg:gap-[20px] md:gap-[15px]">
+      {payemntServices.map((service, index) => (
+        <div
+          key={index}
+          className={`payment-full-checkbox_container cursor-pointer transition-all duration-300 ${
+            selectedPaymentMethod === service
+              ? "bg-[#2f2f2f] text-white shadow-md"
+              : "bg-dull/50 text-black"
+          }`}
+          onClick={() => setSelectedPaymentMethod(service)}>
+          <label className="payment-full-checkbox">
+            <input
+              type="radio"
+              name="payment-option"
+              className="peer hidden"
+              checked={selectedPaymentMethod === service}
+              onChange={() => setSelectedPaymentMethod(service)}
+            />
+            <div className="general-tick w-[14px] md:w-[10px] sm:w-[8px] h-[31px] md:h-[24px] sm:h-[20px] opacity-0 peer-checked:opacity-100 transition-all duration-300"></div>
+          </label>
+          <p className="payment-full-checkbox-text">
+            {service}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    {/* Black button */}
+<div className="flex justify-center mt-8">
+            <BlackButton onclickfunction={() => setPageState("paymentMethod")}   customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
+</div>
+  </div>
+)}
+
+
+</div>
+
+{pageState === "paymentMethod" && (
         <div className="w-full flex flex-row lg:flex-col items-stretch lg:items-center justify-center h-full gap-[81px] lg:gap-[40px] md:gap-[20px] sm:gap-[10px]">
           {/* left start */}
           <div className="max-w-[467px] pt-[25px] f-col items-end gap-[34px] md:gap-[20px] sm:gap-[10px] w-full">
@@ -197,7 +264,14 @@ const PaymentAdvance = () => {
             </div>
           </div>
           {/* right end */}
+                  {/* NEXT button - fixed to bottom right */}
+          <div className="fixed bottom-[150px] right-[150px] justify-end items-center mt-1">
+            <BlackButton onclickfunction={() => setPageState("summary")}     text="DONE"  customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
+          </div>
         </div>
+)}
+
+
       </div>
     </PageWrapper>
   );
