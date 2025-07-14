@@ -11,6 +11,7 @@ import {
   Card,
   SpecificDetail,
   UserProtectedRoute,
+  PropertySelect
 } from "@/components";
 import {
   industrialImage,
@@ -103,39 +104,11 @@ const BuyPropertyPage = () => {
             />
           )}
           {step === 2 && (
-            <div>
-              <div className="flex border-b w-fit border-black pb-2 !sm:mx-auto">
-                {/* <customicon /> */}
-                <Image
-                  src={blackbuildingicon}
-                  alt="myverse"
-                  width={100}
-                  height={100}
-                  className="h-[70px] w-[70px]"
-                />
-                <span className="flex items-end text-xl">
-                  MEHRAZ <b>&nbsp;ESTATE</b>
-                </span>
-              </div>
-
-              <p className="text-center my-2">
-                <b>SELECT TYPE</b> OF PROJECT YOU REQUIRE...
-              </p>
-              <div className="flex justify-center items-center flex-wrap gap-8 md:gap-6 sm:gap-4">
-                {projecttype?.length > 0 &&
-                  projecttype.map((value, index) => {
-                    return (
-                      <Card
-                        data={value}
-                        key={index}
-                        setStep={setStep}
-                        hightcustomdetail={hightcustomdetail}
-                        setHighCustomDetail={setHighCustomDetail}
-                      />
-                    );
-                  })}
-              </div>
-            </div>
+              <PropertySelect
+    setStep={setStep}
+    hightcustomdetail={hightcustomdetail}
+    setHighCustomDetail={setHighCustomDetail}
+  />
           )}
           {step === 3 && (
             <SpecificDetail

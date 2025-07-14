@@ -84,9 +84,12 @@ const Screen1 = ({ setStep, heading, subheading }) => {
     <div className="w-[932.09px] h-px bg-white/50 mt-6 mb-4" />
 
     {/* Subheading */}
-    <div className="text-white/70 text-[32px] leading-[1] tracking-[0.02em] font-[400] uppercase font-proxima">
-      GREY STRUCTURE . FINISHING . LANDSCAPING . FURNITURE
-    </div>
+<div className="text-white/70 text-[32px] leading-[1] tracking-[0.02em] font-[400] uppercase font-proxima">
+  <span className="font-[400]">{subheading.normaltext}</span>
+  &nbsp;
+  <span className="font-[700]">{subheading.boldtext}</span>
+</div>
+
 
     {/* Additional Text Below Subheading */}
 <div className="absolute bottom-[150px] left-[530px] text-white/10 text-[36px] leading-[1] tracking-[0] text-center uppercase font-proxima mt-4">

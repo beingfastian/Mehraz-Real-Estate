@@ -223,3 +223,6 @@ export { numberlesscheck } from "./InputChecks";
 // buy materials
 export { default as BuyMaterialsPage } from "./user-side/buy-materials/Buy-MaterialsPage.js";
 export { default as Screen3 } from "./user-side/buy-materials/Screen3";
+
+//buy property
+export { default as PropertySelect } from "./user-side/buy-property/PropertySelect";

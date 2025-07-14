@@ -53,7 +53,7 @@ const Card = ({ data, setStep, hightcustomdetail, setHighCustomDetail }) => {
   return (
     <div className=" w-[270px] h-[320px] sm:w-[150px] sm:h-[175px] flex justify-center items-center">
       <div
-        className="relative w-full h-full hover:w-[90%] hover:h-[90%] duration-200 ease-linear cursor-pointer"
+        className="relative w-full h-full cursor-pointer"
         onClick={() => categoryselected(data?.URL)}>
         <Image
           src={data?.imagesrc}

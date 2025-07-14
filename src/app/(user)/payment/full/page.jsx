@@ -10,12 +10,30 @@ import { payemntServices } from "../data";
 import PaymentModal from "@/components/payment/paymentModal";
 import BlackButton from "../../../../components/user-side/BlackButton";
 import { IoIosAdd } from "react-icons/io";
+import { FaTimes, FaRegCopy } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const PaymentFull = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [pageState, setPageState] = useState("summary"); // "summary", "paymentMethod"
+    const [showPopup, setShowPopup] = useState(false);
+      const router = useRouter();
   const handleOptionChange = option => {
     setSelectedOption(option);
+  };
+
+    const paymentInfo = {
+    accountName: "MEHRAZ SMC PRIVATE LIMITED",
+    bank: "United Bank Limited (UBL)",
+    branch: "Valencia Society, Lahore, Pakistan\nA5, Block D, Commercial Zone",
+    accountNumber: "0310-312439851",
+    iban: "PK04UNIL0109000312439851",
+    swiftCode: "UNILPKKA",
+  };
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    alert("Copied!");
   };
   const totalPrice = 120000; // You can move this to props or backend later
   return (
@@ -164,7 +182,7 @@ const PaymentFull = () => {
                   className={`w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px] object-contain`}
                 />
 
-                <div className="opacity-70 base-text text-left text-black">
+                <div className="opacity-70 base-text text-left text-black" onClick={() => setShowPopup(true)}>
                   <span>
                     View{" "}
                   </span>
@@ -196,12 +214,127 @@ const PaymentFull = () => {
           {/* right end */}
                   {/* NEXT button - fixed to bottom right */}
           <div className="fixed bottom-[150px] right-[150px] justify-end items-center mt-1">
-            <BlackButton onclickfunction={() => setPageState("summary")}     text="DONE"  customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
+            <BlackButton  onclickfunction={() => router.push("/success-apply")}    text="DONE"  customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400" />
           </div>
         </div>
 )}
 
+              {/* Modal */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
+          <div className="bg-white w-[95%] max-w-[750px] p-6 rounded-xl relative shadow-xl">
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 text-gray-500"
+              onClick={() => setShowPopup(false)}
+            >
+              <FaTimes size={20} />
+            </button>
 
+            {/* Heading */}
+<h2 className="text-center text-2xl leading-[100%] tracking-normal uppercase font-[400] mb-6 font-[FONTSPRING DEMO - Proxima Nova]">
+  PAYMENT <span className="font-bold">DETAILS</span>
+</h2>
+
+
+{/* Bank Info (as table) */}
+<div className="rounded-lg mb-6 space-y-3">
+  <div className="bg-[#f5f5f5] rounded-[50px] px-[80px] py-3 flex items-center mx-[80px]">
+    <span className="font-bold text-sm">Account Name</span>
+    <span className="text-sm text-left pl-[50px]">{paymentInfo.accountName}</span>
+  </div>
+  <div className="bg-[#f5f5f5] rounded-[50px] px-[80px] py-3 flex items-center mx-[80px]">
+    <span className="font-bold text-sm">Bank</span>
+    <span className="text-sm text-left pl-[112px]">{paymentInfo.bank}</span>
+  </div>
+  <div className="bg-[#f5f5f5] rounded-[50px] px-[80px] py-1 flex items-center mx-[80px]">
+    <span className="font-bold text-sm">Branch</span>
+    <span className="text-sm text-left whitespace-pre-line pl-[100px]">
+      {paymentInfo.branch}
+    </span>
+  </div>
+</div>
+
+
+            {/* Transaction Boxes */}
+<div className="flex flex-row gap-6 w-full">
+  {/* Inside Pakistan */}
+  <div className="w-1/2 bg-[#f5f5f5] rounded-xl p-4 flex flex-col justify-between min-h-[250px]">
+<h3 className="text-sm mb-2 flex justify-between w-full opacity-60">
+  <span>TRANSACTION</span>
+  <span className="text-black-600 font-semibold">Within Pakistan</span>
+</h3>
+
+    {/* Field container with vertical spacing */}
+    <div className="flex-1 flex flex-col justify-center">
+      <div className="bg-white p-3 rounded-lg space-y-1">
+        <label className="text-xs text-gray-500 block">Account Number</label>
+        <div className="flex justify-between items-center">
+          <span className="text-sm">{paymentInfo.accountNumber}</span>
+          <button onClick={() => handleCopy(paymentInfo.accountNumber)}>
+            <FaRegCopy size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom button */}
+    <button
+      onClick={() => handleCopy(`Account Number: ${paymentInfo.accountNumber}`)}
+      className="flex items-center justify-center gap-2 w-full py-2 mt-4 rounded-lg bg-[#efefef] text-sm font-medium"
+    >
+      <FaRegCopy size={14} /> COPY ALL DETAILS
+    </button>
+  </div>
+
+  {/* Outside Pakistan */}
+  <div className="w-1/2 bg-[#f5f5f5] rounded-xl p-4 flex flex-col justify-between min-h-[250px]">
+<h3 className="text-sm mb-2 flex justify-between w-full opacity-60">
+  <span className="">TRANSACTION</span>
+  <span className="font-semibold text-black-600">Outside Pakistan</span>
+</h3>
+
+    {/* Field container */}
+    <div className="flex-1 flex flex-col justify-start gap-3">
+      <div className="bg-white p-3 rounded-lg space-y-1">
+        <label className="text-xs text-gray-500 block">IBAN</label>
+        <div className="flex justify-between items-center">
+          <span className="text-sm">{paymentInfo.iban}</span>
+          <button onClick={() => handleCopy(paymentInfo.iban)}>
+            <FaRegCopy size={16} />
+          </button>
+        </div>
+      </div>
+
+      <div className="bg-white p-3 rounded-lg space-y-1">
+        <label className="text-xs text-gray-500 block">SWIFT Code</label>
+        <div className="flex justify-between items-center">
+          <span className="text-sm">{paymentInfo.swiftCode}</span>
+          <button onClick={() => handleCopy(paymentInfo.swiftCode)}>
+            <FaRegCopy size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom button */}
+    <button
+      onClick={() =>
+        handleCopy(
+          `IBAN: ${paymentInfo.iban}\nSWIFT Code: ${paymentInfo.swiftCode}`
+        )
+      }
+      className="flex items-center justify-center gap-2 w-full py-2 mt-4 rounded-lg bg-[#efefef] text-sm font-medium"
+    >
+      <FaRegCopy size={14} /> COPY ALL DETAILS
+    </button>
+  </div>
+</div>
+
+
+          </div>
+        </div>
+      )}
       </div>
       {/* <PaymentModal /> */}
     </PageWrapper>
