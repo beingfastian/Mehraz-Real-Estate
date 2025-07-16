@@ -58,13 +58,17 @@ const cities = [
   { name: "Peshawar", label: "Peshawar" },
 ];
 
-const PropertySelect = ({ setStep, hightcustomdetail, setHighCustomDetail }) => {
+const PropertySelect = ({
+  setStep,
+  hightcustomdetail,
+  setHighCustomDetail,
+}) => {
   const [filters, setFilters] = useState({
     city: "Faisalabad",
   });
 
   const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({
+    setFilters(prev => ({
       ...prev,
       [key]: value,
     }));
@@ -89,7 +93,7 @@ const PropertySelect = ({ setStep, hightcustomdetail, setHighCustomDetail }) => 
       {/* City Selector Centered with Label on Right */}
       <div className="flex justify-center my-8 mb-[25px]">
         <div className="flex items-center gap-4">
-                      <label
+          <label
             className="text-black/90 uppercase"
             style={{
               fontFamily: "FONTSPRING DEMO - Proxima Nova",
@@ -97,20 +101,19 @@ const PropertySelect = ({ setStep, hightcustomdetail, setHighCustomDetail }) => 
               fontSize: "18px",
               lineHeight: "100%",
               letterSpacing: "0%",
-            }}
-          >
+            }}>
             CITY
           </label>
           <DesSelSelect
             options={[
               { label: "SELECT CITY", value: "" },
-              ...cities.map((city) => ({
+              ...cities.map(city => ({
                 label: city.name,
                 value: city.name,
               })),
             ]}
             selectedOption={filters.city}
-            selectHandler={(value) => handleFilterChange("city", value)}
+            selectHandler={value => handleFilterChange("city", value)}
             customStyle={{
               container: {
                 width: "180px", // reduced width
@@ -130,7 +133,6 @@ const PropertySelect = ({ setStep, hightcustomdetail, setHighCustomDetail }) => 
               },
             }}
           />
-
         </div>
       </div>
 
@@ -141,20 +143,19 @@ const PropertySelect = ({ setStep, hightcustomdetail, setHighCustomDetail }) => 
 
       <div className="flex justify-center items-center flex-wrap gap-8 md:gap-6 sm:gap-4 ">
         {projecttype.map((value, index) => (
-<div
-  key={index}
-  style={{
-    boxShadow: "10px 15px 20px 0px rgba(0, 0, 0, 0.25)",
-    borderRadius: "16px", // optional for softness
-  }}
->
-  <Card
-    data={value}
-    setStep={setStep}
-    hightcustomdetail={hightcustomdetail}
-    setHighCustomDetail={setHighCustomDetail}
-  />
-</div>
+          <div
+            key={index}
+            style={{
+              boxShadow: "10px 15px 20px 0px rgba(0, 0, 0, 0.25)",
+              borderRadius: "16px", // optional for softness
+            }}>
+            <Card
+              data={value}
+              setStep={setStep}
+              hightcustomdetail={hightcustomdetail}
+              setHighCustomDetail={setHighCustomDetail}
+            />
+          </div>
         ))}
       </div>
     </div>
@@ -162,3 +163,5 @@ const PropertySelect = ({ setStep, hightcustomdetail, setHighCustomDetail }) => 
 };
 
 export default PropertySelect;
+
+//chk commit!
