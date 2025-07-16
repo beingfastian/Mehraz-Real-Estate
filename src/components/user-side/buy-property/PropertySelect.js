@@ -163,5 +163,3 @@ const PropertySelect = ({
 };
 
 export default PropertySelect;
-
-//chk commit!

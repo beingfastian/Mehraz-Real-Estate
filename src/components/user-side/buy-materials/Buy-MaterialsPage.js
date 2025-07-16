@@ -12,6 +12,8 @@ import {
   SpecificDetail,
   UserProtectedRoute,
   UserHeader,
+  UserLogin,
+  DeliveryForm,
 } from "@/components";
 import {
   industrialImage,
@@ -31,6 +33,7 @@ import Screen2 from "./Screen2";
 import Screen3 from "./Screen3";
 import MaterialSelectionPage from "./MaterialSelectionPage";
 import OrderList from "./OrderList";
+
 const defaultStep1Screen2FormData = {
   city: "",
 };
@@ -119,7 +122,7 @@ const BuyMaterialsPage = () => {
       imagesrc: renovativeImage.src, // Replace with your actual image path
     },
   ];
-  console.log("step", step);  
+  console.log("step", step);
   return (
     <Suspense fallback={<UserScreenSpinner />}>
       <motion.section
@@ -155,6 +158,8 @@ const BuyMaterialsPage = () => {
             <MaterialSelectionPage setStep={setStep} materials={materials} />
           )}
           {step === 5 && <OrderList setStep={setStep} />}
+          {step === 6 && <UserLogin setStep={setStep} />}
+          {step === 7 && <DeliveryForm setStep={setStep} />}
         </div>
       </motion.section>
     </Suspense>

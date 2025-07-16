@@ -280,14 +280,14 @@
 //                     </h2>
 //                     <div className="flex sm:flex-col gap-0 md:gap-2 sm:gap-3 justify-evenly items-center">
 //                       <button
-//                         className="flex justify-center items-center w-[250px] h-14 relative gap-4 px-8 py-4 rounded-[28px] bg-white shadow-md 
+//                         className="flex justify-center items-center w-[250px] h-14 relative gap-4 px-8 py-4 rounded-[28px] bg-white shadow-md
 //          md:w-full md:gap-2 md:px-6 md:py-3">
 //                         <p className="text-lg text-center uppercase text-[#3f3f3f] md:text-base">
 //                           resend code
 //                         </p>
 //                       </button>
 //                       <button
-//                         className="flex justify-center items-center w-[250px] h-14 relative gap-4 px-8 py-4 rounded-[28px] bg-white shadow-md 
+//                         className="flex justify-center items-center w-[250px] h-14 relative gap-4 px-8 py-4 rounded-[28px] bg-white shadow-md
 //          md:w-full md:gap-2 md:px-6 md:py-3">
 //                         <p className="text-lg text-center uppercase text-[#3f3f3f] md:text-base">
 //                           change number
@@ -303,7 +303,7 @@
 //               {}
 //               </>
 //           )
-            
+
 //           )}
 
 //           <button
@@ -329,24 +329,19 @@
 
 // export default UserLogin;
 
-
-
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 "use client";
-import React, { useCallback, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Backbutton from "@/components/Backbutton";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuth } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 import { UserHeader } from "@/components";
-import { RedirectProvider } from "../../../context/redirectContext";
-import DesSelSelect from "../fast-homes/design-selection/DesSelSelect";
 
 const phoneExtensions = [
   { code: "+1", minDigits: 10, shortName: "US" }, // US and Canada
@@ -395,201 +390,87 @@ const phoneExtensions = [
   { code: "+58", minDigits: 10, shortName: "VE" }, // Venezuela
 ];
 
-const pageStates = {
-  initial: "initial",
-  otp: "otp",
-  success: "success",
-  error: "error",
-  delivery: "delivery" // Added delivery state
-};
-
-const months = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
-const timeSlots = [
-  "Morning",
-  "Afternoon",
-  "Evening",
-  "Night"
-];
-
-const UserLogin = () => {
+const UserLogin = ({ setStep }) => {
   const [auth, setAuth] = useAuth();
   const [fullName, setFullName] = useState("");
   const [extension, setExtension] = useState("+92");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [errors, setErrors] = useState({});
   const router = useRouter();
-  const [pageState, setPageState] = useState(pageStates.initial);
-  
-  // Delivery form state
-  const [dropLocation, setDropLocation] = useState("");
-  const [day, setDay] = useState("10");
-  const [month, setMonth] = useState("08");
-  const [year, setYear] = useState("2025");
-  const [deliveryErrors, setDeliveryErrors] = useState({});
-  const DEFAULT_TIME_SLOT = "Morning";
-  const [preferredTime, setPreferredTime] = useState(DEFAULT_TIME_SLOT);
 
-  // ... (keep your existing validate and handleSubmit functions)
+  // const validate = () => {
+  //   const newErrors = {};
+  //   if (!fullName) newErrors.fullName = "Full Name is required";
+  //   if (!extension) newErrors.extension = "Phone Extension is required";
 
+  //   const selectedExtension = phoneExtensions.find(
+  //     ext => ext.code === extension,
+  //   );
+  //   if (selectedExtension && !phoneNumber) {
+  //     newErrors.phoneNumber = "Phone Number is required";
+  //   } else if (
+  //     selectedExtension &&
+  //     phoneNumber.length < selectedExtension.minDigits
+  //   ) {
+  //     newErrors.phoneNumber = Phone number must be at least ${selectedExtension.minDigits} digits;
+  //   }
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    // console.log("handle submit function run!");
-    // console.log({ fullName, extension, phoneNumber });
-    const phone = extension + phoneNumber;
-    if (validate()) {
-      try {
-        const { data } = await axios.post(
-          "/api/auth/loginuser",
-          { fullname: fullName, phonenumber: phone },
-          { withCredentials: true },
-        );
-        console.log("data response is:", data);
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
-        //   const data = await response.json();
-        if (data.success) {
-          toast.success("LOGIN SUCCESSFUL");
-          setAuth(prev => {
-            return {
-              ...prev,
-              user: data?.user,
-              success: true,
-              isLoading: false,
-            };
-          });
-          router.push("/");
-        } else {
-          toast.error("Login Failed");
-        }
-      } catch (err) {
-        toast.error("Login Failed", err.message);
-      }
-    }
-  };
+  // const handleSubmit = async e => {
+  //   // e.preventDefault();
+  //   // if (validate()) {
+  //   //   try {
+  //   //     const { data } = await axios.post(
+  //   //       "/api/auth/loginuser",
+  //   //       { fullname: fullName, phonenumber: extension + phoneNumber },
+  //   //       { withCredentials: true },
+  //   //     );
 
-      const validate = () => {
-    const newErrors = {};
-    if (!fullName) newErrors.fullName = "Full Name is required";
-    if (!extension) newErrors.extension = "Phone Extension is required";
-
-    const selectedExtension = phoneExtensions.find(
-      ext => ext.code === extension,
-    );
-    if (selectedExtension && !phoneNumber) {
-      newErrors.phoneNumber = "Phone Number is required";
-    } else if (
-      selectedExtension &&
-      phoneNumber.length < selectedExtension.minDigits
-    ) {
-      newErrors.phoneNumber = `Phone number must be at least ${selectedExtension.minDigits} digits`;
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const validateDelivery = () => {
-    const newErrors = {};
-    if (!dropLocation) newErrors.dropLocation = "Drop location is required";
-    if (!day) newErrors.day = "Day is required";
-    if (!month) newErrors.month = "Month is required";
-    if (!year) newErrors.year = "Year is required";
-    if (!preferredTime) newErrors.preferredTime = "Preferred time is required";
-
-    if (day && (parseInt(day) < 1 || parseInt(day) > 31)) {
-      newErrors.day = "Invalid day";
-    }
-
-    if (year && (parseInt(year) < new Date().getFullYear())) {
-      newErrors.year = "Year cannot be in the past";
-    }
-
-    setDeliveryErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleDeliverySubmit = async (e) => {
-    e.preventDefault();
-    if (validateDelivery()) {
-      // Here you would typically send the delivery details to your backend
-      // For now, we'll just log them and proceed
-      console.log({
-        dropLocation,
-        deliveryDate: `${day}/${month}/${year}`,
-        preferredTime
-      });
-      
-      // Proceed to whatever comes after delivery details
-      router.push("/payment"); // Or your confirmation page
-    }
-  };
-
-  const sumbitHandler = useCallback(
-    e => {
-      e.preventDefault();
-      if (pageState === pageStates.initial) {
-        setPageState(pageStates.delivery);
-      } else if (pageState === pageStates.delivery) {
-        handleDeliverySubmit(e); // Handle delivery submission
-      } else if (pageState === pageStates.error) {
-        setPageState(pageStates.initial);
-      }
-    },
-    [pageState, dropLocation, day, month, year, preferredTime]
-  );
-
-const handleTimeSelect = (_, value) => {
-  setPreferredTime(value);
-};
-
-
-  // ... (keep the rest of your existing code until the return statement)
+  //   //     if (data.success) {
+  //   //       toast.success("LOGIN SUCCESSFUL");
+  //   //       setAuth({
+  //   //         ...auth,
+  //   //         user: data?.user,
+  //   //         success: true,
+  //   //         isLoading: false,
+  //   //       });
+  //   //       onSuccess?.(); // Callback if provided
+  //   //     } else {
+  //   //       toast.error("Login Failed");
+  //   //     }
+  //   //   } catch (err) {
+  //   //     toast.error("Login Failed", err.message);
+  //   //   }
+  //   // }
+  //   setStep(prev => prev + 1);
+  // };
 
   return (
-        <div>
-              <RedirectProvider>
-          <div className="w-full fixed top-0 left-0 z-20">
-            <UserHeader />
-          </div>
-          </RedirectProvider>
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="relative min-h-screen z-[1] w-full flex items-center justify-center bg-login bg-no-repeat bg-center bg-cover"
-    >
-      <span
-        className="absolute top-[10%] md:top-[2%] left-[5%] md:left-[3%]"
-        onClick={() => router.back()}
-      >
-        <Backbutton />
-      </span>
+    <div className="flex flex-grow h-full absolute top-0 left-0 w-full">
+      {/* ✅ Header */}
+      <div className="w-full fixed top-0 left-0 z-20">
+        <UserHeader />
+      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative min-h-full z-[1] w-full flex items-center justify-center bg-login bg-no-repeat bg-center bg-cover">
+        <div className="h-full w-full flex justify-center items-center flex-col">
+          <div className="p-0 md:p-2 max-w-[950px] m-auto flex gap-6 w-full flex-col">
+            <p className="text-4xl lg:text-3xl md:text-2xl leading-none text-center text-white">
+              <span className="font-bold md:font-semibold">VERIFY</span>
+              <span> YOURSELF</span>
+            </p>
 
-      <div className="h-full w-full flex justify-center items-center flex-col">
-        <div className="p-0 md:p-2 max-w-[950px] m-auto flex gap-6 w-full flex-col">
-          <p className="text-4xl lg:text-3xl md:text-2xl leading-none text-center text-white">
-            <span className="font-bold md:font-semibold">
-              {pageState === pageStates.delivery ? "DELIVERY" : "VERIFY"}
-            </span>
-            <span>
-              {pageState === pageStates.delivery ? " DETAILS" : " YOURSELF"}
-            </span>
-          </p>
-
-          {pageState === pageStates.initial ? (
             <div className="login-form-container f-col items-center justify-center">
-              {/* ... (keep your initial form) */}
-                <form className="max-w-2xl m-auto w-full flex gap-12 md:gap-9 sm:gap-7 flex-col relative  mb-[4rem] md:mb-[3rem] sm:mb-[2rem]">
+              <form className="max-w-2xl m-auto w-full flex gap-12 md:gap-9 sm:gap-7 flex-col relative mb-[4rem] md:mb-[3rem] sm:mb-[2rem]">
+                {/* Name Field */}
                 <div className="w-full f-col gap-3 md:gap-2">
-                  <label
-                    className="login-label"
-                    id="fullName"
-                    value={fullName}
-                    onChange={e => setFullName(e.target.value)}>
+                  <label htmlFor="fullName" className="login-label">
                     First name
                   </label>
                   <input
@@ -602,19 +483,20 @@ const handleTimeSelect = (_, value) => {
                     required
                   />
                   {errors.fullName && (
-                    <p className=" text-[#ff0000]">{errors.fullName}</p>
+                    <p className="text-[#ff0000]">{errors.fullName}</p>
                   )}
                 </div>
 
+                {/* Phone Number Field */}
                 <div className="w-full f-col gap-3 md:gap-2">
-                  <label htmlFor="extension" className="login-label">
+                  <label htmlFor="phone" className="login-label">
                     PHONE NUMBER
                   </label>
-                  <div className="flex w-full ">
+                  <div className="flex w-full">
                     <select
                       id="extension"
                       value={extension}
-                      className=" !w-[123px] md:!w-[112px] sm:!w-[92px] login-input login-input-height"
+                      className="!w-[123px] md:!w-[112px] sm:!w-[92px] login-input login-input-height"
                       onChange={e => setExtension(e.target.value)}>
                       <option value="">COUNTRY CODE</option>
                       {phoneExtensions.map(ext => (
@@ -635,205 +517,24 @@ const handleTimeSelect = (_, value) => {
                       onChange={e => setPhoneNumber(e.target.value)}
                     />
                   </div>
-
-                  {errors.extension && (
-                    <p className=" text-[#ff0000]">{errors.extension}</p>
+                  {errors.phoneNumber && (
+                    <p className="text-[#ff0000]">{errors.phoneNumber}</p>
                   )}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setStep(prev => prev + 1)}
+                  className="flex justify-center items-center w-[214px] md:w-[180px] h-14 md:h-12 m-auto relative rounded bg-white shadow-btn-shadow hover:bg-transparent hover:border-white hover:border-2 group">
+                  <p className="text-[22px] md:text-xl sm-text-base text-nowrap text-left uppercase text-[#3f3f3f] group-hover:text-white">
+                    NEXT
+                  </p>
+                </button>
               </form>
             </div>
-          ) : pageState === pageStates.delivery ? (
-<div className="login-form-container f-col items-center justify-center">
-  <form className="max-w-2xl m-auto w-full flex gap-12 md:gap-9 sm:gap-7 flex-col relative mb-[4rem] md:mb-[3rem] sm:mb-[2rem]">
-    {/* Drop Location */}
-    <div className="w-full f-col gap-3 md:gap-2 mt-[70px]">
-      <label htmlFor="dropLocation" className="login-label">
-        DROP LOCATION
-      </label>
-      <input
-        id="dropLocation"
-        className="login-input login-input-height"
-        type="text"
-        value={dropLocation}
-        placeholder="ENTER DELIVERY ADDRESS"
-        onChange={(e) => setDropLocation(e.target.value)}
-        required
-      />
-      {deliveryErrors.dropLocation && (
-        <p className="text-[#ff0000]">{deliveryErrors.dropLocation}</p>
-      )}
-    </div>
-
-    {/* Delivery Date */}
-<div className="w-full f-col gap-3 md:gap-2">
-  <label className="login-label">DELIVERY DAY</label>
-  <div className="flex items-center w-full gap-2">
-    {/* Day - 25% */}
-    <div className="w-[25%] relative">
-      <select
-        className="w-full login-input login-input-height rounded-[8px] text-center appearance-none"
-        value={day}
-        onChange={(e) => setDay(e.target.value)}
-      >
-        <option value="" disabled hidden>
-          DD
-        </option>
-        {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
-          <option key={d} value={d}>
-            {d.toString().padStart(2, "0")}
-          </option>
-        ))}
-      </select>
-      <p className="absolute left-1/2 -translate-x-1/2 bottom-[-22px] login-label opacity-50 text-center">
-        Day
-      </p>
-      {deliveryErrors.day && (
-        <p className="text-[#ff0000] text-sm mt-1">{deliveryErrors.day}</p>
-      )}
-    </div>
-
-    {/* Month - 50% */}
-    <div className="w-[50%] relative">
-      <select
-        className="w-full login-input login-input-height rounded-[8px] text-center appearance-none"
-        value={month}
-        onChange={(e) => setMonth(e.target.value)}
-      >
-        <option value="" disabled hidden>
-          MM
-        </option>
-        {months.map((m, index) => (
-          <option key={index} value={index + 1}>
-            {m}
-          </option>
-        ))}
-      </select>
-      <p className="absolute left-1/2 -translate-x-1/2 bottom-[-22px] login-label opacity-50 text-center">
-        Month
-      </p>
-      {deliveryErrors.month && (
-        <p className="text-[#ff0000] text-sm mt-1">{deliveryErrors.month}</p>
-      )}
-    </div>
-
-    {/* Year - 25% */}
-    <div className="w-[25%] relative">
-      <select
-        className="w-full login-input login-input-height rounded-[8px] text-center appearance-none"
-        value={year}
-        onChange={(e) => setYear(e.target.value)}
-      >
-        <option value="" disabled hidden>
-          YYYY
-        </option>
-        {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() + i).map((y) => (
-          <option key={y} value={y}>
-            {y}
-          </option>
-        ))}
-      </select>
-      <p className="absolute left-1/2 -translate-x-1/2 bottom-[-22px] login-label opacity-50 text-center">
-        Year
-      </p>
-      {deliveryErrors.year && (
-        <p className="text-[#ff0000] text-sm mt-1">{deliveryErrors.year}</p>
-      )}
-    </div>
-  </div>
-</div>
-
-
-{/* Preferred Time */}
-<div className="w-full f-col gap-3 md:gap-2">
-  <div className="flex justify-between items-center w-full gap-4">
-    <label htmlFor="preferredTime" className="login-label whitespace-nowrap">
-      PREFERRED TIME
-    </label>
-    <div className="flex-1 flex justify-end">
-      <DesSelSelect
-        id="preferredTime"
-        className="flex-1 max-w-[350px]"
-        customStyle={{
-          container: {
-            height: "65px",
-            width: "350px",
-            border: "1px solid rgba(40,40,40,0.6)",
-          },
-          text: {
-            fontWeight: 300,
-          },
-          chevronContainer: {
-            width: "50px",
-            height: "65px",
-          },
-          chevronIcon: {
-            fontSize: "18px",
-          },
-        }}
-        value={preferredTime}
-        selectHandler={value => handleTimeSelect("time", value)} // only one handler
-        selectedOption={preferredTime}
-        options={timeSlots.map(time => ({
-          value: time,
-          label: time
-        }))}
-      />
-    </div>
-  </div>
-  {deliveryErrors.preferredTime && (
-    <p className="text-[#ff0000]">{deliveryErrors.preferredTime}</p>
-  )}
-</div>
-
-  </form>
-  <div className="max-w-3xl m-auto w-full h-[1px] bg-white mb-[1.1rem]"></div>
-</div>
-          ) : (
-            pageState === pageStates.error && (
-              <>
-                {/* ... (keep your error display) */}
-                <div className="h-full flex justify-evenly flex-col gap-3">
-                    <h2 className="text-4xl uppercase md:text-3xl sm:text-2xl text-center text-accent-white">
-                      error
-                    </h2>
-                    <div className="flex sm:flex-col gap-0 md:gap-2 sm:gap-3 justify-evenly items-center">
-                      <button
-                        className="flex justify-center items-center w-[250px] h-14 relative gap-4 px-8 py-4 rounded-[28px] bg-white shadow-md 
-         md:w-full md:gap-2 md:px-6 md:py-3">
-                        <p className="text-lg text-center uppercase text-[#3f3f3f] md:text-base">
-                          resend code
-                        </p>
-                      </button>
-                      <button
-                        className="flex justify-center items-center w-[250px] h-14 relative gap-4 px-8 py-4 rounded-[28px] bg-white shadow-md 
-         md:w-full md:gap-2 md:px-6 md:py-3">
-                        <p className="text-lg text-center uppercase text-[#3f3f3f] md:text-base">
-                          change number
-                        </p>
-                      </button>
-                    </div>
-                  </div>
-              </>
-            )
-          )}
-
-          <button
-            onClick={sumbitHandler}
-            className="flex justify-center items-center w-[214px] md:w-[180px] h-14 md:h-12 m-auto relative
-               rounded bg-white shadow-btn-shadow hover:bg-transparent hover:border-white hover:border-2 group"
-          >
-            <p className="text-[22px] md:text-xl sm-text-base text-nowrap text-left uppercase text-[#3f3f3f] group-hover:text-white">
-              {pageState === pageStates.initial
-                ? "NEXT"
-                : pageState === pageStates.delivery
-                ? "CONFIRM"
-                : "Next"
-              }
-            </p>
-          </button>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
     </div>
   );
 };

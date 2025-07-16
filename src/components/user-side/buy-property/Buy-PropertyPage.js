@@ -1,5 +1,5 @@
 "use client";
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   UserScreenSpinner,
@@ -11,7 +11,8 @@ import {
   Card,
   SpecificDetail,
   UserProtectedRoute,
-  PropertySelect
+  PropertySelect,
+  UserLogin,
 } from "@/components";
 import {
   industrialImage,
@@ -23,10 +24,25 @@ import {
 } from "@/assets";
 import Image from "next/image";
 import { custom2, customicon, myVerseImage } from "@/assets";
+import ScheduleCall from "./ScheduleCall";
+import ScheduleMeetup from "./ScheduleMeetup";
+import { useRouter } from "next/navigation";
+
+const RedirectToSuccess = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/success-apply");
+  }, [router]);
+
+  return null;
+};
+
 const defaultStep1Screen2FormData = {
   city: "",
 };
 const BuyPropertyPage = () => {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [step1Screen2FormData, setStep1Screen2FormData] = useState(
     defaultStep1Screen2FormData,
@@ -104,11 +120,11 @@ const BuyPropertyPage = () => {
             />
           )}
           {step === 2 && (
-              <PropertySelect
-    setStep={setStep}
-    hightcustomdetail={hightcustomdetail}
-    setHighCustomDetail={setHighCustomDetail}
-  />
+            <PropertySelect
+              setStep={setStep}
+              hightcustomdetail={hightcustomdetail}
+              setHighCustomDetail={setHighCustomDetail}
+            />
           )}
           {step === 3 && (
             <SpecificDetail
@@ -117,6 +133,10 @@ const BuyPropertyPage = () => {
               setHighCustomDetail={setHighCustomDetail}
             />
           )}
+          {step === 4 && <UserLogin setStep={setStep} />}
+          {step === 5 && <ScheduleCall setStep={setStep} />}
+          {step === 6 && <ScheduleMeetup setStep={setStep} />}
+          {step === 7 && <RedirectToSuccess />}
         </div>
       </motion.section>
     </Suspense>

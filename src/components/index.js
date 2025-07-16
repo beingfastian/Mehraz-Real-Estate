@@ -208,6 +208,7 @@ export { default as DesignPreferenceForm } from "./user-side/high-custom/DesignP
 // user auth page
 export { default as UserSignup } from "./user-side/userAuth/UserSignup";
 export { default as UserLogin } from "./user-side/userAuth/UserLogin.js";
+export { default as DeliveryForm } from "./user-side/userAuth/DeliveryForm";
 
 // number extension page ccomponent
 export { default as NumberExtensions } from "./user-side/userAuth/NumberExtensions.js";

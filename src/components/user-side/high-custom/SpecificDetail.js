@@ -449,13 +449,13 @@ import { useRouter } from "next/navigation";
 import Backbutton from "@/components/Backbutton";
 import sampleCardImage from "@/assets/images/bg.jpg"; // Replace with actual image
 
-const SpecificDetail = () => {
+const SpecificDetail = ({ setStep }) => {
   const router = useRouter();
   const [meetingType, setMeetingType] = useState("oncall");
 
-  const handleSchedule = () => {
-    router.push("/login");
-  };
+  // const handleSchedule = () => {
+  //   router.push("/login");
+  // };
 
   return (
     <section className="px-4 py-6 max-w-7xl mx-auto">
@@ -474,66 +474,75 @@ const SpecificDetail = () => {
         {/* Main Content Section */}
         <div className="flex flex-row gap-10 w-full">
           {/* Left Side - Inputs */}
-          <div className="rounded-xl p-6 border shadow-md flex flex-col gap-5 min-w-[350px] flex-1 max-w-[600px]">
-            <div className="flex items-center gap-4">
-              <label className="text-black text-sm font-semibold uppercase min-w-[150px]">
-                AREA<span className="text-red-500">*</span>
-              </label>
-              <div className="flex gap-2 flex-1">
+          <div className="flex flex-col min-w-[550px] flex-1 max-w-[800px] gap-0">
+            <div className="rounded-xl p-6 border shadow-md flex flex-col gap-5 w-full">
+              {/* AREA input + select aligned right */}
+              <div className="flex items-center justify-between gap-4 w-full">
+                <label className="text-black text-sm font-semibold uppercase min-w-[150px]">
+                  AREA<span className="text-red-500">*</span>
+                </label>
+                <div className="flex gap-2 w-full max-w-[500px] justify-end">
+                  <input
+                    type="text"
+                    placeholder="ENTER"
+                    className="w-full max-w-[240px] border px-4 py-2 rounded"
+                  />
+                  <select className="w-[120px] border px-3 py-2 rounded">
+                    <option>SQ FT</option>
+                    <option>MARLA</option>
+                    <option>KANAL</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* LOCATION aligned right */}
+              <div className="flex items-center justify-between gap-4 w-full">
+                <label className="text-black text-sm font-semibold uppercase min-w-[150px]">
+                  LOCATION/S (PREFERRED)
+                </label>
                 <input
                   type="text"
                   placeholder="ENTER"
-                  className="flex-1 border px-4 py-2 rounded"
+                  className="w-full max-w-[370px] border px-4 py-2 rounded"
                 />
-                <select className="border px-3 py-2 rounded">
-                  <option>SQ FT</option>
-                  <option>MARLA</option>
-                  <option>KANAL</option>
-                </select>
               </div>
-            </div>
 
-            <div className="flex items-center gap-4">
-              <label className="text-black text-sm font-semibold uppercase min-w-[150px]">
-                LOCATION/S (PREFERRED)
-              </label>
-              <input
-                type="text"
-                placeholder="ENTER"
-                className="border px-4 py-2 rounded flex-1"
-              />
-            </div>
+              {/* BUDGET aligned right */}
+              <div className="flex items-center justify-between gap-4 w-full">
+                <label className="text-black text-sm font-semibold uppercase min-w-[150px]">
+                  BUDGET RANGE (ideal - max)
+                </label>
+                <input
+                  type="text"
+                  placeholder="ENTER"
+                  className="w-full max-w-[370px] border px-4 py-2 rounded"
+                />
+              </div>
 
-            <div className="flex items-center gap-4">
-              <label className="text-black text-sm font-semibold uppercase min-w-[150px]">
-                BUDGET RANGE (ideal - max)
-              </label>
-              <input
-                type="text"
-                placeholder="ENTER"
-                className="border px-4 py-2 rounded flex-1"
-              />
+              <p className="text-xs text-gray-500 text-right pr-1">
+                LAND AVAILABILITY WILL BE CONFIRMED TO YOU FIRST
+              </p>
             </div>
-            <p className="text-xs text-gray-500 mt-1 ml-[150px]">
-              LAND AVAILABILITY WILL BE CONFIRMED TO YOU FIRST
-            </p>
 
             {/* Message Section */}
-            <label className="text-black text-sm font-semibold uppercase">
+            <label className="text-black text-sm font-semibold uppercase my-4">
               MESSAGE (optional)
             </label>
-            <div className="flex flex-col gap-1 border rounded">
+            <div className="flex flex-col overflow-hidden">
+              {/* Textarea */}
               <textarea
                 placeholder="TELL US ANYTHING LIKE LAND GOALS OF INVESTMENT, CONSTRUCTION, FARM ETC..."
-                className="px-4 py-2 rounded-t h-[80px] resize-none"
+                className="px-4 py-2 h-[80px] resize-none outline-none border rounded-t-[25px]"
               />
-              <div className="w-full bg-[#c49f51] text-white flex items-center justify-between px-4 py-2 rounded-b text-sm">
+
+              {/* Entire Yellow Bar as Clickable Button */}
+              <label
+                htmlFor="attachment"
+                className="w-full bg-[#c49f51] text-white flex items-center justify-between px-4 py-2 my-0 text-sm cursor-pointer rounded-b-[25px]">
                 <span>REFERENCE FILE / IMG (max 1mb)</span>
-                <label className="cursor-pointer">
-                  attach
-                  <input type="file" className="hidden" />
-                </label>
-              </div>
+                <span className="underline">attach</span>
+                <input id="attachment" type="file" className="hidden" />
+              </label>
             </div>
           </div>
 
@@ -541,46 +550,69 @@ const SpecificDetail = () => {
           <div className="flex items-center justify-center min-w-[60px]">
             <div className="flex flex-col items-center gap-2 h-full">
               <div className="flex-1 w-px bg-black" />
-              <span className="uppercase text-sm font-semibold text-black/60">OR</span>
+              <span className="uppercase text-sm font-semibold text-black/60">
+                OR
+              </span>
               <div className="flex-1 w-px bg-black" />
             </div>
           </div>
 
           {/* Right Side - Cards */}
-          <div className="flex-1 max-h-[400px] overflow-y-auto pr-4 gap-6 flex flex-col">
-            {[1, 2, 3].map((_, idx) => (
-              <div
-                key={idx}
-                className="w-full border rounded-xl overflow-hidden shadow bg-white flex"
-              >
-                <div className="w-[180px] h-full">
-                  <Image
-                    src={sampleCardImage}
-                    alt="property"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex flex-col justify-between p-4 flex-1">
-                  <div>
-                    <p className="uppercase text-sm font-semibold text-black mb-1">
-                      AREA: 1 Kanal
-                    </p>
-                    <p className="uppercase text-sm font-semibold text-black mb-1">
-                      LOCATION: DHA Phase 6
-                    </p>
-                    <input
-                      type="text"
-                      readOnly
-                      value="550,000 PKR"
-                      className="w-full border mt-2 px-3 py-2 text-center rounded font-semibold"
+          <div className="w-[260px] h-[500px] overflow-y-auto pr-2 flex flex-col gap-4">
+            {[1, 2, 3, 4, 5, 6, 7].map((_, idx) => {
+              const isSelected = false;
+              const material = {
+                image: "https://via.placeholder.com/300x120", // real image URL
+                name: "CEMENT",
+                vendor: "Lucky Cement",
+                price: "PKR 1,100 / bag",
+              };
+
+              return (
+                <div
+                  key={idx}
+                  className="w-full border rounded-xl shadow bg-white flex flex-col overflow-hidden min-h-[240px]">
+                  {/* Image */}
+                  <div className="w-full h-[120px] relative">
+                    <Image
+                      src={sampleCardImage}
+                      layout="fill"
+                      objectFit="cover"
+                      alt={`Material ${material.name}`}
+                      className="object-cover"
                     />
                   </div>
-                  <button className="mt-3 bg-[#c49f51] text-white w-full py-2 rounded font-semibold uppercase text-sm">
-                    See Details
-                  </button>
+
+                  {/* Info */}
+                  <div className="flex flex-col px-4 py-2 gap-1">
+                    <h4
+                      className={`font-bold text-[15px] uppercase truncate font-[FONTSPRING DEMO - Proxima Nova] ${
+                        isSelected ? "text-white" : "text-[#1f1f1f]"
+                      }`}>
+                      {material.name}
+                    </h4>
+                    <p
+                      className={`text-[14px] truncate font-[FONTSPRING DEMO - Proxima Nova] ${
+                        isSelected ? "text-white opacity-80" : "text-[#2f2f2f]"
+                      }`}>
+                      {material.vendor}
+                    </p>
+                    <p
+                      className={`text-[14px] mt-1 rounded-full px-2 py-1 w-fit font-[Milliard] ${
+                        isSelected
+                          ? "bg-white/20 text-white border-white"
+                          : "bg-gray-100 border border-black opacity-80"
+                      }`}>
+                      {material.price}
+                    </p>
+
+                    <button className="mt-3 bg-[#c49f51] text-white w-full py-1.5 rounded font-semibold uppercase text-xs">
+                      See Details
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -612,9 +644,15 @@ const SpecificDetail = () => {
         {/* Schedule Button */}
         <div className="flex justify-center">
           <button
-            onClick={handleSchedule}
-            className="bg-black text-white uppercase px-6 py-3 rounded shadow-md hover:bg-gray-800 transition"
-          >
+            type="button" // ← important! prevents page reload
+            onClick={() => {
+              if (meetingType === "physical") {
+                setStep(prev => prev + 1); // go to ScheduleCall
+              } else {
+                setStep(prev => prev + 2); // directly go to next after ScheduleCall
+              }
+            }}
+            className="bg-black text-white uppercase px-6 py-3 rounded shadow-md hover:bg-gray-800 transition">
             Schedule Meeting
           </button>
         </div>

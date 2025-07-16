@@ -18,7 +18,7 @@ import localBackgroundImage from "@/assets/images/bg.jpg";
 const Screen2 = ({ setStep, heading, subheading }) => {
   const router = useRouter();
   const pathname = usePathname();
-  
+
   const defaultStep1Screen2FormData = {
     city: "",
     budget: "Low to High",
@@ -33,7 +33,7 @@ const Screen2 = ({ setStep, heading, subheading }) => {
       ...prevState,
       [key]: value,
     }));
-    
+
     const query = new URLSearchParams(router.query);
     query.set(key, value);
     router.push(`/buy-materials?${query.toString()}`);
@@ -89,25 +89,16 @@ const Screen2 = ({ setStep, heading, subheading }) => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         style={{
-          backgroundImage: `url(${localBackgroundImage.src})`
+          backgroundImage: `url(${localBackgroundImage.src})`,
         }}
-        className="relative z-[1] min-h-full w-full flex items-center justify-center bg-fast-homes bg-no-repeat bg-center bg-cover before:absolute before:z-[-1] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-gradient-to-b before:from-[#000000e6] before:to-[#3c3c3cb3] flex-grow h-full"
-      >
+        className="relative z-[1] min-h-full w-full flex items-center justify-center bg-fast-homes bg-no-repeat bg-center bg-cover before:absolute before:z-[-1] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-gradient-to-b before:from-[#000000e6] before:to-[#3c3c3cb3] flex-grow h-full">
         <div className="h-full w-full flex justify-center items-center flex-col py-20">
-          {/* Icon Container */}
-          <div 
-            style={{
-              width: "100px",
-              height: "100px",
-              position: "absolute",
-              top: "100px",
-              left: "910px",
-            }}
-          >
+          {/* Icon Container - Made responsive */}
+          <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 md:left-auto md:translate-x-0 md:right-[calc(50%-450px)] w-[100px] h-[100px]">
             {pathname === "/buy-materials" && (
-              <Image 
-                src={buyMaterialLightIcon} 
-                alt="building" 
+              <Image
+                src={buyMaterialLightIcon}
+                alt="building"
                 priority={true}
                 width={100}
                 height={100}
@@ -119,8 +110,7 @@ const Screen2 = ({ setStep, heading, subheading }) => {
                 height="100"
                 viewBox="0 0 154 158"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+                xmlns="http://www.w3.org/2000/svg">
                 <g filter="url(#filter0_d_1780_16508)">
                   <mask
                     id="mask0_1780_16508"
@@ -192,15 +182,15 @@ const Screen2 = ({ setStep, heading, subheading }) => {
                     id="image0_1780_16508"
                     width="364"
                     height="364"
-                    xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWwAAAFsCAYAAADon4O5AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAB7HSURBVHgB7d2NkeQ2esbxp64cgEJ4nYGcAS6DzUBwBnIExEUgOYKmI1hlsO0IdI6A4wh0GawXnunTaNQf+CRB9v9XhSqpdoZk97AfovGCoAQAcN/aFwEAhuX0GtRf3xoAYDBOfwxqAhsABmPf2qw/BzWBDQCD+O5bm72333Q7rH8TAGBTn761RbeD+tIWAQA2Ybo+Tn2r/SoAwKouwx9fM9tZAIDVOKUNf1xrvwgA0J19a59VFtSX9rMG9xcBwL79qNfx50+q8w8BALow5RUVHzUvAEBzsVd9b051SXMCADRjTurnet++FwCgiR696vetewEAUsXC4tcNWu1NNwDwNEz9C4v3GlP6ACCBU/mCTa0aAOCBSdsGdWysgw0Ad5i2HQJ531hWFQBuMNpuCOR9Y1lVALjBafsC4732RQCAf9pqFsi95gQA+Kd4I8xJ44X117djAwDodbx60ZhhvWhHeOIMgJ7ijSsxjE3j+v8BAAD/A5Xb7yKqAAAAAElFTkSuQmCC"
+                    xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWwAAAFsCAYAAADon4O5AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAB7HSURBVHgB7d2NkeQ2esbxp64cgEJ4nYGcAS6DzUBwBnIExEUgOYKmI1hlsO0IdI6A4wh0GawXnunTaNQf+CRB9v9XhSqpdoZk97AfovGCoAQAcN/aFwEAhuX0GtRf3xoAYDBOfwxqAhsABmPf2qw/BzWBDQCD+O5bm72333Q7rH8TAGBTn761RbeD+tIWAQA2Ybo+Tn2r/SoAwKouwx9fM9tZAIDVOKUNf1xrvwgA0J19a9fq50+q8w8BALow5RUVHzUvAEBzsVd9b071STMCADRjTurnet++FwCgiR696netewEAUsXC4tcNWu1NNwDwNEz9C4v3GlP6ACCBU/mCTa0aAOCBSdsGdWysgw0Ad5i2HQJ531hWFQBuMNpuCOR9Y1lVALjBafsC4732RQCAf9pqFsi95gQA+Kd4I8xJ44X117djAwDodbx60ZhhvWhHeOIMgJ7ijSsxjE3j+v8BAAD/A5Xb7yKqAAAAAElFTkSuQmCC"
                   />
                 </defs>
               </svg>
             )}
             {pathname === "/buy-property" && (
-              <Image 
-                src={buildingicon} 
-                alt="building" 
+              <Image
+                src={buildingicon}
+                alt="building"
                 priority={true}
                 width={100}
                 height={100}
@@ -209,190 +199,207 @@ const Screen2 = ({ setStep, heading, subheading }) => {
           </div>
 
           {/* Main Content Container */}
-          <div 
+          <div
             className={`${
-              pathname === "/buy-materials" 
-                ? "min-h-[500px] w-[90%] max-w-[600px]" 
+              pathname === "/buy-materials"
+                ? "min-h-[500px] w-[90%] max-w-[600px]"
                 : "h-[50vh] w-[80%] max-w-[800px]"
-            } flex flex-col items-center`}
-          >
+            } flex flex-col items-center`}>
             {pathname === "/buy-materials" && (
               <>
-                {/* Divider Line */}
+                {/* Divider Line - Made responsive */}
                 <div
                   className="absolute border-t border-white/30"
                   style={{
-                    width: "600px",
+                    width: "calc(100% - 200px)",
+                    maxWidth: "600px",
                     top: "200px",
-                    left: "660px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
                   }}
                 />
-                
-                {/* Heading */}
+
+                {/* Heading - Made responsive */}
                 <div
                   className="absolute text-center uppercase text-white/80"
                   style={{
-                    width: "742px",
+                    width: "90%",
+                    maxWidth: "742px",
                     height: "37px",
                     top: "222px",
-                    left: "589px",
-                    fontSize: "30px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    fontSize: "clamp(20px, 4vw, 30px)",
                     lineHeight: "100%",
                     letterSpacing: "0%",
-                  }}
-                >
-                  <span style={{ fontWeight: 700 }}>CUSTOM DESIGNED STORE </span>
+                  }}>
+                  <span style={{ fontWeight: 700 }}>
+                    CUSTOM DESIGNED STORE{" "}
+                  </span>
                   <span style={{ fontWeight: 400 }}>ONLY THE BEST FOR YOU</span>
                 </div>
-<div className="flex flex-col items-center justify-center h-full w-full">
-  {/* City Input */}
-  <div className="mb-8 w-full max-w-[600px] flex items-center">
-    <label 
-      className="text-white/90 text-opacity-90 uppercase mr-4"
-      style={{
-        fontWeight: 400,
-        fontSize: '36px',
-        lineHeight: '100%',
-        letterSpacing: '0%',
-        minWidth: '120px' // Added to prevent label width jumping
-      }}
-    >
-      CITY
-    </label>
-    
-    <div className="relative w-[314.9px] h-[67px]">
-      <DesSelSelect
-        options={[
-          { label: "SELECT CITY", value: "" },
-          ...cities.map(city => ({ label: city.name, value: city.name })),
-        ]}
-        selectedOption={step1Screen2FormData.city}
-        selectHandler={value => step1Screen2FormDataInputHandler("city", value)}
-        className="w-full h-full"
-        style={{
-          borderRadius: '50px',
-          border: '1px solid',
-          fontWeight: 400,
-          fontSize: '30px',
-          lineHeight: '100%',
-          letterSpacing: '0%',
-          textAlign: 'center',
-          padding: '0 39.36px',
-          opacity: 0.65
-        }}
-        dropdownIndicatorStyle={{
-          right: '0',
-          width: '71.29px',
-          height: '67px',
-          borderTopRightRadius: '50px',
-          borderBottomRightRadius: '50px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderLeft: '1px solid'
-        }}
-        indicatorIconStyle={{
-          width: '34.34px',
-          height: '40px',
-          transform: 'rotate(90deg)'
-        }}
-      />
-    </div>
-  </div>
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                  {/* City Input */}
+                  <div className="mb-8 w-full max-w-[600px] flex items-center">
+                    <label
+                      className="text-white/90 text-opacity-90 uppercase mr-4"
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "36px",
+                        lineHeight: "100%",
+                        letterSpacing: "0%",
+                        minWidth: "120px",
+                      }}>
+                      CITY
+                    </label>
 
-  {/* Cost Input */}
-  <div className="w-full max-w-[600px] flex items-center">
-    <label 
-      className="text-white/90 text-opacity-90 uppercase mr-4"
-      style={{
-        fontWeight: 400,
-        fontSize: '36px',
-        lineHeight: '100%',
-        letterSpacing: '0%',
-        minWidth: '120px' // Added to prevent label width jumping
-      }}
-    >
-      COST
-    </label>
-    
-    <div className="relative w-[314.9px] h-[67px]">
-      <DesSelSelect
-        options={budget.map(budget => ({
-          label: budget.name,
-          value: budget.name,
-        }))}
-        selectedOption={step1Screen2FormData.budget}
-        selectHandler={value => step1Screen2FormDataInputHandler("budget", value)}
-        className="w-full h-full"
-        style={{
-          borderRadius: '50px',
-          border: '1px solid',
-          fontWeight: 400,
-          fontSize: '30px',
-          lineHeight: '100%',
-          letterSpacing: '0%',
-          textAlign: 'center',
-          padding: '0 39.36px',
-          opacity: 0.65
-        }}
-        dropdownIndicatorStyle={{
-          right: '0',
-          width: '71.29px',
-          height: '67px',
-          borderTopRightRadius: '50px',
-          borderBottomRightRadius: '50px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderLeft: '1px solid'
-        }}
-        indicatorIconStyle={{
-          width: '34.34px',
-          height: '40px',
-          transform: 'rotate(90deg)'
-        }}
-      />
-    </div>
-  </div>
-</div>
-<button
-  type="button"
-  className="text-sm text-black hover:text-white hover:bg-transparent font-bold border border-white transition-colors duration-300"
-  style={{
-    position: 'absolute',
-    top: '709px',
-    left: '860px',
-    width: '200px',
-    height: '56px',
-    padding: '12px 80.5px', // Adjusted to center 39x32px text
-    borderRadius: '4px',
-    backgroundColor: '#FFFFFF',
-    boxShadow: '4px 4px 4px 0px rgba(0, 0, 0, 0.4)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '10px',
-    border: '1px solid #FFFFFF',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    fontWeight: 700,
-    fontSize: '26px',
-    lineHeight: '32px', // Set height to 32px
-    letterSpacing: '0%',
-    textTransform: 'uppercase'
-  }}
-  onClick={() => {
-    if (!step1Screen2FormData.city) {
-      toast.error("Please select a city");
-      return;
-    }
-    setStep(prev => prev + 1);
-  }}
->
-  <span style={{ width: '39px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-    GO
-  </span>
-</button>
+                    <div className="relative w-[314.9px] h-[67px]">
+                      <DesSelSelect
+                        options={[
+                          { label: "SELECT CITY", value: "" },
+                          ...cities.map(city => ({
+                            label: city.name,
+                            value: city.name,
+                          })),
+                        ]}
+                        selectedOption={step1Screen2FormData.city}
+                        selectHandler={value =>
+                          step1Screen2FormDataInputHandler("city", value)
+                        }
+                        className="w-full h-full"
+                        style={{
+                          borderRadius: "50px",
+                          border: "1px solid",
+                          fontWeight: 400,
+                          fontSize: "30px",
+                          lineHeight: "100%",
+                          letterSpacing: "0%",
+                          textAlign: "center",
+                          padding: "0 39.36px",
+                          opacity: 0.65,
+                        }}
+                        dropdownIndicatorStyle={{
+                          right: "0",
+                          width: "71.29px",
+                          height: "67px",
+                          borderTopRightRadius: "50px",
+                          borderBottomRightRadius: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderLeft: "1px solid",
+                        }}
+                        indicatorIconStyle={{
+                          width: "34.34px",
+                          height: "40px",
+                          transform: "rotate(90deg)",
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Cost Input */}
+                  <div className="w-full max-w-[600px] flex items-center">
+                    <label
+                      className="text-white/90 text-opacity-90 uppercase mr-4"
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "36px",
+                        lineHeight: "100%",
+                        letterSpacing: "0%",
+                        minWidth: "120px",
+                      }}>
+                      COST
+                    </label>
+
+                    <div className="relative w-[314.9px] h-[67px]">
+                      <DesSelSelect
+                        options={budget.map(budget => ({
+                          label: budget.name,
+                          value: budget.name,
+                        }))}
+                        selectedOption={step1Screen2FormData.budget}
+                        selectHandler={value =>
+                          step1Screen2FormDataInputHandler("budget", value)
+                        }
+                        className="w-full h-full"
+                        style={{
+                          borderRadius: "50px",
+                          border: "1px solid",
+                          fontWeight: 400,
+                          fontSize: "30px",
+                          lineHeight: "100%",
+                          letterSpacing: "0%",
+                          textAlign: "center",
+                          padding: "0 39.36px",
+                          opacity: 0.65,
+                        }}
+                        dropdownIndicatorStyle={{
+                          right: "0",
+                          width: "71.29px",
+                          height: "67px",
+                          borderTopRightRadius: "50px",
+                          borderBottomRightRadius: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderLeft: "1px solid",
+                        }}
+                        indicatorIconStyle={{
+                          width: "34.34px",
+                          height: "40px",
+                          transform: "rotate(90deg)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* GO Button - Made responsive */}
+                <button
+                  type="button"
+                  className="text-sm text-black hover:text-white hover:bg-transparent font-bold border border-white transition-colors duration-300"
+                  style={{
+                    position: "absolute",
+                    top: "calc(100% - 100px)",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "200px",
+                    height: "56px",
+                    padding: "12px 80.5px",
+                    borderRadius: "4px",
+                    backgroundColor: "#FFFFFF",
+                    boxShadow: "4px 4px 4px 0px rgba(0, 0, 0, 0.4)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "10px",
+                    border: "1px solid #FFFFFF",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    fontWeight: 700,
+                    fontSize: "26px",
+                    lineHeight: "32px",
+                    letterSpacing: "0%",
+                    textTransform: "uppercase",
+                  }}
+                  onClick={() => {
+                    if (!step1Screen2FormData.city) {
+                      toast.error("Please select a city");
+                      return;
+                    }
+                    setStep(prev => prev + 1);
+                  }}>
+                  <span
+                    style={{
+                      width: "39px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                    GO
+                  </span>
+                </button>
               </>
             )}
 
@@ -404,7 +411,10 @@ const Screen2 = ({ setStep, heading, subheading }) => {
           </div>
 
           {subheading && (
-            <div className={`text-white text-center mt-4 ${pathname === "/buy-materials" ? "" : "mt-12"}`}>
+            <div
+              className={`text-white text-center mt-4 ${
+                pathname === "/buy-materials" ? "" : "mt-12"
+              }`}>
               {subheading.normaltext}
               <b>{subheading.boldtext}</b>
             </div>

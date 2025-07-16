@@ -14,7 +14,7 @@ import OrderListCard from "./OrderListCard";
 
 const OrderList = ({ setStep }) => {
   const OrderListItem = [1, 2, 3, 4]; // more than 2 items for scroll effect
-    const [selectedCategory, setSelectedCategory] = useState("ALL");
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
 
   return (
     <Suspense fallback={UserScreenSpinner}>
@@ -22,8 +22,7 @@ const OrderList = ({ setStep }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] sm:p-0"
-      >
+        className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] sm:p-0">
         <div className="top-bar flex">
           <div className="left-side">
             <span onClick={() => setStep(prev => prev - 1)}>
@@ -88,27 +87,27 @@ const OrderList = ({ setStep }) => {
             <div className="flex w-[1350px] mx-auto">
               {/* 🟩 LEFT FILTER BAR */}
               <aside className="w-[180px] min-w-[180px] border-r pr-2 pt-4">
-                {["ALL", "TREES", "WOOD", "STONE", "GLASS"].map((category, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`w-full py-2 mb-2 rounded-full border font-medium ${
-                      selectedCategory === category
-                        ? "bg-gray-800 text-white border-black font-semibold"
-                        : "bg-white text-black border-black hover:text-white hover:bg-gray-800"
-                    }`}
-                  >
-                    {category} (9)
-                  </button>
-                ))}
+                {["ALL", "TREES", "WOOD", "STONE", "GLASS"].map(
+                  (category, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`w-full py-2 mb-2 rounded-full border font-medium ${
+                        selectedCategory === category
+                          ? "bg-gray-800 text-white border-black font-semibold"
+                          : "bg-white text-black border-black hover:text-white hover:bg-gray-800"
+                      }`}>
+                      {category} (9)
+                    </button>
+                  ),
+                )}
               </aside>
 
               {/* 🧾 MATERIAL PRODUCTS LIST */}
               <div
                 className={`bottom-bar w-full h-[511px] pl-4 ${
                   OrderListItem.length > 1 ? "overflow-y-scroll" : ""
-                }`}
-              >
+                }`}>
                 {OrderListItem.map((_, index) => (
                   <OrderListCard key={index} />
                 ))}
@@ -123,11 +122,11 @@ const OrderList = ({ setStep }) => {
                 <strong>TOTAL COST</strong>
                 <span className="ml-4">100,000 PKR</span>
               </div>
-              <a href="\login">
-              <button className="bg-gradient-to-r from-[#002B5B] to-[#00688B] text-white px-6 py-2 rounded-full text-lg font-semibold">
+              <button
+                onClick={() => setStep(prev => prev + 1)}
+                className="bg-gradient-to-r from-[#002B5B] to-[#00688B] text-white px-6 py-2 rounded-full text-lg font-semibold">
                 CONFIRM ORDER
               </button>
-              </a>
             </div>
           </div>
         </div>
