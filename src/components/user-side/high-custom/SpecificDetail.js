@@ -449,7 +449,7 @@ import { useRouter } from "next/navigation";
 import Backbutton from "@/components/Backbutton";
 import sampleCardImage from "@/assets/images/bg.jpg"; // Replace with actual image
 
-const SpecificDetail = ({ setStep }) => {
+const SpecificDetail = ({ setStep, setNextStep }) => {
   const router = useRouter();
   const [meetingType, setMeetingType] = useState("oncall");
 
@@ -647,10 +647,11 @@ const SpecificDetail = ({ setStep }) => {
             type="button" // ← important! prevents page reload
             onClick={() => {
               if (meetingType === "physical") {
-                setStep(prev => prev + 1); // go to ScheduleCall
+                setNextStep(6); //schedule meetup
               } else {
-                setStep(prev => prev + 2); // directly go to next after ScheduleCall
+                setNextStep(5); //schedule call
               }
+              setStep(prev => prev + 1); // go to login
             }}
             className="bg-black text-white uppercase px-6 py-3 rounded shadow-md hover:bg-gray-800 transition">
             Schedule Meeting

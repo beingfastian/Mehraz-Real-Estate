@@ -170,7 +170,7 @@ const ScheduleMeetup = ({ setStep }) => {
         <div className="flex justify-end pr-20">
           <button
             type="button" // ← important! prevents page reload
-            onClick={() => setStep(prev => prev + 1)}
+            onClick={() => setStep(prev => prev + 2)}
             className="px-[60px] py-[15px] bg-[#323232] text-white text-[22px] rounded shadow text-sm">
             SCHEDULE
           </button>

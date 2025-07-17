@@ -27,6 +27,8 @@ import { custom2, customicon, myVerseImage } from "@/assets";
 import ScheduleCall from "./ScheduleCall";
 import ScheduleMeetup from "./ScheduleMeetup";
 import { useRouter } from "next/navigation";
+import SuccessCall from "./success-call";
+import SuccessMeet from "./success-meet";
 
 const RedirectToSuccess = () => {
   const router = useRouter();
@@ -47,6 +49,8 @@ const BuyPropertyPage = () => {
   const [step1Screen2FormData, setStep1Screen2FormData] = useState(
     defaultStep1Screen2FormData,
   );
+  const [meetingType, setMeetingType] = useState("oncall"); // <- default value
+  const [nextStep, setNextStep] = useState(5); // default
   const [hightcustomdetail, setHighCustomDetail] = useState({});
   const step1Screen2FormDataInputHandler = (key, value) => {
     setStep1Screen2FormData(prevState => ({
@@ -101,6 +105,9 @@ const BuyPropertyPage = () => {
       imagesrc: renovativeImage.src, // Replace with your actual image path
     },
   ];
+  if (step === 5 && nextStep === 6) {
+    setStep(6);
+  }
   return (
     <Suspense fallback={<UserScreenSpinner />}>
       <motion.section
@@ -131,12 +138,14 @@ const BuyPropertyPage = () => {
               setStep={setStep}
               hightcustomdetail={hightcustomdetail}
               setHighCustomDetail={setHighCustomDetail}
+              setNextStep={setNextStep}
             />
           )}
           {step === 4 && <UserLogin setStep={setStep} />}
-          {step === 5 && <ScheduleCall setStep={setStep} />}
-          {step === 6 && <ScheduleMeetup setStep={setStep} />}
-          {step === 7 && <RedirectToSuccess />}
+          {step === 5 && nextStep === 5 && <ScheduleCall setStep={setStep} />}
+          {step === 6 && nextStep === 6 && <ScheduleMeetup setStep={setStep} />}
+          {step === 7 && <SuccessCall setStep={setStep} />}
+          {step === 8 && <SuccessMeet setStep={setStep} />}
         </div>
       </motion.section>
     </Suspense>
