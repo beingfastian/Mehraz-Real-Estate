@@ -52,18 +52,21 @@ const DesSelStep1Screen2Header = ({ view, changeView, cities, styles }) => {
         <div className="flex items-center gap-5">
           <button
             onClick={changeViewHandler}
-            className="flex items-center gap-2 p-1 text-lg xl:text-base uppercase">
+            className="flex items-center gap-3 p-1 text-lg xl:text-base uppercase transition-shadow duration-300">
             <Image
               src={view === "max" ? minimizedViewIcon : maximizedViewIcon}
               width={48}
               height={48}
-              alt="Minimized view icon"
+              alt={
+                view === "max" ? "Minimized view icon" : "Maximized view icon"
+              }
               className="w-12 h-auto xl:w-10"
             />
-            <span className="lg:hidden">
-              {view === "max" ? "minimized view" : "maximized view"}
+            <span className="text-[#323232] font-medium">
+              {view === "max" ? "Minimized View" : "Maximized View"}
             </span>
           </button>
+
           <div className="lg:hidden flex flex-col items-center gap-0.5">
             <span className="text-[#6A6A6A]">Learn More</span>
             <ULinkButton2

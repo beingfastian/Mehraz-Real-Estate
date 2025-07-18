@@ -29,27 +29,24 @@ const DesSelFloorsSelect = ({
   return (
     <>
       <div
-         className={`relative ${className} max-w-[323px] lg:max-w-[252px] sm:max-w-[185px] xs:max-w-[150px] w-full  flex justify-center lg:justify-end`}>
+        className={`relative ${className} max-w-[323px] lg:max-w-[252px] sm:max-w-[185px] xs:max-w-[150px] w-full  flex justify-center lg:justify-end`}>
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
-          className=" flex items-stretch rounded-full overflow-hidden border border-[#282828] border-opacity-60  h-[80px] lg:h-[70px] md:h-[50px] sm:h-[40px]  w-full ">
+          className=" flex w-full overflow-hidden rounded-full bg-white shadow-sm border border-[#28282899] h-[67px] ">
           <span
-            className="bg-white text-[#000000a6] py-3 sm:py-2  text-large flex-1 flex justify-center items-center
+            className="flex-1 flex justify-center items-center px-6 text-[30px] font-normal text-black/65
           ">
             {options.find(option => option.value === selectedOption)?.label}
           </span>
-          <span className="bg-[#E2E2E2] flex items-center justify-center px-4 sm:px-3 border-l border-[#282828] border-opacity-60 min-w-[71px] h-full sm:min-w-[44px]">
-            <FaChevronDown
-              size={28}
-              className="w-7 sm:w-5 h-auto text-[#767676]"
-            />
+          <span className="flex items-center justify-center min-w-[71px] bg-[#e2e2e2] border-l border-black h-full rounded-tr-full rounded-br-full">
+            <FaChevronDown size={28} className="text-black text-[24px]" />
           </span>
         </button>
         {expanded && (
-          <div className="w-max min-w-full absolute bottom-0 translate-y-full right-0 bg-white shadow-btn rounded-2xl border-2 border-accent-1-base py-2 pl-2 pr-1 z-[10] overflow-hidden">
+          <div className="absolute top-full right-0 mt-2 w-full bg-white rounded-2xl border border-gray-300 shadow-lg z-[10] overflow-hidden">
             <div
-              className="w-full text-black/70 grid grid-cols-1 gap-2.5 max-h-[33vh] overflow-y-auto pr-1 py-2"
+              className="max-h-[30vh] overflow-y-auto py-2"
               ref={dropdownRef}>
               {options?.map(({ label, value }, index) => {
                 let labelArr = [];
@@ -58,7 +55,9 @@ const DesSelFloorsSelect = ({
                 }
                 return (
                   <label
-                    className={`flex items-center gap-3 p-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)] border border-black/10 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-5`}
+                    className={`flex items-center gap-3 px-6 py-4 border-b border-black/10 cursor-pointer hover:bg-black/5 rounded-none ${
+                      selectedOption === value ? "font-semibold" : "font-medium"
+                    }`}
                     htmlFor={`option${index}`}
                     key={index}>
                     <input

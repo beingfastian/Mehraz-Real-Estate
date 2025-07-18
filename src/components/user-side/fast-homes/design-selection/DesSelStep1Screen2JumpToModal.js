@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import useRPS from "@/hooks/useRPS";
 
-const   DesSelStep1Screen2JumpToModal = ({
+const DesSelStep1Screen2JumpToModal = ({
   isModalOpen = false,
   toggleModal = () => {},
   cities = [],
@@ -100,7 +100,7 @@ const   DesSelStep1Screen2JumpToModal = ({
                 }
               />
             </DesSelStep1Screen2InputBox>
-            <DesSelStep1Screen2InputBox label={"style cost"}>
+            <DesSelStep1Screen2InputBox label={"budget"}>
               <DesSelStep1Screen2Select
                 options={[
                   { label: "CHOOSE", value: "" },
@@ -114,7 +114,7 @@ const   DesSelStep1Screen2JumpToModal = ({
                 }
               />
             </DesSelStep1Screen2InputBox>
-            <DesSelStep1Screen2InputBox label={"choose"}>
+            <DesSelStep1Screen2InputBox label={"style"}>
               <button
                 onClick={toggleStyleModal}
                 className="text-xl xl:text-lg py-2 sm:py-1 px-10 sm:px-6 bg-[#8D8E97] rounded-full uppercase text-white shadow-btn font-bold border-2 border-white border-opacity-60 transition-colors duration-300 hover:bg-white hover:text-[#000000a6] hover:border-[#000000a6]">

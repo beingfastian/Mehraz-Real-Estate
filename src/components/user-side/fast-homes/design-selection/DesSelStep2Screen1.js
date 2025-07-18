@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { FaArrowRightLong, FaChevronLeft } from "react-icons/fa6";
 import Claim from "../claim/Claim";
 import Image from "next/image";
-import { blackNextIcon } from "@/assets";
+import { gradientNextIcon, nextIcon } from "@/assets";
 const defaultStep1Screen2FormData = {
   area: "",
   floors: "",
@@ -160,25 +160,33 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
               Tell us how your home should be <b>planned</b> <br /> so we find
               perfect fit for you ...
             </h3>
-            <div className="bg-transparent relative flex lg:flex-col items-center justify-evenly lg:gap-4 px-8 py-6 sm:p-4 mr-6 lg:mr-2 mt-4 sm:mt-2 before:absolute before:z-[-2] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-[#E5CD86] before:shadow-btn before:rounded-full lg:before:rounded-3xl before:border before:border-black before:border-opacity-30 after:absolute after:z-[-1] after:top-0 after:left-0 after:right-0 after:bottom-0 after:bg-[#efefef1a] after:translate-x-6 lg:after:translate-x-2 after:translate-y-3 lg:after:translate-y-2 after:shadow-btn after:rounded-full lg:after:rounded-3xl after:border after:border-black after:border-opacity-30">
-              <div className="flex gap-0 lg:gap-10 flex-row py-0 lg:py-6 lg:flex-col justify-evenly  items-stretch w-full">
+            <div
+              className="bg-transparent relative flex lg:flex-col items-center justify-evenly lg:gap-4 px-8 py-6 sm:p-4 mr-6 lg:mr-2 mt-4 sm:mt-2 
+  before:absolute before:z-[-2] before:top-0 before:left-0 before:right-0 before:bottom-0 
+  before:bg-[#E5CD86] before:shadow-btn before:rounded-full lg:before:rounded-3xl 
+  before:border before:border-black before:border-opacity-30 
+  after:absolute after:z-[-1] after:top-0 after:left-0 after:right-0 after:bottom-0 
+  after:bg-[#efefef1a] after:translate-x-6 lg:after:translate-x-2 
+  after:translate-y-3 lg:after:translate-y-2 after:shadow-btn after:rounded-full lg:after:rounded-3xl 
+  after:border after:border-black after:border-opacity-30">
+              <div className="flex gap-4 lg:gap-10 flex-row py-0 lg:py-6 lg:flex-col justify-evenly items-stretch w-full px-4">
+                {" "}
+                {/* Added horizontal padding */}
+                {/* Area Input */}
                 <div className="flex flex-col gap-2 items-center w-full">
                   <DesSelStep1Screen1InputBox label={"area"}>
                     <DesSelSelect
                       options={
                         areas
                           ? [
-                              {
-                                label: "CHOOSE",
-                                value: "",
-                              },
+                              { label: "CHOOSE", value: "" },
                               ...areas
-                                ?.filter(
+                                .filter(
                                   area =>
                                     area.category.toUpperCase() ===
                                     categoryParam.toUpperCase(),
                                 )
-                                ?.map(({ id, area, unit }) => ({
+                                .map(({ id, area, unit }) => ({
                                   label: `${area} ${unit.name}`,
                                   value: id,
                                 })),
@@ -197,12 +205,14 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
                     </span>
                   )}
                 </div>
-                <div className="translate-y-1/2">
+                {/* Arrow 1 */}
+                <div className="flex items-center justify-center w-[50px] translate-y-[10px] translate-x-[6px]">
                   <FaArrowRightLong
-                    size={40}
+                    size={30}
                     className="design-selection-right-arrow"
                   />
                 </div>
+                {/* Floors Input */}
                 <div className="flex flex-col gap-2 items-center w-full">
                   <DesSelStep1Screen1InputBox label={"floors"}>
                     <DesSelFloorsSelect
@@ -229,13 +239,15 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
                     </span>
                   )}
                 </div>
-                <div className="translate-y-1/2">
+                {/* Arrow 2 */}
+                <div className="flex items-center justify-center w-[50px] translate-y-[10px] -translate-x-[6px]">
                   <FaArrowRightLong
-                    size={40}
+                    size={30}
                     className="design-selection-right-arrow"
                   />
                 </div>
-                <div className="flex flex-col gap-2 items-center w-full ">
+                {/* Family Units Input */}
+                <div className="flex flex-col gap-2 items-center w-full">
                   <DesSelStep1Screen1InputBox
                     label={"family units"}
                     isShowInfo={true}>
@@ -265,6 +277,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
                 </div>
               </div>
             </div>
+
             <div className="flex flex-col items-center w-full gap-2 mt-[53px] sm:mt-6">
               <div className="max-w-[831px] h-[80px] w-full relative">
                 <span className="absolute top-0.5 right-0.5 text-xs font-medium">
@@ -294,13 +307,28 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
               Specific Words Give The Best Result
             </p>
             <div className="grid grid-cols-4 gap-4 mt-[35px] lg:mt-7 md:mt-5 ">
-              {/* <button
-                onClick={nextStepHandler}
-                className="col-start-2 col-span-2 uppercase font-bold text-white bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-2xl xl:text-xl sm:text-base py-3 w-full text-nowrap relative z-[1] before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 duration-300">
-                set budget
-              </button> */}
-
               <button
+                onClick={nextStepHandler}
+                className="w-[330px] md:w-[300px] sm:w-[270px] py-3 px-6 mx-auto uppercase font-semibold text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 col-start-2 col-span-2">
+                <span className="relative z-10">Set Budget</span>
+
+                {/* Arrow Icon (White by default, turns black on hover) */}
+                <Image
+                  src={nextIcon}
+                  alt="next"
+                  className="w-12 h-12 absolute right-5 top-1/2 -translate-y-1/2 z-10 transition duration-300 group-hover:opacity-0"
+                />
+                <Image
+                  src={gradientNextIcon}
+                  alt="next"
+                  className="w-12 h-12 absolute right-5 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition duration-300"
+                />
+
+                {/* Hover background and border effect */}
+                <div className="absolute inset-[2px] bg-white rounded-full z-0 opacity-0 group-hover:opacity-100 transition duration-300" />
+              </button>
+
+              {/* <button
                 className="max-w-[380px] w-full h-[70px] lg:h-[60px] md:h-[50px] relative rounded-[10px] bg-gradient-to-b from-[#fedcb1] to-[#c9a84f] shadow-btn-shadow uppercase text-accent-black text-large bold col-start-2 col-span-2 mx-auto group z-[1] before:bg-white before:rounded-[10px] before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5  hover:before:opacity-100 before:transition-opacity before:duration-300 duration-300 "
                 onClick={nextStepHandler}>
                 <span className="relative -left-[2%]">SET BUDGET</span>
@@ -309,7 +337,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
                   alt="next"
                   className="w-[55px] lg:w-[55px] md:w-[45px] sm:w-10  h-7 lg:h-7 md:h-6 sm:h-5 absolute right-0 mr-5 lg:mr-4 md:mr-2  top-1/2 -translate-y-1/2 block lg:hidden"
                 />
-              </button>
+              </button> */}
               <button
                 onClick={skipAndNextStepHandler}
                 className="uppercase text-[#3F3F3F] text-2xl xl:text-xl py-2  transition-transform duration-300  text-left">

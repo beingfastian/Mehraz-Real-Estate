@@ -21,8 +21,6 @@ const DesSelClientPage = ({
   const step = searchParams.get("step");
   const screen = searchParams.get("screen");
 
-
-  
   const changeStepScreen = (newStep, newScreen) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newStep && newSearchParams.set("step", newStep);

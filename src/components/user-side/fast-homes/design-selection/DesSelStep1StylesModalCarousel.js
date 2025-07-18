@@ -77,20 +77,20 @@ const DesSelStep1StylesModalCarousel = ({
     ],
   };
 
-  useEffect(() => {
-    if (sliderRef.current && selectedIndex != null) {
-      // Use setTimeout to ensure the carousel is mounted
-      setTimeout(() => {
-        sliderRef.current.slickGoTo(selectedIndex, false); // false for smooth animation
-      }, 0);
-    }
-  }, [selectedIndex]);
+  // useEffect(() => {
+  //   if (sliderRef.current && selectedIndex != null) {
+  //     // Use setTimeout to ensure the carousel is mounted
+  //     setTimeout(() => {
+  //       sliderRef.current.slickGoTo(selectedIndex, false); // false for smooth animation
+  //     }, 0);
+  //   }
+  // }, [selectedIndex]);
 
-  useEffect(() => {
-    if (sliderRef.current && selectedIndex != null) {
-      sliderRef.current.slickGoTo(selectedIndex);
-    }
-  }, [selectedIndex]);
+  // useEffect(() => {
+  //   if (sliderRef.current && selectedIndex != null) {
+  //     sliderRef.current.slickGoTo(selectedIndex);
+  //   }
+  // }, [selectedIndex]);
 
   return (
     <>

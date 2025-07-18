@@ -24,6 +24,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   const cityParam = searchParams.get("city");
   const styleParam = searchParams.get("style");
   const styleCostParam = searchParams.get("styleCost");
+  const [isClaimed, setIsClaimed] = useState(false);
 
   const [allProjects, setAllProjects] = useState(null);
   const [projectsToShow, setProjectsToShow] = useState([]);
@@ -96,6 +97,17 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
     newParams.set("project", id);
     newParams.delete("view");
     router.push(`${pathname}?${newParams.toString()}`);
+  };
+
+  const claimHandler = () => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    if (isClaimed === false) {
+      newSearchParams.set("claim", "calim");
+    } else {
+      newSearchParams.delete("claim");
+    }
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+    setIsClaimed(prev => !prev);
   };
 
   return (
@@ -197,6 +209,16 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
               </>
             )
           )}
+
+          <div className="w-full flex justify-center">
+            <div className="flex flex-col items-center gap-2">
+              <p
+                onClick={claimHandler}
+                className="text-[#3F3F3F] w-full opacity-90 text-center ase-text-0  uppercase font-bold transition-font-weight cursor-pointer">
+                didn&apos;t find what you need?
+              </p>
+            </div>
+          </div>
         </motion.div>
       )}
     </>
