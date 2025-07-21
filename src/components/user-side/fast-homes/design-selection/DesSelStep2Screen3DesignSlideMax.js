@@ -4,6 +4,7 @@ import {
   bookmarkGrayIcon,
   circleCheckIcon,
   shareGrayIcon,
+  blackNextIcon,
 } from "@/assets";
 import Image from "next/image";
 import { UButton, ULinkButton } from "@/components";
@@ -35,6 +36,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
   isLocalStorageBookmarked,
   bookmarkLocalStorageHandler,
   selectDesignHandler,
+  selectSkipDesignHandler,
 }) => {
   const [isBookmarked, setIsBookmarked] = useState(isLocalStorageBookmarked);
   const [showChart, setShowChart] = useState(false);
@@ -119,16 +121,27 @@ const DesSelStep2Screen3DesignSlideMax = ({
             </div>
           </div>
           <div className="space-y-2 mt-4 sm:mt-2 px-5 sm:px-2 pb-4 lg:pb-2 lg:w-full">
-            <ULinkButton
-              href={"/"}
-              color="solid-gold"
-              text="see details"
-              className="w-full text-center text-lg xl:text-base font-bold py-1.5 px-4 rounded-full"
-            />
             <UButton
               onClick={selectDesignHandler}
-              className="w-full flex items-center justify-center gap-2 text-lg xl:text-base font-bold py-1.5 px-4"
               color="solid-gold"
+              text={
+                <>
+                  <span>explore home</span>
+                  <Image
+                    src={blackNextIcon}
+                    width={44}
+                    height={44}
+                    className="w-6 h-auto"
+                    alt="right icon"
+                  />
+                </>
+              }
+              className="w-full flex items-center justify-center gap-2 text-center text-lg xl:text-base font-bold py-1.5 px-4 rounded-tr-full rounded-br-full"
+            />
+            <UButton
+              onClick={selectSkipDesignHandler}
+              className="w-full flex items-center justify-center gap-2 text-lg xl:text-base font-bold py-1.5 px-4"
+              color="gradient-blue-green"
               text={
                 <>
                   <Image

@@ -19,7 +19,8 @@ const LevelCardDesign = ({
 }) => {
   return (
     <div
-      className={`w-[298px] md:w-full ${containerPadding} rounded-[15px] bg-white border border-black/10 shadow-btn-shadow f-col md:flex-row md:gap-3 md:justify-between justify-normal items-baseline  md:items-center`}>
+      onClick={() => handleDesignLevel(level)} // ✅ Pass level on card click
+      className={`cursor-pointer w-[298px] md:w-full ${containerPadding} rounded-[15px] bg-white border border-black/10 shadow-btn-shadow f-col md:flex-row md:gap-3 md:justify-between justify-normal items-baseline  md:items-center`}>
       <div
         className={`${imgSize} relative ${imgRounded} cursor-pointer group overflow-hidden`}>
         <div className={`h-full w-full `}>
@@ -50,23 +51,6 @@ const LevelCardDesign = ({
         )}
       </div>
       <div className={`f-col w-full ${cardBodyPaddingTop} gap-2 relative`}>
-        {/* checkbox start */}
-        <div
-          className={`absolute left-1/2 -translate-x-1/2 z-50 ${radioBtnPosition}`}>
-          <label className="w-[3.25rem] md:w-[2.5rem] sm:w-[2.25rem] xs:w-[2rem] h-[3.25rem] md:h-[2.5rem] sm:h-[2.25rem] xs:h-[2rem] cursor-pointer rounded-full bg-white border-2 border-black shadow-btn-shadow flex-center">
-            <input
-              type="radio"
-              className="hidden peer"
-              value={level}
-              checked={designLevel === level}
-              name="design-level"
-              onChange={handleDesignLevel}
-            />
-            <div className="tick opacity-0 peer-checked:opacity-100 transition-all duration-300"></div>
-          </label>
-        </div>
-        {/* checkbox end */}
-
         <div
           className={`unique-home-card-body-label-container ${
             isPersonalized ? "h-10 sm:h-auto" : "label-container-height"
@@ -94,9 +78,7 @@ const LevelCardDesign = ({
               <span className=" text-base font-semibold text-left text-black text-line-through">
                 RS 10000
               </span>
-              <span className=" text-xs font-bold text-left text-black">
-                {" "}
-              </span>
+              <span className=" text-xs font-bold text-left text-black"> </span>
               <span className=" text-2xl font-medium text-left text-danger-light">
                 125,000
               </span>

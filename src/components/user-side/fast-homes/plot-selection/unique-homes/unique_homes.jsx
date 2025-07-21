@@ -248,6 +248,27 @@ const Unique_homes = () => {
                 lable_2={"upto 4x price"}
               />
             </div>
+            <p className="normal-text-2 text-center text-accent-black uppercase pt-3">
+              <span>WILL IT BE</span>
+              <span className="font-bold md:font-semibold">
+                {" "}
+                BETTER TO DESCRIBE MORE ?
+              </span>
+            </p>
+            <TextareaWithUpload
+              style={{
+                maxWidth: "max-w-[78.1875rem]",
+                height: "h-[104px]",
+                borderRadius: "rounded-[20px]",
+                borderWidth: "border-2",
+                borderColor: "border-[#2f2f2f]/60",
+                textareaBorderRadius: "rounded-[20px]",
+              }}
+              textareaPlaceholder="TELL US ABOUT YOUR NEEDS, what your planned imagination is ..."
+              referenceText="REFERENCE"
+              referenceHighlight="FILE /IMG"
+              maxLimitText="(max lmt)"
+            />
           </div>
         )}
         <Common_btn text={"DONE"} handler={submitHandler} />

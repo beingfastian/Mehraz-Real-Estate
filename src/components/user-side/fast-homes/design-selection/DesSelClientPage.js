@@ -3,9 +3,13 @@ import { lazy, Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
 import useRPS from "@/hooks/useRPS";
 
-const DesSelStep0 = lazy(() => import("./DesSelStep0"));
-const DesSelStep1Sec = lazy(() => import("./DesSelStep1Sec"));
-const DesSelStep2Sec = lazy(() => import("./DesSelStep2Sec"));
+// const DesSelStep0 = lazy(() => import("./DesSelStep0"));
+// const DesSelStep1Sec = lazy(() => import("./DesSelStep1Sec"));
+// const DesSelStep2Sec = lazy(() => import("./DesSelStep2Sec"));
+
+import DesSelStep0 from "./DesSelStep0";
+import DesSelStep1Sec from "./DesSelStep1Sec";
+import DesSelStep2Sec from "./DesSelStep2Sec";
 
 const DesSelClientPage = ({
   cities,

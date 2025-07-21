@@ -12,12 +12,14 @@ import useRPS from "@/hooks/useRPS";
 const Level_selection = () => {
   const { router, pathname, searchParams } = useRPS();
   const [designLevel, setDesignLevel] = useState(null);
-  const handleDesignLevel = e => {
-    setDesignLevel(Number(e.target.value));
+  const handleDesignLevel = level => {
+    setDesignLevel(level);
+    submitHandler();
   };
+
   const submitHandler = () => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("screen", 7);
+    newParams.set("screen", 8);
     router.push(`${pathname}?${newParams.toString()}`);
   };
   return (
@@ -30,14 +32,24 @@ const Level_selection = () => {
         </p>
         <div className="mx-auto max-w-[48.625rem] w-full flex justify-between relative md:flex-col gap-5">
           <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-[80%]">
-            <Line className="h-full w-[1px] bg-accent-black/20 md:hidden block" />
+            <div className="relative flex justify-center items-center h-full">
+              {/* Vertical line */}
+              <div className="h-full w-[1px] bg-accent-black/20" />
+
+              {/* OR label */}
+              <div className="absolute bg-white px-2 text-sm text-accent-black/60">
+                OR
+              </div>
+            </div>
           </div>
           <LevelCardDesign
             level={1}
             designLevel={designLevel}
             handleDesignLevel={handleDesignLevel}
             title={"SELECTED CHANGES"}
-            imgSize={"h-[20rem] md:h-[11.875rem] sm:h-[10.625rem]  w-full md:min-w-[10.625rem]"}
+            imgSize={
+              "h-[20rem] md:h-[11.875rem] sm:h-[10.625rem]  w-full md:min-w-[10.625rem]"
+            }
             imgRounded={"rounded-[5px]"}
             containerPadding={"px-3.5 md:px-3  py-3 md:py-2"}
             cardBodyPaddingTop={"pt-[1.875rem]"}
@@ -50,7 +62,9 @@ const Level_selection = () => {
           <LevelCardDesign
             level={2}
             designLevel={designLevel}
-            imgSize={"h-[20rem] md:h-[11.875rem] sm:h-[10.625rem]  w-full md:min-w-[10.625rem]"}
+            imgSize={
+              "h-[20rem] md:h-[11.875rem] sm:h-[10.625rem]  w-full md:min-w-[10.625rem]"
+            }
             handleDesignLevel={handleDesignLevel}
             title={"fully personalized"}
             imgRounded={"rounded-[5px]"}
@@ -61,7 +75,6 @@ const Level_selection = () => {
             lable_2={"upto 4x price"}
           />
         </div>
-        <Common_btn text={"Next"} handler={submitHandler} />
       </div>
     </PageWrapper>
   );

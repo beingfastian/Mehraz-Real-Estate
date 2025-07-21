@@ -21,7 +21,25 @@ const SomeFinals = () => {
     }
 
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("screen", 5);
+
+    if (selected === "first") {
+      newParams.set("screen", 6);
+    } else if (selected === "second") {
+      newParams.set("screen", 7);
+    }
+
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
+
+  const submitBtn1Handler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 6);
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
+
+  const submitBtn2Handler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 7);
     router.push(`${pathname}?${newParams.toString()}`);
   };
 
@@ -43,7 +61,9 @@ const SomeFinals = () => {
         <Detail_RadioBtn
           main_title="Plot for Construction"
           subtitle={
-            <p className="radial_strip_lable_info_text">
+            <p
+              onClick={submitBtn1Handler}
+              className="radial_strip_lable_info_text">
               <span>provide PLOT </span>
               <span className="font-bold">info</span>
               <span> / </span>
@@ -56,11 +76,15 @@ const SomeFinals = () => {
           checked={selected === "first"}
         />
 
+        <div className="h-[2px] bg-black/10 w-full" />
+
         <Detail_RadioBtn
           main_title="Personalize Your Design"
           id={"second"}
           subtitle={
-            <p className="radial_strip_lable_info_text">
+            <p
+              onClick={submitBtn2Handler}
+              className="radial_strip_lable_info_text">
               <span>tell us </span>
               <span className="font-bold">any changes you need</span>
             </p>

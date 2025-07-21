@@ -17,6 +17,8 @@ const UButton = ({
       "bg-accent-gray text-white border-2 border-accent-gray hover:bg-white hover:text-accent-gray transition-colors duration-300",
     "solid-gold":
       "border-2 border-accent-gold-2 bg-accent-gold-2 text-black hover:bg-white transition-colors duration-300",
+    "gradient-blue-green":
+      "uppercase font-semibold text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 col-start-2 col-span-2 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group",
   };
 
   return (

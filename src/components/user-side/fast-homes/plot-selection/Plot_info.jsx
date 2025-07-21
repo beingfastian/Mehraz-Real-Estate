@@ -69,7 +69,7 @@ const Plot_info = () => {
 
   const submitHandler = () => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("screen", 6);
+    newParams.set("screen", 7);
     router.push(`${pathname}?${newParams.toString()}`);
   };
 
@@ -92,7 +92,7 @@ const Plot_info = () => {
           {plotType === 1 && (
             <form className="plot_type_detail_container px-12 lg:px-8 md:px-6 sm:px-4 py-6 lg:py-5 md:py-4 sm:py-3">
               <div className="plot_detail_field_container">
-                <p className="plot_detail_input_lable">LOCATION</p>
+                <p className="plot_detail_input_lable mr-6">LOCATION</p>
                 <div className="plot_detail_input_container">
                   <input
                     className="plot_detail_input"
@@ -104,7 +104,7 @@ const Plot_info = () => {
                 </div>
               </div>
               <div className="plot_detail_field_container">
-                <div className="f-col md:flex-row md:!justify-between md:items-center w-auto md:w-full gap-1 flex-wrap">
+                <div className="f-col md:flex-row md:!justify-between md:items-center w-auto md:w-full gap-1 flex-wrap mr-6">
                   <p className="plot_detail_input_lable">dimension</p>
                   <div className="flex items-center gap-1">
                     <p className="base-text text-center text-accent-black">

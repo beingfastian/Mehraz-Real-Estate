@@ -67,10 +67,8 @@ const DesSelStep2Screen3Header = ({
               alt="Minimized designView icon"
               className="w-12 h-auto xl:w-10"
             />
-            <span className="lg:hidden">
-              {designView === "max"
-                ? "minimized designView"
-                : "maximized designView"}
+            <span className="text-[#323232] font-medium">
+              {designView === "max" ? "Minimized View" : "Maximized View"}
             </span>
           </button>
           <div className="lg:hidden flex flex-col items-center gap-0.5">

@@ -1,12 +1,16 @@
-    "use client";
+"use client";
 import { lazy, Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
 
-const DesSelStep1Screen0 = lazy(() => import("./DesSelStep1Screen0"));
-const DesSelStep1Screen1 = lazy(() => import("./DesSelStep1Screen1"));
-const DesSelStep1Screen2 = lazy(() => import("./DesSelStep1Screen2"));
+// const DesSelStep1Screen0 = lazy(() => import("./DesSelStep1Screen0"));
+// const DesSelStep1Screen1 = lazy(() => import("./DesSelStep1Screen1"));
+// const DesSelStep1Screen2 = lazy(() => import("./DesSelStep1Screen2"));
 
-const DesSelStep1Sec = ({
+import DesSelStep1Screen0 from "./DesSelStep1Screen0";
+import DesSelStep1Screen1 from "./DesSelStep1Screen1";
+import DesSelStep1Screen2 from "./DesSelStep1Screen2";
+
+const DesSelStep2Sec = ({
   cities,
   styles,
   step1DataFetchError,
@@ -35,4 +39,4 @@ const DesSelStep1Sec = ({
   );
 };
 
-export default DesSelStep1Sec;
+export default DesSelStep2Sec;

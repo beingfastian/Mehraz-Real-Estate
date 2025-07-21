@@ -13,16 +13,21 @@ import {
   getBookmarkedDesigns,
   setBookmarkedDesigns,
 } from "@/utilities/user-side/design-selection/localStorageBookmarks";
+import { useRouter } from "next/navigation";
 
-const DesSelStep1Screen2ProjectsCarouselMax = lazy(() =>
-  import("./DesSelStep1Screen2ProjectsCarouselMax"),
-);
-const DesSelStep1Screen2ProjectsCarouselMin = lazy(() =>
-  import("./DesSelStep1Screen2ProjectsCarouselMin"),
-);
-const DesSelStep1Screen2ProjectsCarouselMinMobile = lazy(() =>
-  import("./DesSelStep1Screen2ProjectsCarouselMinMobile"),
-);
+// const DesSelStep1Screen2ProjectsCarouselMax = lazy(() =>
+//   import("./DesSelStep1Screen2ProjectsCarouselMax"),
+// );
+// const DesSelStep1Screen2ProjectsCarouselMin = lazy(() =>
+//   import("./DesSelStep1Screen2ProjectsCarouselMin"),
+// );
+// const DesSelStep1Screen2ProjectsCarouselMinMobile = lazy(() =>
+//   import("./DesSelStep1Screen2ProjectsCarouselMinMobile"),
+// );
+
+import DesSelStep1Screen2ProjectsCarouselMax from "./DesSelStep1Screen2ProjectsCarouselMax";
+import DesSelStep1Screen2ProjectsCarouselMin from "./DesSelStep1Screen2ProjectsCarouselMin";
+import DesSelStep1Screen2ProjectsCarouselMinMobile from "./DesSelStep1Screen2ProjectsCarouselMinMobile";
 
 const allDesigns = [
   {
@@ -95,6 +100,10 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
   const familyUnitParam = searchParams.get("familyUnit");
   const requirementsParam = searchParams.get("requirements");
 
+  const claimHandler = () => {
+    router.push("/didNotFind");
+  };
+
   // const [allDesigns, setAllDesigns] = useState(null);
   const [designsToShow, setDesignsToShow] = useState([]);
   const [designGroups, setDesignGroups] = useState([]);
@@ -150,7 +159,14 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
     newParams.delete("designView");
     router.push(`${pathname}?${newParams.toString()}`);
   };
-
+  const selectSkipDesignHandler = id => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("step", 2);
+    newParams.set("screen", 5);
+    newParams.set("design", id);
+    newParams.delete("designView");
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
   return (
     <>
       {!allDesigns ? (
@@ -182,6 +198,9 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
                     key={design.id}
                     selectDesignHandler={() => {
                       selectDesignHandler(design.id);
+                    }}
+                    selectSkipDesignHandler={() => {
+                      selectSkipDesignHandler(design.id);
                     }}
                     design={design}
                     isLocalStorageBookmarked={checkLocalStorageBookmarked(
@@ -257,6 +276,15 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
               </>
             )
           )}
+          <div className="w-full flex justify-center">
+            <div className="flex flex-col items-center gap-2">
+              <p
+                onClick={claimHandler}
+                className="text-[#3F3F3F] w-full opacity-90 text-center ase-text-0  uppercase font-bold transition-font-weight cursor-pointer">
+                didn&apos;t find what you need?
+              </p>
+            </div>
+          </div>
         </motion.div>
       )}
     </>

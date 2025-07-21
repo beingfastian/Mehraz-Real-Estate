@@ -2,22 +2,35 @@
 import { lazy, Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
 
-const DesSelStep2Screen0 = lazy(() => import("./DesSelStep2Screen0"));
-const DesSelStep2Screen1 = lazy(() => import("./DesSelStep2Screen1"));
-const DesSelStep2Screen2 = lazy(() => import("./DesSelStep2Screen2"));
-const DesSelStep2Screen3 = lazy(() => import("./DesSelStep2Screen3"));
-const DesSelectionStep2Screen4 = lazy(() =>
-  import("../plot-selection/some_finals"),
-);
-const DesSelectionStep2Screen5 = lazy(() =>
-  import("../plot-selection/Plot_info"),
-);
-const DesSelectionStep2Screen6 = lazy(() =>
-  import("../plot-selection/unique-homes/level_selection"),
-);
-const DesSelectionStep2Screen7 = lazy(() =>
-  import("../plot-selection/unique-homes/unique_homes"),
-);
+// const DesSelStep2Screen0 = lazy(() => import("./DesSelStep2Screen0"));
+// const DesSelStep2Screen1 = lazy(() => import("./DesSelStep2Screen1"));
+// const DesSelStep2Screen2 = lazy(() => import("./DesSelStep2Screen2"));
+// const DesSelStep2Screen3 = lazy(() => import("./DesSelStep2Screen3"));
+// const DesSelStep2Screen4 = lazy(() => import("./DesSelStep2Screen4"));
+
+// const DesSelectionStep2Screen5 = lazy(() =>
+//   import("../plot-selection/some_finals"),
+// );
+// const DesSelectionStep2Screen6 = lazy(() =>
+//   import("../plot-selection/Plot_info"),
+// );
+// const DesSelectionStep2Screen7 = lazy(() =>
+//   import("../plot-selection/unique-homes/level_selection"),
+// );
+// const DesSelectionStep2Screen8 = lazy(() =>
+//   import("../plot-selection/unique-homes/unique_homes"),
+// );
+
+import DesSelStep2Screen0 from "./DesSelStep2Screen0";
+import DesSelStep2Screen1 from "./DesSelStep2Screen1";
+import DesSelStep2Screen2 from "./DesSelStep2Screen2";
+import DesSelStep2Screen3 from "./DesSelStep2Screen3";
+import DesSelStep2Screen4 from "./DesSelStep2Screen4";
+
+import DesSelectionStep2Screen5 from "../plot-selection/some_finals";
+import DesSelectionStep2Screen6 from "../plot-selection/Plot_info";
+import DesSelectionStep2Screen7 from "../plot-selection/unique-homes/level_selection";
+import DesSelectionStep2Screen8 from "../plot-selection/unique-homes/unique_homes";
 
 const DesSelStep1Sec = ({
   screen,
@@ -59,11 +72,13 @@ const DesSelStep1Sec = ({
           />
         </Suspense>
       ) : screen === "4" ? (
-        <>
-          <Suspense fallback={<UserScreenSpinner />}>
-            <DesSelectionStep2Screen4 />
-          </Suspense>
-        </>
+        <Suspense fallback={<UserScreenSpinner />}>
+          <DesSelStep2Screen4
+            areas={areas}
+            floors={floors}
+            familyUnits={familyUnits}
+          />
+        </Suspense>
       ) : screen === "5" ? (
         <>
           <Suspense fallback={<UserScreenSpinner />}>
@@ -80,6 +95,12 @@ const DesSelStep1Sec = ({
         <>
           <Suspense fallback={<UserScreenSpinner />}>
             <DesSelectionStep2Screen7 />
+          </Suspense>
+        </>
+      ) : screen === "8" ? (
+        <>
+          <Suspense fallback={<UserScreenSpinner />}>
+            <DesSelectionStep2Screen8 />
           </Suspense>
         </>
       ) : null}

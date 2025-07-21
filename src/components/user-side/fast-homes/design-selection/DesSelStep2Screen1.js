@@ -309,7 +309,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
             <div className="grid grid-cols-4 gap-4 mt-[35px] lg:mt-7 md:mt-5 ">
               <button
                 onClick={nextStepHandler}
-                className="w-[330px] md:w-[300px] sm:w-[270px] py-3 px-6 mx-auto uppercase font-semibold text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 col-start-2 col-span-2">
+                className="w-[330px] md:w-[300px] sm:w-[270px] py-3 px-6 mx-auto uppercase font-semibold text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 col-start-2 col-span-2 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
                 <span className="relative z-10">Set Budget</span>
 
                 {/* Arrow Icon (White by default, turns black on hover) */}
