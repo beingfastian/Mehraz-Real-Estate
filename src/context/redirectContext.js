@@ -13,6 +13,15 @@ export const RedirectProvider = ({ children }) => {
   );
 };
 
+// export const useRedirect = () => {
+//   return useContext(RedirectContext);
+// };
+
+// Hook
 export const useRedirect = () => {
-  return useContext(RedirectContext);
+  const context = useContext(RedirectContext);
+  if (!context) {
+    throw new Error("useRedirect must be used within a RedirectProvider");
+  }
+  return context;
 };

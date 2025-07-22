@@ -12,8 +12,11 @@ import DesignCarouselSmall from "./DesignCarouselSmall";
 import UButton from "../UButton";
 import DesignCarouselMain from "./DesignCarouselMain";
 
-const Modal = lazy(() => import("../../Modal"));
-const HomeProgramModal = lazy(() => import("./HomeProgramModal"));
+// const Modal = lazy(() => import("../../Modal"));
+// const HomeProgramModal = lazy(() => import("./HomeProgramModal"));
+
+import Modal from "../../Modal";
+import HomeProgramModal from "./HomeProgramModal";
 
 // temp data
 const defaultDesign = {

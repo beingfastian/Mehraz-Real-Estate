@@ -1,101 +1,211 @@
 "use client";
-import { motion } from "framer-motion";
-import {
-  DesSelStep2Screen4DesignSlideMax,
-  UserScreenSpinner,
-} from "@/components";
-import { Suspense } from "react";
-import useRPS from "@/hooks/useRPS";
-import {
-  getBookmarkedDesigns,
-  setBookmarkedDesigns,
-} from "@/utilities/user-side/design-selection/localStorageBookmarks";
 
-const design = {
-  id: "hajfkajlj214141",
-  area: {
-    id: "4jB5BRiha5F45jcGzTEE",
-    area: 10,
-    category: "UPTO_18",
-    unit: "MARLA",
-  },
-  floors: {
-    id: "GywcLbBL9cjTxRq6GgX9",
-    name: "FIRST",
-  },
-  familyUnit: {
-    id: "GywcLbBL9cjTxRq6GgX9",
-    name: "ONE UNIT",
-  },
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  style: {
-    name: "MODERN",
-    budget: "LOW",
-  },
-  images: [
-    "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1705179116249-a659af885205?q=80&w=1974&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1613397411189-b13e37c7b5cd?q=80&w=1974&auto=format&fit=crop",
-  ],
-  designCost: 10000,
-  constructionCost: 200000000,
-};
+import Image from "next/image";
+import { industrialImage, tickIcon } from "@/assets";
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const DesSelStep2Screen4 = () => {
-  const { router, pathname, searchParams } = useRPS();
+export default function DesSelStep2Screen4() {
+  const [mainImageIndex, setMainImageIndex] = useState(0);
+  const images = [
+    industrialImage,
+    industrialImage,
+    industrialImage,
+    industrialImage,
+    industrialImage,
+  ];
+  const visibleThumbs = 4;
+  const [thumbStart, setThumbStart] = useState(0);
 
-  const checkLocalStorageBookmarked = id => {
-    const local = getBookmarkedDesigns();
-    return local.includes(id);
+  const handleNextImage = () => {
+    if (mainImageIndex < images.length - 1)
+      setMainImageIndex(mainImageIndex + 1);
   };
 
-  const bookmarkLocalStorageHandler = id => {
-    const local = getBookmarkedDesigns();
-    const updated = local.includes(id)
-      ? local.filter(x => x !== id)
-      : [...local, id];
-    setBookmarkedDesigns(updated);
+  const handlePrevImage = () => {
+    if (mainImageIndex > 0) setMainImageIndex(mainImageIndex - 1);
   };
 
-  const selectDesignHandler = id => {
-    const params = new URLSearchParams(searchParams);
-    params.set("step", 2);
-    params.set("screen", 4);
-    params.set("design", id);
-    router.push(`${pathname}?${params.toString()}`);
+  const handleThumbScroll = direction => {
+    if (direction === "left" && thumbStart > 0) setThumbStart(thumbStart - 1);
+    if (direction === "right" && thumbStart + visibleThumbs < images.length)
+      setThumbStart(thumbStart + 1);
   };
 
-  const claimHandler = () => {
-    router.push("/didNotFind");
-  };
+  const [showFullText, setShowFullText] = useState(false);
+  const [materialStart, setMaterialStart] = useState(0);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-4xl flex flex-col gap-6 mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
-      <Suspense fallback={<UserScreenSpinner />}>
-        <DesSelStep2Screen4DesignSlideMax
-          design={design}
-          isLocalStorageBookmarked={checkLocalStorageBookmarked(design.id)}
-          bookmarkLocalStorageHandler={() =>
-            bookmarkLocalStorageHandler(design.id)
-          }
-          selectDesignHandler={() => selectDesignHandler(design.id)}
-        />
-      </Suspense>
+    <div className="h-[90%] flex">
+      {/* Left Half */}
+      <div className="w-[60%] bg-white pt-8 pb-12 px-8">
+        <div className="max-w-lg mx-auto">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6">
+            PROJECT TITLE
+          </h1>
 
-      <div className="w-full flex justify-center">
-        <p
-          onClick={claimHandler}
-          className="text-[#3F3F3F] opacity-90 text-center text-sm uppercase font-bold cursor-pointer">
-          didn&apos;t find what you need?
-        </p>
+          {/* Paragraph + Show More */}
+          <div className="mb-8">
+            <div
+              className={`text-gray-600 text-sm transition-max-height duration-500 ease-in-out overflow-hidden ${
+                showFullText ? "max-h-[1000px]" : "max-h-[140px]"
+              }`}>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
+                faucibus ex sapien vitae pellentesque sem placerat. In id cursus
+                mi pretium tellus duis convallis. Tempus leo eu aenean sed diam
+                urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum
+                egestas. Iaculis massa nisl malesuada lacinia integer nunc
+                posuere. Ut hendrerit semper vel class aptent taciti sociosqu.
+                Ad litora torquent per conubia nostra inceptos himenaeos. Lorem
+                ipsum dolor sit amet consectetur adipiscing elit. Quisque
+                faucibus ex sapien vitae pellentesque sem placerat. In id cursus
+                mi pretium tellus duis convallis. Tempus leo eu aenean sed diam
+                urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum
+                egestas. Iaculis massa nisl malesuada lacinia integer nunc
+                posuere. Ut hendrerit semper vel class aptent taciti sociosqu.
+                Ad litora torquent per conubia nostra inceptos himenaeos. Lorem
+                ipsum dolor sit amet consectetur adipiscing elit. Quisque
+                faucibus ex sapien vitae pellentesque sem placerat. In id cursus
+                mi pretium tellus duis convallis. Tempus leo eu aenean sed diam
+                urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum
+                egestas. Iaculis massa nisl malesuada lacinia integer nunc
+                posuere. Ut hendrerit semper vel class aptent taciti sociosqu.
+                Ad litora torquent per conubia nostra inceptos himenaeos.
+              </p>
+            </div>
+            <div className="text-left">
+              <span
+                onClick={() => setShowFullText(!showFullText)}
+                className="text-black-600 text-sm cursor-pointer mt-1 inline-block">
+                {showFullText ? "Show Less" : "Show More"}
+              </span>
+            </div>
+          </div>
+
+          {/* Other Content: Show only if not expanding text */}
+          {!showFullText && (
+            <>
+              <div className="flex justify-between space-x-4 mb-8">
+                <button className="bg-[#FFF3E4] text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm flex items-center gap-2 hover:shadow-md transition">
+                  <span>↲</span>
+                  <span>360 TOUR</span>
+                </button>
+                <button className="bg-[#FFF3E4] text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm hover:shadow-md transition">
+                  HOME PROGRAM
+                </button>
+              </div>
+
+              <button className="w-full uppercase text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group mb-8">
+                <span className="font-normal">View</span>{" "}
+                <span className="font-bold"> Materials</span>
+              </button>
+
+              {/* Materials Grid */}
+              <div className="flex gap-4 items-center mb-8">
+                <div className="grid grid-cols-3 gap-x-6 gap-y-6 flex-grow">
+                  {[1, 2, 3].map((item, index) => (
+                    <div
+                      key={index}
+                      className="w-[145px] h-[150px] rounded-[10px] relative border border-gray-200 shadow-md hover:shadow-lg transition-all flex flex-col bg-white">
+                      <div className="w-full h-[85px] rounded-[5px] overflow-hidden relative">
+                        <Image
+                          src={industrialImage}
+                          layout="fill"
+                          objectFit="cover"
+                          alt="Material"
+                          className="w-full h-full"
+                        />
+                      </div>
+                      <div className="mt-1 flex-grow flex flex-col px-1">
+                        <h4 className="font-bold text-[15px] uppercase truncate font-[FONTSPRING DEMO - Proxima Nova] text-[#1f1f1f]">
+                          NAME
+                        </h4>
+                        <p className="text-[14px] truncate font-[FONTSPRING DEMO - Proxima Nova] text-[#2f2f2f]">
+                          VENDOR
+                        </p>
+                        <p className="text-[14px] mt-auto rounded-full px-2 py-0.5 truncate font-[Milliard] bg-gray-100 border border-black opacity-80">
+                          1500 PKR/CFT
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setMaterialStart(materialStart + 1)}
+                  className="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+
+              <button className="w-full uppercase font-semibold text-white py-2 hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-2xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
+                Get Designed
+              </button>
+            </>
+          )}
+        </div>
       </div>
-    </motion.div>
-  );
-};
 
-export default DesSelStep2Screen4;
+      {/* Right Half - Image Gallery */}
+      <div className="w-[40%] bg-white pt-8 mr-[150px] flex flex-col items-center justify-start">
+        {/* Main Image Viewer with controls */}
+        <div className="relative w-full h-[70%] rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+          <button
+            onClick={handlePrevImage}
+            className="absolute left-2 z-10 bg-white rounded-full p-1 shadow hover:bg-gray-100">
+            <ChevronLeft size={24} />
+          </button>
+
+          <Image
+            src={images[mainImageIndex]}
+            alt="Main House View"
+            layout="fill"
+            objectFit="cover"
+            className="rounded-xl"
+          />
+
+          <button
+            onClick={handleNextImage}
+            className="absolute right-2 z-10 bg-white rounded-full p-1 shadow hover:bg-gray-100">
+            <ChevronRight size={24} />
+          </button>
+        </div>
+
+        {/* Thumbnails with scroll arrows */}
+        <div className="flex items-center w-full gap-2">
+          <button
+            onClick={() => handleThumbScroll("left")}
+            disabled={thumbStart === 0}
+            className="p-1 bg-white rounded-full shadow hover:bg-gray-100">
+            <ChevronLeft size={20} />
+          </button>
+
+          <div className="grid grid-cols-4 gap-2 flex-1">
+            {images
+              .slice(thumbStart, thumbStart + visibleThumbs)
+              .map((img, index) => (
+                <div
+                  key={index + thumbStart}
+                  onClick={() => setMainImageIndex(index + thumbStart)}
+                  className="relative h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 cursor-pointer">
+                  <Image
+                    src={img}
+                    alt={`Thumbnail ${index + 1}`}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+              ))}
+          </div>
+
+          <button
+            onClick={() => handleThumbScroll("right")}
+            disabled={thumbStart + visibleThumbs >= images.length}
+            className="p-1 bg-white rounded-full shadow hover:bg-gray-100">
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

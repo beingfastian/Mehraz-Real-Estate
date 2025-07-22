@@ -89,7 +89,6 @@ const Contact = () => {
               height="450"
               style={{ border: 0 }}
               allowFullScreen=""
-              loading="lazy"
               className="w-full h-72 rounded-lg"></iframe>
           </div>
 
