@@ -7,23 +7,13 @@ import {
   DesSelStep2Screen3DesignSlideMinMobile,
   UserScreenSpinner,
 } from "@/components";
-import { lazy, useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import useRPS from "@/hooks/useRPS";
 import {
   getBookmarkedDesigns,
   setBookmarkedDesigns,
 } from "@/utilities/user-side/design-selection/localStorageBookmarks";
 import { useRouter } from "next/navigation";
-
-// const DesSelStep1Screen2ProjectsCarouselMax = lazy(() =>
-//   import("./DesSelStep1Screen2ProjectsCarouselMax"),
-// );
-// const DesSelStep1Screen2ProjectsCarouselMin = lazy(() =>
-//   import("./DesSelStep1Screen2ProjectsCarouselMin"),
-// );
-// const DesSelStep1Screen2ProjectsCarouselMinMobile = lazy(() =>
-//   import("./DesSelStep1Screen2ProjectsCarouselMinMobile"),
-// );
 
 import DesSelStep1Screen2ProjectsCarouselMax from "./DesSelStep1Screen2ProjectsCarouselMax";
 import DesSelStep1Screen2ProjectsCarouselMin from "./DesSelStep1Screen2ProjectsCarouselMin";

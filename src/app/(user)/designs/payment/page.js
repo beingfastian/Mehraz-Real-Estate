@@ -15,7 +15,7 @@ import { FurnitureIcon } from "@/components";
 import { FaCheck } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { RxCross1 } from "react-icons/rx";
-import React, { lazy, Suspense, useState } from "react";
+import React, { Suspense, useState } from "react";
 import BlackButton from "@/components/user-side/BlackButton";
 import { CalculatePayment } from "@/components";
 const page = () => {

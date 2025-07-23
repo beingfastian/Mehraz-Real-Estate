@@ -1,15 +1,13 @@
 "use client";
-import { lazy, Suspense } from "react";
+
+import { Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
 import useRPS from "@/hooks/useRPS";
-
-// const DesSelStep0 = lazy(() => import("./DesSelStep0"));
-// const DesSelStep1Sec = lazy(() => import("./DesSelStep1Sec"));
-// const DesSelStep2Sec = lazy(() => import("./DesSelStep2Sec"));
 
 import DesSelStep0 from "./DesSelStep0";
 import DesSelStep1Sec from "./DesSelStep1Sec";
 import DesSelStep2Sec from "./DesSelStep2Sec";
+import DesSelStep3Sec from "./DesSelStep3Sec";
 
 const DesSelClientPage = ({
   cities,
@@ -27,23 +25,22 @@ const DesSelClientPage = ({
 
   const changeStepScreen = (newStep, newScreen) => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newStep && newSearchParams.set("step", newStep);
-    newScreen && newSearchParams.set("screen", newScreen);
+    if (newStep) newSearchParams.set("step", newStep);
+    if (newScreen) newSearchParams.set("screen", newScreen);
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
-  return (
-    <>
-      {step === "0" && screen === "0" ? (
-        <Suspense fallback={<UserScreenSpinner />}>
-          <DesSelStep0
-            nextStepHandler={() => {
-              changeStepScreen("1", "0");
-            }}
-          />
-        </Suspense>
-      ) : step === "1" ? (
-        <Suspense fallback={<UserScreenSpinner />}>
+  const renderStepComponent = () => {
+    switch (step) {
+      case "0":
+        if (screen === "0") {
+          return (
+            <DesSelStep0 nextStepHandler={() => changeStepScreen("1", "0")} />
+          );
+        }
+        break;
+      case "1":
+        return (
           <DesSelStep1Sec
             screen={screen}
             changeStepScreen={changeStepScreen}
@@ -51,22 +48,38 @@ const DesSelClientPage = ({
             styles={styles}
             step1DataFetchError={step1DataFetchError}
           />
-        </Suspense>
-      ) : (
-        step === "2" && (
-          <Suspense fallback={<UserScreenSpinner />}>
-            <DesSelStep2Sec
-              screen={screen}
-              changeStepScreen={changeStepScreen}
-              areas={areas}
-              floors={floors}
-              familyUnits={familyUnits}
-              step2DataFetchError={step2DataFetchError}
-            />
-          </Suspense>
-        )
-      )}
-    </>
+        );
+      case "2":
+        return (
+          <DesSelStep2Sec
+            screen={screen}
+            changeStepScreen={changeStepScreen}
+            areas={areas}
+            floors={floors}
+            familyUnits={familyUnits}
+            step2DataFetchError={step2DataFetchError}
+          />
+        );
+      case "3":
+        return (
+          <DesSelStep3Sec
+            screen={screen}
+            changeStepScreen={changeStepScreen}
+            areas={areas}
+            floors={floors}
+            familyUnits={familyUnits}
+            step2DataFetchError={step2DataFetchError}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Suspense fallback={<UserScreenSpinner />}>
+      {renderStepComponent()}
+    </Suspense>
   );
 };
 

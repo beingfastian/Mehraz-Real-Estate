@@ -1,5 +1,5 @@
 "use client";
-import React, { lazy, Suspense, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { motion } from "framer-motion";
 import {
   UserScreenSpinner,
@@ -137,9 +137,7 @@ const HighCustompage = () => {
               </div>
             </div>
           )}
-          {step === 3 && (
-            <StepScreenChanger changeStepScreen={setStep} />
-          )}
+          {step === 3 && <StepScreenChanger changeStepScreen={setStep} />}
           {step === 4 && (
             <ProjectDetails
               setStep={setStep}

@@ -1,7 +1,7 @@
 "use client";
 import useRPS from "@/hooks/useRPS";
 import Link from "next/link";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import DesignOptionsRadio from "./DesignOptionsRadio";
 import { motion } from "framer-motion";
@@ -11,9 +11,6 @@ import { circleCheckIcon, tour360icon } from "@/assets";
 import DesignCarouselSmall from "./DesignCarouselSmall";
 import UButton from "../UButton";
 import DesignCarouselMain from "./DesignCarouselMain";
-
-// const Modal = lazy(() => import("../../Modal"));
-// const HomeProgramModal = lazy(() => import("./HomeProgramModal"));
 
 import Modal from "../../Modal";
 import HomeProgramModal from "./HomeProgramModal";

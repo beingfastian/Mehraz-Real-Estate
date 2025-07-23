@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { FaChevronLeft } from "react-icons/fa6";
 import Options from "./Options";
 import { MdPhone } from "react-icons/md";
@@ -8,7 +9,9 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
 import UButton from "../UButton";
 import Backbutton from "@/components/Backbutton";
+import { FastHomesLink } from "@/components";
 import Link from "next/link";
+import { landingImage } from "@/assets";
 
 const Section1 = ({ setSteps }) => {
   const meetoptions = {
@@ -33,7 +36,7 @@ const Section1 = ({ setSteps }) => {
     options: [],
   };
   return (
-    <div className="min-h-[50%] h-auto">
+    <div className="min-h-[50%] h-auto m-[30px] pt-[40px] max-w-[80%] mx-auto">
       {/* constainer 1 start  */}
       <div className=" flex justify-between flex-wrap">
         <div className="child-container1 flex min-w-[50%] sm:w-[100%] md:w-[100%] md:justify-center md:items-center sm:justify-center sm:items-center justify-between">
@@ -58,53 +61,70 @@ const Section1 = ({ setSteps }) => {
         </div>
       </div>
       {/* constainer 1 end  */}
-      <hr className="my-4 w-1/2 mx-auto sm:w-full sm:my-2" />
+      <hr className="my-4 w-[70%] mx-auto sm:w-full sm:my-2" />
       {/* constainer 2 start  */}
-      <div className="container-2 flex justify-around items-center">
+      <div className="container-2 flex justify-around items-center text-[#2F2F2F]">
         <div>
-          <div className="sm:text-xs">MEET THE TEAM</div>
+          <div className="sm:text-xs text-center py-2 text-[#2F2F2F]/60 text-[18px] font-medium">
+            MEET THE TEAM
+          </div>
           <UButton
-            className="w-full flex flex-col items-center justify-center text-[#2F2F2F] py-0.5 px-4"
-            color="solid-gold"
+            className="w-full flex flex-col items-center justify-center py-4 px-12"
+            color="gold-gray"
             text={
               <>
-                <span className="flex items-center justify-center mt-2 gap-1 text-lg xl:text-xs font-bold">
+                <span className="flex items-center justify-center mt-2 gap-1 text-xl xl:text-xs text-[#2F2F2F] text-[26px] px-6">
                   <IoChatboxOutline />
                   <span>CHAT</span>
                 </span>
-                {/* <span className="uppercase text-xs italic">
-                  purchase service, pkr 10,000
-                </span> */}
               </>
             }></UButton>
-          {/* <button className="flex justify-center items-center">
-            <IoChatboxOutline /> CHAT
-          </button> */}
         </div>
         <div>
-          <div className="sm:text-xs">SELECT. ESTIMATE START</div>
+          <div className="sm:text-xs text-[#2F2F2F]/60 text-center text-[18px] font-medium py-2">
+            SELECT . ESTIMATE . START
+          </div>
           <Link href={`/designs/payment`}>
             <UButton
-              className="w-full flex flex-col items-center justify-center text-[#2F2F2F] py-0.5 px-4"
-              color="solid-gold"
+              className="w-full flex flex-col items-center justify-center text-[#2F2F2F] py-4 px-2 "
+              color="gold-gray"
               text={
                 <>
-                  <span className="flex items-center justify-center mt-2 gap-1 text-lg xl:text-xs font-bold">
+                  <span className="flex items-center justify-center mt-2 gap-1 text-xl xl:text-xs text-[#2F2F2F] text-[26px] px-6">
                     <MdOutlinePayment />
                     <span>SELECT & PAY</span>
                   </span>
-                  {/* <span className="uppercase text-xs italic">
-                  purchase service, pkr 10,000
-                  </span> */}
                 </>
               }></UButton>
           </Link>
-          {/* <button className="flex justify-center items-center"> */}
-          {/* <MdOutlinePayment /> SELECT & PAY */}
-          {/* </button> */}
         </div>
       </div>
+      <hr className="my-4 w-[70%] mx-auto sm:w-full sm:my-2" />
       {/* constainer 2 start  */}
+      <div>
+        <div className="max-w-[50%] my-6 mx-auto rounded-2xl shadow-lg bg-white flex justify-between items-center p-3 gap-4 border-grey-500 border-[1px]">
+          {/* Left side text */}
+          <div>
+            <p className="text-gray-800/80 font-[16px] font-bold p-1">
+              PERSONALIZE YOUR DESIGN
+            </p>
+          </div>
+
+          <button className="py-1 px-4 uppercase text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
+            <span>TELL US </span>
+            <span className="font-bold">ANY CHANGES YOU NEED</span>
+          </button>
+        </div>
+        <div className="w-full h-[200px] block mx-auto">
+          <Image
+            src={landingImage}
+            alt="landing image"
+            className="w-full h-full"
+            width={800}
+            height={200}
+          />
+        </div>
+      </div>
     </div>
   );
 };

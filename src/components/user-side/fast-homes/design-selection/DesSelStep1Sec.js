@@ -1,10 +1,6 @@
 "use client";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
-
-// const DesSelStep1Screen0 = lazy(() => import("./DesSelStep1Screen0"));
-// const DesSelStep1Screen1 = lazy(() => import("./DesSelStep1Screen1"));
-// const DesSelStep1Screen2 = lazy(() => import("./DesSelStep1Screen2"));
 
 import DesSelStep1Screen0 from "./DesSelStep1Screen0";
 import DesSelStep1Screen1 from "./DesSelStep1Screen1";

@@ -1,25 +1,6 @@
 "use client";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
-
-// const DesSelStep2Screen0 = lazy(() => import("./DesSelStep2Screen0"));
-// const DesSelStep2Screen1 = lazy(() => import("./DesSelStep2Screen1"));
-// const DesSelStep2Screen2 = lazy(() => import("./DesSelStep2Screen2"));
-// const DesSelStep2Screen3 = lazy(() => import("./DesSelStep2Screen3"));
-// const DesSelStep2Screen4 = lazy(() => import("./DesSelStep2Screen4"));
-
-// const DesSelectionStep2Screen5 = lazy(() =>
-//   import("../plot-selection/some_finals"),
-// );
-// const DesSelectionStep2Screen6 = lazy(() =>
-//   import("../plot-selection/Plot_info"),
-// );
-// const DesSelectionStep2Screen7 = lazy(() =>
-//   import("../plot-selection/unique-homes/level_selection"),
-// );
-// const DesSelectionStep2Screen8 = lazy(() =>
-//   import("../plot-selection/unique-homes/unique_homes"),
-// );
 
 import DesSelStep2Screen0 from "./DesSelStep2Screen0";
 import DesSelStep2Screen1 from "./DesSelStep2Screen1";

@@ -4,6 +4,7 @@ import RadioTile from "@/components/common/RadioTile/RadioTile";
 import React, { useState } from "react";
 import Level_selector from "../component/Level_selector";
 import Line from "@/components/common/Line/Line";
+import useRPS from "@/hooks/useRPS";
 
 import TextareaWithUpload from "@/components/common/fileuploader/FileUploader";
 import Common_btn from "@/components/common/Btns/Common_btn";
@@ -11,9 +12,19 @@ import PersonalizedCard from "./component/PersonalizedCard";
 import LevelCardDesign from "./component/card";
 
 const Unique_homes = () => {
+  const { router, pathname, searchParams } = useRPS();
   const [personalizationType, setPersonalizationType] = useState(1);
   const [selectedLevel, setSelectedLevel] = useState("low");
   const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
+
+  const selectProjectHandler = id => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("step", 3);
+    newParams.set("screen", 0);
+    newParams.set("project", id);
+    newParams.delete("view");
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
 
   const handlePersonalizeChange = e => {
     setPersonalizationType(Number(e.target.value));
@@ -47,9 +58,6 @@ const Unique_homes = () => {
     setInputValues(newValues);
   };
 
-  const submitHandler = () => {
-    console.log(personalizationType);
-  };
   return (
     <PageWrapper>
       <div className="some-final-section-container">
@@ -271,7 +279,7 @@ const Unique_homes = () => {
             />
           </div>
         )}
-        <Common_btn text={"DONE"} handler={submitHandler} />
+        <Common_btn text={"DONE"} handler={selectProjectHandler} />
       </div>
     </PageWrapper>
   );
