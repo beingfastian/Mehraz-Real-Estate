@@ -12,6 +12,7 @@ import Backbutton from "@/components/Backbutton";
 import { FastHomesLink } from "@/components";
 import Link from "next/link";
 import { landingImage } from "@/assets";
+import useRPS from "@/hooks/useRPS";
 
 const Section1 = ({ setSteps }) => {
   const meetoptions = {
@@ -34,6 +35,13 @@ const Section1 = ({ setSteps }) => {
     name: "Your TEAM",
     icon: <GiTeamIdea className="text-xl" />,
     options: [],
+  };
+
+  const { router, pathname, searchParams } = useRPS();
+  const submitHandler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 2);
+    router.push(`${pathname}?${newParams.toString()}`);
   };
   return (
     <div className="min-h-[50%] h-auto m-[30px] pt-[40px] max-w-[80%] mx-auto">
@@ -84,19 +92,18 @@ const Section1 = ({ setSteps }) => {
           <div className="sm:text-xs text-[#2F2F2F]/60 text-center text-[18px] font-medium py-2">
             SELECT . ESTIMATE . START
           </div>
-          <Link href={`/designs/payment`}>
-            <UButton
-              className="w-full flex flex-col items-center justify-center text-[#2F2F2F] py-4 px-2 "
-              color="gold-gray"
-              text={
-                <>
-                  <span className="flex items-center justify-center mt-2 gap-1 text-xl xl:text-xs text-[#2F2F2F] text-[26px] px-6">
-                    <MdOutlinePayment />
-                    <span>SELECT & PAY</span>
-                  </span>
-                </>
-              }></UButton>
-          </Link>
+          <UButton
+            onClick={submitHandler}
+            className="w-full flex flex-col items-center justify-center text-[#2F2F2F] py-4 px-2 "
+            color="gold-gray"
+            text={
+              <>
+                <span className="flex items-center justify-center mt-2 gap-1 text-xl xl:text-xs text-[#2F2F2F] text-[26px] px-6">
+                  <MdOutlinePayment />
+                  <span>SELECT & PAY</span>
+                </span>
+              </>
+            }></UButton>
         </div>
       </div>
       <hr className="my-4 w-[70%] mx-auto sm:w-full sm:my-2" />
