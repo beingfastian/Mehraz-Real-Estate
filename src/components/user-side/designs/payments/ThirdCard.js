@@ -1,5 +1,4 @@
 import React from "react";
-import BlackButton from "../../BlackButton";
 
 const ThirdCard = ({ step, setStep }) => {
   return (
@@ -9,14 +8,11 @@ const ThirdCard = ({ step, setStep }) => {
         <hr />
       </div>
       <div className=" md:flex justify-between">
-        <div className=" bg-[#EFEFEF] text-xl text-center md:text-start md:bg-white">
+        <div className=" bg-[#EFEFEF] text-xl text-center md:text-start md:bg-white w-full">
           <span className=" font-bold">Total Cost</span>
           <br />
           100000 PKR
         </div>
-        <span onClick={() => setStep(prev => prev + 1)}>
-          <BlackButton text="NEXT" className="mt-2" />
-        </span>
       </div>
     </div>
   );

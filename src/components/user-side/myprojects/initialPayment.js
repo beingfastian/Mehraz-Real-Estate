@@ -68,7 +68,7 @@ const InitialPayment = ({ setSteps }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between">
+    <div className="min-h-[100%] bg-white flex flex-col justify-between">
       {/* Main Content */}
       <div className="max-w-[85%] mx-auto w-full py-6">
         {/* Header */}

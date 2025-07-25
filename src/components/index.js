@@ -197,6 +197,10 @@ export { default as FurnitureIcon } from "./user-side/designs/payments/Furniture
 export { default as CalculatePayment } from "./user-side/designs/payments/CalculatePayment";
 export { default as Advancepayment } from "./user-side/designs/payments/Advancepayment";
 export { default as PaymentMethod } from "./user-side/designs/payments/PaymentMethod";
+export { default as InitialPayment3 } from "./user-side/designs/payments/InitialPayment3";
+export { default as InitialPayment4 } from "./user-side/designs/payments/InitialPayment4";
+export { default as PaymentFlow } from "./user-side/designs/payments/PaymentFlow";
+
 // hight custom side
 export { default as HighCustompage } from "./user-side/high-custom/HighCustompage";
 export { default as Screen1 } from "./user-side/high-custom/Screen1.js";
