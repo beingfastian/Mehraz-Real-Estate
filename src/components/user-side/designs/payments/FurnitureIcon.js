@@ -6,7 +6,7 @@ const FurnitureIcon = ({ width = 24, height = 24, fill = "black" }) => {
       width={width}
       height={height}
       viewBox="0 0 32 30"
-      fill="none"
+      fill={fill}
       xmlns="http://www.w3.org/2000/svg">
       <path
         opacity="0.3"

@@ -1,5 +1,10 @@
 // components/DesignIcon.js
-const DesignIcon = ({ width = 24, height = 24, fill = "black" }) => (
+const DesignIcon = ({
+  width = 24,
+  height = 24,
+  fill = "black",
+  stroke = "#2F2F2F",
+}) => (
   <svg
     width={width}
     height={height}
@@ -23,53 +28,53 @@ const DesignIcon = ({ width = 24, height = 24, fill = "black" }) => (
       <g mask="url(#mask0_3322_22481)">
         <path
           d="M4.61292 13.4094V23.2272L13.4841 28.8649V19.0931L4.61292 13.4094Z"
-          fill="#2F2F2F"
+          fill={fill}
         />
         <path
           d="M19.1611 28.8649L28.0323 23.2272V13.4094L19.1611 19.0931V28.8649Z"
-          fill="#2F2F2F"
+          fill={fill}
         />
         <path
           d="M16.3823 33.1024L2.77878 24.6115V9.94969L16.3823 18.5097V33.1024Z"
-          stroke="#2F2F2F"
+          stroke={stroke}
           strokeWidth="1.3"
         />
         <path
           d="M29.5117 24.018L16.9728 31.9357V18.3252L29.5117 10.3431V24.018Z"
-          stroke="#2F2F2F"
+          stroke={stroke}
           strokeWidth="1.3"
         />
         <path
           d="M4.50805 10.192L16.5874 2.65091L28.6667 10.192L16.5874 17.7331L4.50805 10.192Z"
-          stroke="#2F2F2F"
+          stroke={stroke}
           strokeWidth="1.3"
         />
       </g>
       <path
         d="M2.48401 17.1349V26.9526L11.3552 32.5904V22.8185L2.48401 17.1349Z"
-        fill="#2F2F2F"
+        fill={fill}
       />
       <path
         d="M17.0322 32.5904L25.9034 26.9526V17.1349L17.0322 22.8185V32.5904Z"
-        fill="#2F2F2F"
+        fill={fill}
       />
       <path
         d="M23.0647 13.8508L14.1935 8.24817L5.32239 13.8508L14.1935 19.4534L23.0647 13.8508Z"
-        fill="#2F2F2F"
+        fill={fill}
       />
       <path
         d="M14.2535 36.828L0.65 28.337V13.6753L14.2535 22.2353V36.828Z"
-        stroke="#2F2F2F"
+        stroke={stroke}
         strokeWidth="1.3"
       />
       <path
         d="M27.3828 27.7441L14.8438 35.6618V22.0513L27.3828 14.0692V27.7441Z"
-        stroke="#2F2F2F"
+        stroke={stroke}
         strokeWidth="1.3"
       />
       <path
         d="M2.45715 13.8822L14.5365 6.3411L26.6158 13.8822L14.5365 21.4232L2.45715 13.8822Z"
-        stroke="#2F2F2F"
+        stroke={stroke}
         strokeWidth="1.3"
       />
     </g>

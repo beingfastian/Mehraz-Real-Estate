@@ -7,144 +7,135 @@ import { PiCodesandboxLogoBold } from "react-icons/pi";
 const SecondCard = () => {
   const [services, setServices] = useState([
     {
-      service: "Design Files",
+      service: "DESIGN FILES",
       includes:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+        "Complete architecture layout, elevations & 3D views in editable formats.",
       rate: "15 PKR/Yard",
       cost: "15 PKR/SQM",
       seeHow: "500 PKR",
     },
     {
-      service: "Site Survey",
-      includes:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-      rate: "Rate",
-      cost: "Cost",
+      service: "HOME SERVICE PLANS",
+      includes: "Detailed layout of utilities and home infrastructure plans.",
+      rate: "12 PKR/Yard",
+      cost: "14 PKR/SQM",
       seeHow: "",
     },
     {
-      service: "Lifetime Assistance",
+      service: "LIFETIME ASSURANCE",
       includes:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-      rate: "Rate",
-      cost: "Cost",
+        "Free revision support and updates for your home design forever.",
+      rate: "10 PKR/Yard",
+      cost: "12 PKR/SQM",
       seeHow: "",
     },
     {
-      service: "Construction Assistance",
-      includes:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-      rate: "Rate",
-      cost: "Cost",
+      service: "CONSTRUCTION ASSISTANCE",
+      includes: "Expert help during construction to ensure accurate execution.",
+      rate: "18 PKR/Yard",
+      cost: "20 PKR/SQM",
       seeHow: "",
     },
   ]);
-  return (
-    <div className=" text-center">
-      <h1 className=" text-center">
-        <span className=" font-bold">DESIGN</span> CHARGES
-      </h1>
-      <hr className="w-[50%] mx-auto" />
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs uppercase text-black">
+  return (
+    <div className="w-full px-4 py-4 bg-white rounded-md shadow-sm text-center">
+      {/* Header */}
+      <h1 className="text-xl font-semibold mb-1">
+        <span className="font-bold">DESIGN</span> CHARGES
+      </h1>
+      <hr className="w-[50%] mx-auto mb-4" />
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs text-left text-gray-700">
+          <thead className="uppercase text-black border-b">
             <tr>
-              <th scope="col" className="px-1 py-1">
-                Service
-              </th>
-              <th scope="col" className="px-1 py-1">
-                INCLUDES
-              </th>
-              <th scope="col" className="px-1 py-1">
-                CHARGES
-              </th>
-              <th scope="col" className="px-1 py-1">
-                SEE HOW
-              </th>
-              {/* <th scope="col" className="px-1 py-1">
-              </th> */}
-              <span className="sr-only">Edit</span>
+              <th className="px-2 py-2">Service</th>
+              <th className="px-2 py-2">Includes</th>
+              <th className="px-2 py-2">Charges</th>
+              <th className="px-2 py-2">See How</th>
             </tr>
           </thead>
           <tbody>
-            {services?.length > 0 &&
-              services.map((value, index) => {
-                return (
-                  <tr
-                    className="border bg-gray-100 border-gray-200 rounded-full shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 text-xs p-1"
-                    key={index}>
-                    {/* td 1 start  */}
-                    <td
-                      scope="row"
-                      className="px-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                      <div className="flex items-center w-[100%] bg-[#FFEBD2] px-2 py-1 rounded-full">
-                        <span className="flex items-center">
-                          <span className="border border-black flex h-[25px] w-[25px] rounded-full  justify-center items-center bg-white cursor-pointer">
-                            <FaCheck className=" text-black text-xl m-1" />
-                          </span>
-                          <PiCodesandboxLogoBold className=" mx-2 text-2xl" />
-                        </span>
-                        DESIGN
-                      </div>
-                    </td>
-                    {/* td 1 end  */}
-                    {/* td 2 start  */}
+            {services.map((value, index) => (
+              <tr
+                key={index}
+                className="bg-gray-100 hover:bg-gray-200 transition-all border-b">
+                {/* Service */}
+                <td className="px-2 py-2 font-medium whitespace-nowrap">
+                  <div className="flex items-center gap-2 bg-[#FFEBD2] px-2 py-1 rounded-full">
+                    <span className="border border-black h-[24px] w-[24px] flex justify-center items-center rounded-full bg-white">
+                      <FaCheck className="text-black text-sm" />
+                    </span>
+                    <PiCodesandboxLogoBold className="text-lg" />
+                    <span className="text-sm font-semibold">
+                      {value.service}
+                    </span>
+                  </div>
+                </td>
 
-                    <td className="px-1 py-1">
-                      <div className="bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 text-xs p-1">
-                        something something
-                      </div>
-                    </td>
-                    {/* td 2 end  */}
+                {/* Includes */}
+                <td className="px-2 py-2">
+                  <div className="bg-white border border-gray-200 rounded-lg px-2 py-1">
+                    {value.includes}
+                  </div>
+                </td>
 
-                    <td className="px-1 py-1 ">
-                      <div className="flex justify-center items-center w-[100%] h-[100%]">
-                        <div className="bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 text-xs p-1 min-w-[45%] text-center">
-                          {value.rate}
-                        </div>
-                        <div className="bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 text-xs p-1 min-w-[45%] text-center">
-                          {value.cost}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-1 py-1 text-right">
-                      <Nextbutton />
-                    </td>
-                  </tr>
-                );
-              })}
+                {/* Charges */}
+                <td className="px-2 py-2">
+                  <div className="flex justify-between gap-2">
+                    <div className="bg-white border border-gray-200 rounded-md px-2 py-1 text-center min-w-[48%]">
+                      {value.rate}
+                    </div>
+                    <div className="bg-white border border-gray-200 rounded-md px-2 py-1 text-center min-w-[48%]">
+                      {value.cost}
+                    </div>
+                  </div>
+                </td>
+
+                {/* See How */}
+                <td className="px-2 py-2 text-right">
+                  <Nextbutton />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
-        {/* table end  */}
       </div>
 
-      <div className="items-center w-[100%] bg-[#ffebd2c7] px-2 py-1 rounded-full mt-1 grid grid-cols-3  mr-2">
-        <div>CHANGES</div>
-        <div>
+      {/* Changes Section */}
+      <div className="grid grid-cols-3 items-center bg-[#ffebd2c7] text-sm px-3 py-2 mt-4 rounded-full w-full">
+        <div className="font-medium">CHANGES</div>
+        <div className="text-center">
           LEVEL <span className="font-bold">LOW</span>
         </div>
-        <div className="flex">
-          <button className="bg-white border border-gray-200 rounded-sm shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 text-xs p-1 px-2 mr-2">
+        <div className="flex justify-end gap-2">
+          <button className="bg-white border border-gray-300 rounded-sm px-2 py-1 shadow-sm hover:bg-gray-100">
             RATE
           </button>
-          <button className="bg-white border border-gray-200 rounded-sm shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 text-xs p-1">
+          <button className="bg-white border border-gray-300 rounded-sm px-2 py-1 shadow-sm hover:bg-gray-100">
             COST
           </button>
         </div>
       </div>
 
-      <div className="flex items-center w-[100%] bg-[#FFEBD2] px-2 py-1 rounded-full mt-1">
-        <span className="flex items-center">
-          <span className="border border-black flex h-[25px] w-[25px] rounded-full  justify-center items-center bg-white cursor-pointer">
-            {/* <FaCheck className=" text-black text-xl m-1" /> */}
-          </span>
-          <PiCodesandboxLogoBold className=" mx-2 text-2xl" />
-        </span>
-        OFFER
-        <input type="text" className=" xl:w-[40px] md:w-[35px] sm:w-[30px]" />
-        <input type="Number" className=" w-[35px] ml-[5px]" />
-        %OFF
+      {/* Offer Section */}
+      <div className="flex items-center gap-2 bg-[#FFEBD2] text-sm px-3 py-2 mt-3 rounded-full w-full">
+        <span className="border border-black h-[24px] w-[24px] flex justify-center items-center rounded-full bg-white" />
+        <PiCodesandboxLogoBold className="text-lg" />
+        <span>OFFER</span>
+        <input
+          type="text"
+          placeholder="Label"
+          className="w-[50px] border border-gray-300 rounded px-1"
+        />
+        <input
+          type="number"
+          placeholder="%"
+          className="w-[50px] border border-gray-300 rounded px-1"
+        />
+        <span>% OFF</span>
       </div>
     </div>
   );

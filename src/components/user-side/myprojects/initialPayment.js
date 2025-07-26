@@ -78,7 +78,7 @@ const InitialPayment = ({ setSteps }) => {
             <span>SERVICES</span>
             <span>ADVANCE</span>
           </div>
-          <p className="mt-4 bg-accent-gold-2 text-white font-medium text-xl max-w-[40%] mx-auto rounded-2xl px-4 py-2">
+          <p className="mt-4 bg-accent-gold-2 text-white font-medium text-xl max-w-[40%] mx-auto rounded-2xl px-4 py-1">
             Select <b className="font-bold">Home Services</b> Plans
           </p>
         </div>
@@ -90,7 +90,7 @@ const InitialPayment = ({ setSteps }) => {
               key={index}
               className="w-full md:w-[33%] border border-gray-300 shadow-lg rounded-b-2xl rounded-t-[35px] bg-white">
               {/* Plan Header */}
-              <div className="bg-gray-100 rounded-[35px] px-4 py-2 flex items-start gap-4 relative">
+              <div className="bg-gray-100 rounded-[35px] px-4 py-2 flex items-start gap-4 relative shadow-md">
                 <input
                   type="radio"
                   name="plan"

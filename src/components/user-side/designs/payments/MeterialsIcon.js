@@ -6,7 +6,7 @@ const MeterialsIcon = ({ width = 24, height = 24, fill = "black" }) => {
       width={width}
       height={height}
       viewBox="0 0 45 45"
-      fill="none"
+      fill={fill}
       xmlns="http://www.w3.org/2000/svg">
       <rect width="45" height="45" fill="url(#pattern0)" fillOpacity="0.9" />
       <defs>

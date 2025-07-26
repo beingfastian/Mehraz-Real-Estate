@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Backbutton,
   SecondCard,
@@ -22,9 +23,9 @@ import Image from "next/image";
 
 const InitialPayment3 = ({ setStep }) => {
   const [service1, setService1] = useState([
-    { checked: true, icon: <DesignIcon />, text: "Design" },
+    { checked: true, icon: <DesignIcon />, text: "DESIGN" },
     { checked: false, icon: <ConstructionIcon />, text: "CONSTRUCTION" },
-    { checked: true, icon: <MeterialsIcon />, text: "METERIALS" },
+    { checked: false, icon: <MeterialsIcon />, text: "METERIALS" },
     { checked: false, icon: <FurnitureIcon />, text: "FURNITURE" },
   ]);
 
@@ -33,15 +34,13 @@ const InitialPayment3 = ({ setStep }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col w-full min-h-full">
+      className="flex flex-col w-full min-h-screen relative">
       <div className="flex-grow">
-        <div className="max-w-8xl w-full mx-auto">
+        <div className="max-w-[90%] w-full mx-auto">
           {/* Header */}
-          <div className="flex items-start mb-6">
-            <span className="relative z-20">
-              <Backbutton />
-            </span>
-            <div className="ml-2">
+          <div className="flex items-center justify-start mb-6 gap-3">
+            <Backbutton />
+            <div>
               <h1 className="font-bold text-xl">SELECT & PAY</h1>
               <div className="flex items-center">
                 <span className="bg-[#0CD350] flex h-[20px] w-[20px] rounded-full justify-center items-center">
@@ -53,14 +52,16 @@ const InitialPayment3 = ({ setStep }) => {
           </div>
 
           {/* Main Grid */}
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 gap-6 items-stretch">
             {/* Left: Services */}
-            <div className="col-span-3 md:col-span-12">
-              <Services service1={service1} setService1={setService1} />
+            <div className="col-span-3 md:col-span-12 flex flex-col mt-14">
+              <div className="h-full bg-white p-1 rounded-lg shadow">
+                <Services service1={service1} setService1={setService1} />
+              </div>
             </div>
 
             {/* Center: Inputs + Card */}
-            <div className="col-span-6 md:col-span-12 flex flex-col items-center -mt-4">
+            <div className="col-span-6 md:col-span-12 flex flex-col items-center">
               <div className="flex flex-wrap justify-center gap-4 mb-2">
                 <div className="flex items-center">
                   <p>Area</p>
@@ -82,14 +83,14 @@ const InitialPayment3 = ({ setStep }) => {
                 Floor
               </p>
 
-              <div className="w-full bg-white border p-3 rounded-lg shadow">
+              <div className="w-full h-full bg-white border p-3 rounded-lg shadow flex-grow">
                 <SecondCard />
               </div>
             </div>
 
             {/* Right: ThirdCard */}
-            <div className="col-span-3 md:col-span-12">
-              <div className="w-full bg-white p-3 rounded-lg shadow">
+            <div className="col-span-3 md:col-span-12 flex flex-col mt-14">
+              <div className="h-full bg-white p-3">
                 <ThirdCard step={1} setStep={setStep} />
               </div>
             </div>
@@ -109,6 +110,7 @@ const InitialPayment3 = ({ setStep }) => {
           </div>
         </div>
       </div>
+
       {/* Footer Navigation */}
       <footer className="w-full absolute bottom-0 bg-accent-gray py-3 mt-10">
         <div className="max-w-[80%] mx-auto grid grid-cols-3 text-white text-sm font-semibold">

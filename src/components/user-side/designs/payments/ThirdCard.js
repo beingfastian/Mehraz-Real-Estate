@@ -8,7 +8,7 @@ const ThirdCard = ({ step, setStep }) => {
         <hr />
       </div>
       <div className=" md:flex justify-between">
-        <div className=" bg-[#EFEFEF] text-xl text-center md:text-start md:bg-white w-full">
+        <div className=" bg-[#EFEFEF] text-xl text-center md:text-start md:bg-white w-full shadow-lg border border-gray-300 rounded-2xl">
           <span className=" font-bold">Total Cost</span>
           <br />
           100000 PKR

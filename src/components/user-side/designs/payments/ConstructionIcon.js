@@ -5,7 +5,7 @@ const ConstructionIcon = ({ width = 28, height = 28, fill = "black" }) => (
     width={width}
     height={height}
     viewBox="0 0 60 55"
-    fill="none"
+    fill={fill}
     xmlns="http://www.w3.org/2000/svg"
     // {...props}
   >
