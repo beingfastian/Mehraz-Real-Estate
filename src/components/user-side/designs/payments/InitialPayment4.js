@@ -58,8 +58,8 @@ const InitialPayment4 = ({ setStep }) => {
       className="flex flex-col min-h-full min-w-full">
       <div className="flex-grow">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-2xl font-bold mb-6">PAYMENT</h1>
-          <p className="text-black/80 bg-gray-400 max-w-[40%] rounded-2xl mb-4 mx-auto">
+          <h1 className="text-2xl font-bold mb-1 mt-8">PAYMENT</h1>
+          <p className="text-black/70 bg-gray-200 max-w-[40%] rounded-2xl mb-4 mx-auto">
             Services Availed
           </p>
         </div>
@@ -78,13 +78,19 @@ const InitialPayment4 = ({ setStep }) => {
         ))}
       </div>
 
+      <div className="flex flex-row bg-[#EFEFEF] my-4 text-xl text-center md:text-start md:bg-white w-full shadow-lg border border-gray-300 rounded-lg">
+        <span className=" font-bold">TOTAL AMOUNT</span> PENDING =
+        <span className="text-red text-2xl"> 100000 </span>{" "}
+        <span className=" font-bold">PKR</span>
+      </div>
+
       <Link href={"/payment"}>
-        <div className="flex w-[40%] mx-auto">
+        <div className="flex min-w-[80%] w-[80%] mx-auto">
           <UButton
             onClick={() => setStep(prev => prev + 1)}
             text="PAY FOR ALL"
             color="gray-white"
-            className="text-base px-[30px] mx-auto mt-6 py-1 rounded-3xl"
+            className="text-base px-[30px] mx-auto w-[50%] min-w-[50%] mt-6 py-1 rounded-3xl"
           />
         </div>
       </Link>

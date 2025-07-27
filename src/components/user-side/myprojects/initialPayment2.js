@@ -16,7 +16,7 @@ const InitialPayment2 = ({ setSteps }) => {
     {
       title: "DESIGN",
       icon: <DesignIcon fill="white" stroke="white" width={50} height={50} />,
-      selected: true,
+      selected: false,
     },
     {
       title: "CONSTRUCTION",
@@ -42,7 +42,7 @@ const InitialPayment2 = ({ setSteps }) => {
           className="object-contain"
         />
       ),
-      selected: true,
+      selected: false,
     },
     {
       title: "FURNITURE & LANDSCAPE",

@@ -25,7 +25,7 @@ const InitialPayment3 = ({ setStep }) => {
   const [service1, setService1] = useState([
     { checked: true, icon: <DesignIcon />, text: "DESIGN" },
     { checked: false, icon: <ConstructionIcon />, text: "CONSTRUCTION" },
-    { checked: false, icon: <MeterialsIcon />, text: "METERIALS" },
+    { checked: false, icon: <MeterialsIcon />, text: "MATERIALS" },
     { checked: false, icon: <FurnitureIcon />, text: "FURNITURE" },
   ]);
 
@@ -38,7 +38,7 @@ const InitialPayment3 = ({ setStep }) => {
       <div className="flex-grow">
         <div className="max-w-[90%] w-full mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-start mb-6 gap-3">
+          <div className="flex items-center justify-start gap-3">
             <Backbutton />
             <div>
               <h1 className="font-bold text-xl">SELECT & PAY</h1>
@@ -63,28 +63,28 @@ const InitialPayment3 = ({ setStep }) => {
             {/* Center: Inputs + Card */}
             <div className="col-span-6 md:col-span-12 flex flex-col items-center">
               <div className="flex flex-wrap justify-center gap-4 mb-2">
-                <div className="flex items-center">
+                <div className="flex items-center text-gray-700">
                   <p>Area</p>
                   <input
                     type="number"
-                    className="border rounded-full w-[80px] ml-2 h-[24px] py-0 px-2"
+                    className="border border-gray-700 rounded-full w-[80px] ml-2 h-[24px] py-0 px-2"
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center text-gray-700">
                   <p>Floors</p>
                   <input
                     type="number"
-                    className="border rounded-full w-[80px] ml-2 h-[24px] py-0 px-2"
+                    className="border border-gray-700 rounded-full w-[80px] ml-2 h-[24px] py-0 px-2"
                   />
                 </div>
               </div>
-              <p className="text-xs text-center mb-2">
+              <p className="text-xs text-center mb-2 text-gray-700">
                 50% Off Ground Floor COST ADDED For Every Floor Above Ground
                 Floor
               </p>
 
               <div className="w-full h-full bg-white border p-3 rounded-lg shadow flex-grow">
-                <SecondCard />
+                <SecondCard service1={service1} />
               </div>
             </div>
 
