@@ -9,47 +9,83 @@ import { Backbutton, UButton } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 import { renovativeImage, residentialImage, commercialImage } from "@/assets";
-import { Card } from "@/components";
+import { Card2 } from "@/components";
+import { FaCheck } from "react-icons/fa6";
+import { DesignIcon } from "@/components";
+import { whitewall, buyMaterialLightIcon, couch } from "@/assets";
 
 const InitialPayment4 = ({ setStep }) => {
   const projecttype = [
     {
+      icon: <DesignIcon fill="white" stroke="white" width={50} height={50} />,
       text: (
         <>
-          <b>LAND .</b> PLOT
+          <b>DESIGN</b>
         </>
       ),
       URL: "residential",
       imagesrc: residentialImage.src,
+      checked: false,
     },
     {
+      icon: (
+        <Image
+          src={whitewall}
+          alt="CONSTRUCTION"
+          width={50}
+          height={50}
+          className="object-contain"
+        />
+      ),
       text: (
         <>
-          <b>COMMERCIAL</b>
+          <b>CONSTRUCTION</b>
         </>
       ),
       URL: "commercial",
       imagesrc: commercialImage.src,
+      checked: true,
     },
     {
+      icon: (
+        <Image
+          src={buyMaterialLightIcon}
+          alt="Materials"
+          width={50}
+          height={50}
+          className="object-contain"
+        />
+      ),
       text: (
         <>
-          <b>RESIDENTIAL</b>
+          <b>MATERIALS</b>
         </>
       ),
       URL: "renovative",
       imagesrc: renovativeImage.src,
+      checked: false,
     },
     {
+      icon: (
+        <Image
+          src={couch}
+          alt="Furniture"
+          width={40}
+          height={40}
+          className="object-contain"
+        />
+      ),
       text: (
         <>
-          <b>OTHER</b>
+          <b>FURNITURE</b> & LANDSCAPE
         </>
       ),
       URL: "industrial",
       imagesrc: renovativeImage.src,
+      checked: true,
     },
   ];
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -59,13 +95,13 @@ const InitialPayment4 = ({ setStep }) => {
       <div className="flex-grow">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-2xl font-bold mb-1 mt-8">PAYMENT</h1>
-          <p className="text-black/70 bg-gray-200 max-w-[40%] rounded-2xl mb-4 mx-auto">
+          <p className="text-black/70 bg-gray-200/70 max-w-[50%] rounded-2xl mb-4 mx-auto">
             Services Availed
           </p>
         </div>
       </div>
 
-      <div className="flex justify-center items-center flex-wrap gap-8 md:gap-6 sm:gap-4 ">
+      <div className="flex justify-center items-center flex-wrap gap-8 md:gap-6 sm:gap-4 mb-12 ">
         {projecttype.map((value, index) => (
           <div
             key={index}
@@ -73,15 +109,23 @@ const InitialPayment4 = ({ setStep }) => {
               boxShadow: "10px 15px 20px 0px rgba(0, 0, 0, 0.25)",
               borderRadius: "16px", // optional for softness
             }}>
-            <Card data={value} setStep={setStep} />
+            <Card2 data={value} setStep={setStep} />
           </div>
         ))}
       </div>
 
-      <div className="flex flex-row bg-[#EFEFEF] my-4 text-xl text-center md:text-start md:bg-white w-full shadow-lg border border-gray-300 rounded-lg">
-        <span className=" font-bold">TOTAL AMOUNT</span> PENDING =
-        <span className="text-red text-2xl"> 100000 </span>{" "}
-        <span className=" font-bold">PKR</span>
+      <div className="flex flex-col justify-center items-center text-center bg-[#EFEFEF] my-1 text-xl text-center md:text-start md:bg-white w-[40%] shadow-lg border border-gray-300 rounded-xl mx-auto">
+        <div className="flex flex-row">
+          <span className=" font-bold mr-1">TOTAL AMOUNT</span> PENDING =
+          <span className="text-black mx-1"> 100000 </span>{" "}
+          <span className=" font-bold">PKR</span>
+        </div>
+        <div className="flex items-center">
+          <span className="bg-[#0CD350] flex h-[20px] w-[20px] rounded-full justify-center items-center">
+            <FaCheck className="text-white text-xs" />
+          </span>
+          <span className="text-xs ml-2">Satisfaction Guarantee</span>
+        </div>
       </div>
 
       <Link href={"/payment"}>
@@ -90,7 +134,7 @@ const InitialPayment4 = ({ setStep }) => {
             onClick={() => setStep(prev => prev + 1)}
             text="PAY FOR ALL"
             color="gray-white"
-            className="text-base px-[30px] mx-auto w-[50%] min-w-[50%] mt-6 py-1 rounded-3xl"
+            className="text-base px-[30px] mx-auto w-[50%] min-w-[50%] py-1 rounded-3xl"
           />
         </div>
       </Link>

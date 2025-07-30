@@ -1,12 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { industrialImage, tickIcon } from "@/assets";
+import { X } from "lucide-react";
+import { industrialImage, circleCheckIcon } from "@/assets";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import HomeProgramPopup from "./HomeProgramPopup";
+import { VideoCarousel } from "@/components";
 
 export default function DesSelStep2Screen4() {
   const [mainImageIndex, setMainImageIndex] = useState(0);
+  const [showHomeProgram, setShowHomeProgram] = useState(false);
+  const [showVideoTour, setShowVideoTour] = useState(false);
+
   const images = [
     industrialImage,
     industrialImage,
@@ -87,11 +93,15 @@ export default function DesSelStep2Screen4() {
           {!showFullText && (
             <>
               <div className="flex justify-between space-x-4 mb-8">
-                <button className="bg-[#FFF3E4] text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm flex items-center gap-2 hover:shadow-md transition">
+                <button
+                  onClick={() => setShowVideoTour(true)}
+                  className="bg-[#FFF3E4] text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm flex items-center gap-2 hover:shadow-md transition">
                   <span>↲</span>
                   <span>360 TOUR</span>
                 </button>
-                <button className="bg-[#FFF3E4] text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm hover:shadow-md transition">
+                <button
+                  onClick={() => setShowHomeProgram(true)}
+                  className="bg-[#FFF3E4] text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm hover:shadow-md transition">
                   HOME PROGRAM
                 </button>
               </div>
@@ -138,10 +148,35 @@ export default function DesSelStep2Screen4() {
                 </button>
               </div>
 
-              <button className="w-full uppercase font-semibold text-white py-2 hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-2xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
-                Get Designed
+              <button className="w-full uppercase flex-row flex justify-center font-semibold text-white py-2 hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-2xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
+                <Image
+                  src={circleCheckIcon}
+                  width={24}
+                  height={22}
+                  className="w-6 h-auto"
+                  alt="circle check"
+                />
+                <span>Get Designed</span>
               </button>
             </>
+          )}
+          {showHomeProgram && (
+            <HomeProgramPopup onClose={() => setShowHomeProgram(false)} />
+          )}
+          {showVideoTour && (
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
+              <div className="bg-black bg-opacity-90 p-4 relative w-full h-full overflow-hidden shadow-lg pt-[20vh]">
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowVideoTour(false)}
+                  className="absolute top-4 right-4 bg-gray-100 rounded-full p-1 hover:bg-gray-200 z-50">
+                  <X size={18} />
+                </button>
+
+                {/* Video Material Component */}
+                <VideoCarousel />
+              </div>
+            </div>
           )}
         </div>
       </div>

@@ -166,6 +166,7 @@ export { default as DesSelStep2Screen4DesignSlideMax } from "./user-side/fast-ho
 export { default as DesSelStep2Screen3DesignSlideMin } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMin";
 export { default as DesSelStep2Screen3DesignSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMinMobile";
 export { default as DesSelStep2Screen3JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3JumpToModal";
+export { default as HomeProgramPopup } from "./user-side/fast-homes/design-selection/HomeProgramPopup";
 
 // User Side - Desings
 export { default as DesignsClientPage } from "./user-side/designs/DesignsClientPage";
@@ -207,6 +208,7 @@ export { default as Screen1 } from "./user-side/high-custom/Screen1.js";
 export { default as ProjectDetails } from "./user-side/high-custom/ProjectDetails";
 export { default as Placetype } from "./user-side/high-custom/Placetype.js";
 export { default as Card } from "./user-side/high-custom/Card.js";
+export { default as Card2 } from "./user-side/high-custom/Card2.js";
 export { default as SpecificDetail } from "./user-side/high-custom/SpecificDetail.js";
 export { default as DesignPreferenceForm } from "./user-side/high-custom/DesignPreference";
 

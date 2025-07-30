@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import { PiCodesandboxLogoBold } from "react-icons/pi";
 import Image from "next/image";
-import tickIcon from "@/assets/icons/buy-materials/tickIcon"; // adjust path as needed
+import tickIcon from "@/assets/icons/buy-materials/tickIcon.svg";
 import localimg from "@/assets/images/bg.jpg";
 
 const SecondCard = ({ service1 }) => {

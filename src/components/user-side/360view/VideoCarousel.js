@@ -1,22 +1,32 @@
 "use client";
 import { useState } from "react";
 import Slider from "react-slick";
+import { X } from "lucide-react";
 import "./Carauls3d.scss";
 
 // import icons
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Image from "next/image";
+import { industrialImage } from "@/assets";
 
 // import images
 // import img1 from "./images/img1.jpg";
 // import img2 from "./images/img2.jpg";
 // import img3 from "./images/img3.jpg";
 // import img4 from "./images/img4.jpg";
-const img1 = "https://picsum.photos/800/800/?random";
-const img2 = "https://picsum.photos/800/800/?random";
-const img3 = "https://picsum.photos/600/800/?random";
-const img4 = "https://picsum.photos/800/500/?random";
-const images = [img1, img2, img3, img4];
+// const img1 = "https://picsum.photos/800/800/?random";
+// const img2 = "https://picsum.photos/800/800/?random";
+// const img3 = "https://picsum.photos/600/800/?random";
+// const img4 = "https://picsum.photos/800/500/?random";
+// const images = [img1, img2, img3, img4];
+
+const images = [
+  industrialImage,
+  industrialImage,
+  industrialImage,
+  industrialImage,
+  industrialImage,
+];
 
 function SampleNextArrow({ onClick }) {
   return (
@@ -95,7 +105,7 @@ function VideoCarousel() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen></iframe>{" "} */}
-                <Image src={img} alt="alt" fill  />
+                <Image src={img} alt="alt" fill />
               </div>
             ))}
           </Slider>
