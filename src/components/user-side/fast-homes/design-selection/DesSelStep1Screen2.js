@@ -13,10 +13,6 @@ import {
 import { useEffect, useState } from "react";
 import getStep1Screen2Projects from "@/Firebase/user-side/design-selection/step-1/getStep1Screen2Projects";
 import useRPS from "@/hooks/useRPS";
-import {
-  getBookmarkedProjects,
-  setBookmarkedProjects,
-} from "@/utilities/user-side/design-selection/localStorageBookmarks";
 
 const DesSelStep1Screen2 = ({ cities, styles }) => {
   const { router, pathname, searchParams } = useRPS();
@@ -75,21 +71,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
 
   const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
 
-  const checkLocalStorageBookmarked = id => {
-    const localStorageBookmarkedProjects = getBookmarkedProjects();
-    return localStorageBookmarkedProjects.includes(id);
-  };
-
-  const bookmarkLocalStorageHandler = id => {
-    const localStorageBookmarkedProjects = getBookmarkedProjects();
-    const newBookmarkedProjects = localStorageBookmarkedProjects.includes(id)
-      ? localStorageBookmarkedProjects.filter(
-          bookmarkedId => bookmarkedId !== id,
-        )
-      : [...localStorageBookmarkedProjects, id];
-    setBookmarkedProjects(newBookmarkedProjects);
-  };
-
   const selectProjectHandler = id => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("step", 2);
@@ -141,12 +122,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
                     selectProjectHandler(project.id);
                   }}
                   project={project}
-                  isLocalStorageBookmarked={checkLocalStorageBookmarked(
-                    project.id,
-                  )}
-                  bookmarkLocalStorageHandler={() =>
-                    bookmarkLocalStorageHandler(project.id)
-                  }
                 />
               ))}
             </DesSelStep1Screen2ProjectsCarouselMax>
@@ -167,12 +142,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
                         setMaxViewCurrSlide(index + 1);
                         changeView("max");
                       }}
-                      isLocalStorageBookmarked={checkLocalStorageBookmarked(
-                        project.id,
-                      )}
-                      bookmarkLocalStorageHandler={() =>
-                        bookmarkLocalStorageHandler(project.id)
-                      }
                     />
                   ))}
                 </DesSelStep1Screen2ProjectsCarouselMin>
@@ -191,12 +160,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
                               );
                               changeView("max");
                             }}
-                            isLocalStorageBookmarked={checkLocalStorageBookmarked(
-                              project.id,
-                            )}
-                            bookmarkLocalStorageHandler={() =>
-                              bookmarkLocalStorageHandler(project.id)
-                            }
                             selectProjectHandler={() => {
                               selectProjectHandler(project.id);
                             }}

@@ -1,10 +1,5 @@
 "use client";
-import {
-  bookmarkGrayFilledIcon,
-  bookmarkGrayIcon,
-  circleCheckIcon,
-  shareGrayIcon,
-} from "@/assets";
+import { circleCheckIcon, shareGrayIcon } from "@/assets";
 import Image from "next/image";
 import { UButton, DesSelStep1Screen2ProjectSlideRates } from "@/components";
 import { useState } from "react";
@@ -13,10 +8,7 @@ const DesSelStep1Screen2ProjectSlideMin = ({
   project,
   selectProjectHandler,
   seeMoreHandler,
-  isLocalStorageBookmarked,
-  bookmarkLocalStorageHandler,
 }) => {
-  const [isBookmarked, setIsBookmarked] = useState(isLocalStorageBookmarked);
   return (
     <>
       <div
@@ -67,21 +59,6 @@ const DesSelStep1Screen2ProjectSlideMin = ({
                 />
               </div>
               <div className="w-12 flex flex-col items-center justify-center gap-4">
-                <button
-                  onClick={() => {
-                    bookmarkLocalStorageHandler();
-                    setIsBookmarked(prevState => !prevState);
-                  }}>
-                  <Image
-                    src={
-                      isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon
-                    }
-                    width={28}
-                    height={28}
-                    className="w-6 h-auto"
-                    alt="Bookmark"
-                  />
-                </button>
                 <button>
                   <Image
                     src={shareGrayIcon}

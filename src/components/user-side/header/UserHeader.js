@@ -18,24 +18,6 @@ const UserHeader = () => {
             />
           </Link>
           <div className="flex items-center gap-10  sm:gap-4">
-            <Link href="/" className="group relative w-8 h-8 block sm:hidden">
-              <Image
-                src={bookmarkIcon}
-                alt="bookmark"
-                priority={true}
-                width={28}
-                height={28}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-800 opacity-100 group-hover:opacity-0"
-              />
-              <Image
-                src={bookmarkFilledIcon}
-                alt="bookmark"
-                priority={true}
-                width={28}
-                height={28}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-800 opacity-0 group-hover:opacity-100"
-              />
-            </Link>
             <div className="flex items-center gap-9">
               <UserHeaderMeetBtn />
               <Link href="/chat" passHref legacyBehavior>

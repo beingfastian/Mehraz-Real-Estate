@@ -7,7 +7,6 @@ import { MdOutlinePayment } from "react-icons/md";
 import { fastHomeIcon } from "@/assets";
 import { Backbutton, UButton } from "@/components";
 import Image from "next/image";
-import Link from "next/link";
 import { renovativeImage, residentialImage, commercialImage } from "@/assets";
 import { Card2 } from "@/components";
 import { FaCheck } from "react-icons/fa6";
@@ -86,6 +85,10 @@ const InitialPayment4 = ({ setStep }) => {
     },
   ];
 
+  const handlePayForAll = () => {
+    setStep(3); // Redirect to step 3
+  };
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -107,7 +110,7 @@ const InitialPayment4 = ({ setStep }) => {
             key={index}
             style={{
               boxShadow: "10px 15px 20px 0px rgba(0, 0, 0, 0.25)",
-              borderRadius: "16px", // optional for softness
+              borderRadius: "16px",
             }}>
             <Card2 data={value} setStep={setStep} />
           </div>
@@ -128,16 +131,14 @@ const InitialPayment4 = ({ setStep }) => {
         </div>
       </div>
 
-      <Link href={"/payment"}>
-        <div className="flex min-w-[80%] w-[80%] mx-auto">
-          <UButton
-            onClick={() => setStep(prev => prev + 1)}
-            text="PAY FOR ALL"
-            color="gray-white"
-            className="text-base px-[30px] mx-auto w-[50%] min-w-[50%] py-1 rounded-3xl"
-          />
-        </div>
-      </Link>
+      <div className="flex min-w-[80%] w-[80%] mx-auto">
+        <UButton
+          onClick={handlePayForAll}
+          text="PAY FOR ALL"
+          color="gray-white"
+          className="text-base px-[30px] mx-auto w-[50%] min-w-[50%] py-1 rounded-3xl"
+        />
+      </div>
 
       {/* Footer Navigation */}
       <footer className="w-full absolute left-0 bottom-0 bg-accent-gray py-3 mt-10">

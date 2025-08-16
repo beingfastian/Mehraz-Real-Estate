@@ -1,11 +1,5 @@
 "use client";
-import {
-  bookmarkGrayFilledIcon,
-  bookmarkGrayIcon,
-  circleCheckIcon,
-  shareGrayIcon,
-  blackNextIcon,
-} from "@/assets";
+import { circleCheckIcon, shareGrayIcon, blackNextIcon } from "@/assets";
 import Image from "next/image";
 import { UButton, ULinkButton } from "@/components";
 import { useState } from "react";
@@ -38,12 +32,9 @@ const pieChartData = [
 
 const DesSelStep2Screen4DesignSlideMax = ({
   design,
-  isLocalStorageBookmarked,
-  bookmarkLocalStorageHandler,
   selectDesignHandler,
   selectSkipDesignHandler,
 }) => {
-  const [isBookmarked, setIsBookmarked] = useState(isLocalStorageBookmarked);
   const [showChart, setShowChart] = useState(false);
   return (
     <>
@@ -79,19 +70,6 @@ const DesSelStep2Screen4DesignSlideMax = ({
               </button>
             </div>
             <div className="flex lg:hidden flex-col items-center justify-center gap-4">
-              <button
-                onClick={() => {
-                  bookmarkLocalStorageHandler();
-                  setIsBookmarked(prevState => !prevState);
-                }}>
-                <Image
-                  src={isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon}
-                  width={28}
-                  height={28}
-                  className="w-7 xl:w-6 h-auto"
-                  alt="Bookmark"
-                />
-              </button>
               <button
                 onClick={() => {
                   navigator.share({
@@ -208,20 +186,6 @@ const DesSelStep2Screen4DesignSlideMax = ({
           )}
           <div className="absolute w-full bottom-0 right-0 px-2 hidden lg:flex justify-end items-center gap-1 bg-gradient-to-r from-white/0 from-30% to-white to-80%">
             {/* TODO: On click, add bookmark and replace bookmarkGrayIcon with bookmarkGrayFilledIcon */}
-            <button
-              className="p-2"
-              onClick={() => {
-                bookmarkLocalStorageHandler();
-                setIsBookmarked(prevState => !prevState);
-              }}>
-              <Image
-                src={isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon}
-                width={28}
-                height={28}
-                className="w-6 h-auto"
-                alt="Bookmark"
-              />
-            </button>
             <button
               onClick={() => {
                 navigator.share({

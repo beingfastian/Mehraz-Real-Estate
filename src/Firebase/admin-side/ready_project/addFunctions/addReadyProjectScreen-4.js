@@ -54,20 +54,14 @@ const addReadyProjectS4ToDB = async ({
     const op2ImageUrls = [];
     await Promise.all(
       imagesOp1.map(async (image, index) => {
-        const op1ImageRef = ref(
-          storage,
-          `RP_DESIGNS/${designId}/images/option1/${ulid(timestamp)}`,
-        );
+        const op1ImageRef = ref(storage, `RP_DESIGNS/${designId}/image`);
         await uploadBytes(op1ImageRef, image.get(`image${index}`));
         op1ImageUrls.push(await getDownloadURL(op1ImageRef));
       }),
     );
     await Promise.all(
       imagesOp2.map(async (image, index) => {
-        const op2ImageRef = ref(
-          storage,
-          `RP_DESIGNS/${designId}/images/option2/${ulid(timestamp)}`,
-        );
+        const op2ImageRef = ref(storage, `RP_DESIGNS/${designId}/image2`);
         await uploadBytes(op2ImageRef, image.get(`image${index}`));
         op2ImageUrls.push(await getDownloadURL(op2ImageRef));
       }),

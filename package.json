@@ -16,7 +16,7 @@
     "bcryptjs": "^2.4.3",
     "cookie": "^1.0.2",
     "date-fns": "^3.6.0",
-    "firebase": "^11.6.1",
+    "firebase": "^11.10.0",
     "flowbite": "^2.5.1",
     "framer-motion": "^11.3.0",
     "jose": "^5.8.0",

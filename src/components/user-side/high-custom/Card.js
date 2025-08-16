@@ -21,10 +21,10 @@ const Card = ({ data, setStep, hightcustomdetail, setHighCustomDetail }) => {
           src={data?.imagesrc}
           alt="Background"
           fill
-          className="w-full h-full object-cover !relative"
+          className="w-full h-full object-cover !relative rounded-[20px]"
         />
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black opacity-50 rounded-[20px]"></div>
 
         {/* Content on Top of Image */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">

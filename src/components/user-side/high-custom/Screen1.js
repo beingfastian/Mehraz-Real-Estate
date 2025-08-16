@@ -2,7 +2,14 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { buildingicon, buyMaterialLightIcon } from "@/assets";
+import {
+  buildingicon,
+  buyMaterialLightIcon,
+  custom2,
+  customicon,
+  myVerseImage,
+  high_CustomIcon,
+} from "@/assets";
 import Image from "next/image";
 import { UserHeader } from "@/components";
 
@@ -38,14 +45,13 @@ const Screen1 = ({ setStep, heading, subheading }) => {
           {/* Icon */}
           <div className="w-[150px] md:w-[200px] h-[150px] md:h-[200px] mb-6 md:mb-0 md:mr-8">
             {pathname === "/high-custom" && (
-              <svg
-                width="200"
-                height="200"
-                viewBox="0 0 154 158"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                {/* your SVG here */}
-              </svg>
+              <Image
+                src={high_CustomIcon}
+                alt="myverse"
+                width={200}
+                height={200}
+                priority
+              />
             )}
             {pathname === "/buy-property" && (
               <Image

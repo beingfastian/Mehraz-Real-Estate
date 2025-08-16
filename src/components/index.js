@@ -201,6 +201,9 @@ export { default as PaymentMethod } from "./user-side/designs/payments/PaymentMe
 export { default as InitialPayment3 } from "./user-side/designs/payments/InitialPayment3";
 export { default as InitialPayment4 } from "./user-side/designs/payments/InitialPayment4";
 export { default as PaymentFlow } from "./user-side/designs/payments/PaymentFlow";
+export { default as Payment2 } from "./user-side/designs/payments/Payment2";
+export { default as PaymentAdvance2 } from "./user-side/designs/payments/PaymentAdvance2";
+export { default as PaymentFull2 } from "./user-side/designs/payments/PaymentFull2";
 
 // hight custom side
 export { default as HighCustompage } from "./user-side/high-custom/HighCustompage";

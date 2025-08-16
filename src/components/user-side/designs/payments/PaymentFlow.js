@@ -1,6 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { InitialPayment3, InitialPayment4 } from "@/components";
+import {
+  InitialPayment3,
+  InitialPayment4,
+  Payment2,
+  PaymentAdvance2,
+  PaymentFull2,
+} from "@/components";
 
 const PaymentFlow = () => {
   const [step, setStep] = useState(1);
@@ -8,7 +14,9 @@ const PaymentFlow = () => {
   const steps = {
     1: <InitialPayment3 setStep={setStep} />,
     2: <InitialPayment4 setStep={setStep} />,
-    // 3: <FutureStep setStep={setStep} />,
+    3: <Payment2 setStep={setStep} />,
+    4: <PaymentAdvance2 setStep={setStep} />,
+    5: <PaymentFull2 setStep={setStep} />,
   };
 
   return (

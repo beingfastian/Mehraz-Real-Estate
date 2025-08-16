@@ -104,7 +104,7 @@ const HighCustompage = () => {
           )}
           {step === 2 && (
             <div>
-              <div className="flex border-b w-fit border-black pb-2 !sm:mx-auto">
+              <div className="flex border-b w-fit border-black pb-2 !sm:mx-auto mb-2">
                 {/* <customicon /> */}
                 <Image
                   src={custom2}
@@ -118,7 +118,7 @@ const HighCustompage = () => {
                 </span>
               </div>
 
-              <p className="text-center my-2">
+              <p className="text-center my-4">
                 <b>SELECT TYPE</b> OF PROJECT YOU REQUIRE...
               </p>
               <div className="flex justify-center items-center flex-wrap gap-8 md:gap-6 sm:gap-4">

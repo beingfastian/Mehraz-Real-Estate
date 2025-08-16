@@ -15,9 +15,7 @@ import Image from "next/image";
 import { gradientNextIcon, nextIcon } from "@/assets";
 
 const defaultStep1Screen2FormData = {
-  city: "",
   styleCost: "",
-  style: "",
 };
 const DesSelStep1Screen1 = ({ cities, styles }) => {
   const { router, pathname, searchParams } = useRPS();
@@ -28,9 +26,7 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
     defaultStep1Screen2FormData,
   );
   const [error, setError] = useState({
-    city: false,
     styleCost: false,
-    style: false,
   });
   const step1Screen2FormDataInputHandler = (key, value) => {
     setStep1Screen2FormData(prevState => ({
@@ -63,9 +59,7 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
 
   const nextStepHandler = () => {
     const newErrorState = {
-      city: !step1Screen2FormData.city,
       styleCost: !step1Screen2FormData.styleCost,
-      style: !step1Screen2FormData.style,
     };
 
     console.log("newErrorState", newErrorState);
@@ -79,18 +73,14 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
 
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("screen", "2");
-    newSearchParams.set("city", step1Screen2FormData.city);
     newSearchParams.set("styleCost", step1Screen2FormData.styleCost);
-    newSearchParams.set("style", step1Screen2FormData.style);
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   const skipAndNextStepHandler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("screen", "2");
-    newSearchParams.set("city", "");
     newSearchParams.set("styleCost", "");
-    newSearchParams.set("style", "");
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
@@ -169,88 +159,33 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
               </h3>
               <div className="bg-transparent relative flex lg:flex-col items-center justify-evenly lg:gap-4 px-8 py-6 sm:p-4 mr-6 lg:mr-2 mt-12 xl:mt-8 lg:mt-4 sm:mt-8 before:absolute before:z-[-2] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-[#E5CD86] before:shadow-btn before:rounded-full lg:before:rounded-3xl before:border before:border-black before:border-opacity-30 after:absolute after:z-[-1] after:top-0 after:left-0 after:right-0 after:bottom-0 after:bg-[#efefef1a] after:translate-x-6 lg:after:translate-x-2 after:translate-y-3 lg:after:translate-y-2 after:shadow-btn after:rounded-full lg:after:rounded-3xl after:border after:border-black after:border-opacity-30">
                 <div className="flex gap-0 lg:gap-12 flex-row py-0 lg:py-6 lg:flex-col justify-evenly  items-stretch w-full">
-                  <div className="flex flex-col gap-2 items-center w-full">
-                    <DesSelStep1Screen1InputBox label={"city"}>
-                      <DesSelSelect
-                        options={
-                          cities
-                            ? [
-                                {
-                                  label: "CHOOSE",
-                                  value: "",
-                                },
-                                ...cities?.map(city => ({
-                                  label: city.name,
-                                  value: city.id,
-                                })),
-                              ]
-                            : []
-                        }
-                        selectedOption={step1Screen2FormData.city}
-                        selectHandler={value =>
-                          step1Screen2FormDataInputHandler("city", value)
-                        }
-                      />
-                    </DesSelStep1Screen1InputBox>
-                    {error.city && (
-                      <span className="text-[#FF0000] text-xs xs:text-xxs font-semibold">
-                        Please select a city
-                      </span>
-                    )}
-                  </div>
+                  <div className="text-center w-full px-6 py-2 mx-auto">
+                    <h3 className="text-[#2F2F2F]/80 text-[28px] xl:text-lg lg:text-base mb-6">
+                      SELECT HOME <b>STYLE</b>
+                    </h3>
 
-                  {/* arrow icon */}
-                  <div className="translate-y-1/2 block lg:hidden">
-                    <FaArrowRightLong
-                      size={40}
-                      className="design-selection-right-arrow"
-                    />
-                  </div>
+                    <div className="grid grid-cols-3 gap-6 lg:gap-4 md:gap-3 sm:gap-2 w-full">
+                      {["LOW", "MEDIUM", "HIGH"].map(cost => (
+                        <button
+                          key={cost}
+                          onClick={() =>
+                            step1Screen2FormDataInputHandler("styleCost", cost)
+                          }
+                          className={`uppercase text-[26px] font-bold rounded-full relative z-[1] duration-300
+          h-[75px] lg:h-[65px] md:h-[50px] sm:h-[40px] w-full
+          ${
+            step1Screen2FormData.styleCost === cost
+              ? "text-white bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green"
+              : "text-[#3F3F3F] bg-white border border-[#3F3F3F]"
+          }`}>
+                          {cost}
+                        </button>
+                      ))}
+                    </div>
 
-                  <div className="flex flex-col gap-2 items-center w-full">
-                    <DesSelStep1Screen1InputBox label={"home style"}>
-                      <DesSelSelect
-                        options={[
-                          { label: "CHOOSE", value: "" },
-                          { label: "LOW", value: "LOW" },
-                          { label: "MEDIUM", value: "MEDIUM" },
-                          { label: "HIGH", value: "HIGH" },
-                        ]}
-                        selectedOption={step1Screen2FormData.styleCost}
-                        selectHandler={value =>
-                          step1Screen2FormDataInputHandler("styleCost", value)
-                        }
-                      />
-                    </DesSelStep1Screen1InputBox>
                     {error.styleCost && (
-                      <span className="text-[#FF0000] text-xs xs:text-xxs font-semibold">
+                      <span className="text-[#FF0000] text-xs xs:text-xxs font-semibold mt-2 block">
                         Please select a style cost
-                      </span>
-                    )}
-                  </div>
-
-                  {/* arrow icon */}
-                  <div className="translate-y-1/2 block lg:hidden">
-                    <FaArrowRightLong
-                      size={40}
-                      className="design-selection-right-arrow"
-                    />
-                  </div>
-                  <div className="flex w-full flex-col gap-2 items-center">
-                    <DesSelStep1Screen1InputBox label={"choose"}>
-                      <button
-                        onClick={toggleModal}
-                        className="text-large   max-w-[312px] lg:max-w-[252px] sm:max-w-[185px] xs:max-w-[150px] w-full h-[80px] lg:h-[70px] md:h-[50px] sm:h-[48px] bg-[#8D8E97] rounded-full uppercase text-white shadow-[4px_4px_10px_1px_rgba(0,0,0,0.35)] font-bold border-[3px] md:border-[2px] sm:border-[1px] border-white border-opacity-60 transition-colors duration-300 hover:bg-white hover:text-[#000000a6] hover:border-[#000000a6]">
-                        {step1Screen2FormData.style === ""
-                          ? "styles"
-                          : styles.find(
-                              style => style.id === step1Screen2FormData.style,
-                            ).name}
-                      </button>
-                    </DesSelStep1Screen1InputBox>
-                    {error.style && (
-                      <span className="text-[#FF0000] text-xs xs:text-xxs font-semibold">
-                        Please select a style
                       </span>
                     )}
                   </div>

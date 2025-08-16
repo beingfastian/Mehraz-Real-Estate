@@ -15,7 +15,7 @@ import Image from "next/image";
 import { gradientNextIcon, nextIcon } from "@/assets";
 const defaultStep1Screen2FormData = {
   area: "",
-  floors: "",
+  floors: [], // Array for multiple selections
   familyUnits: "",
   requirements: "",
 };
@@ -45,22 +45,22 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
   const nextStepHandler = () => {
     const newError = {
       area: !step2Screen2FormData.area,
-      floors: !step2Screen2FormData.floors,
+      floors: step2Screen2FormData.floors.length === 0, // Check array length
       familyUnits: !step2Screen2FormData.familyUnits,
       requirements: !step2Screen2FormData.requirements,
     };
     setError(newError);
 
-    if (Object.values(newError).some(error => error)) {
-      return;
-    }
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("screen", "2");
-    newSearchParams.set("area", step2Screen2FormData.area);
-    newSearchParams.set("floors", step2Screen2FormData.floors);
-    newSearchParams.set("familyUnits", step2Screen2FormData.familyUnits);
-    newSearchParams.set("requirements", step2Screen2FormData.requirements);
-    router.push(`${pathname}?${newSearchParams.toString()}`);
+    if (Object.values(newError).some(Boolean)) return;
+
+    const params = new URLSearchParams(searchParams);
+    params.set("screen", "2");
+    params.set("area", step2Screen2FormData.area);
+    params.set("floors", step2Screen2FormData.floors.join(",")); // Join array
+    params.set("familyUnits", step2Screen2FormData.familyUnits);
+    params.set("requirements", step2Screen2FormData.requirements);
+
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const skipAndNextStepHandler = () => {
@@ -217,20 +217,20 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
                   <DesSelStep1Screen1InputBox label={"floors"}>
                     <DesSelFloorsSelect
                       options={
-                        floors
-                          ? [
-                              { label: "CHOOSE", value: "" },
-                              ...floors.map(({ id, name }) => ({
-                                label: name,
-                                value: id,
-                              })),
-                            ]
-                          : []
+                        floors?.map(({ id, name }) => ({
+                          label: name,
+                          value: id,
+                        })) || []
                       }
-                      selectedOption={step2Screen2FormData.floors}
-                      selectHandler={value =>
-                        step2Screen2FormDataInputHandler("floors", value)
-                      }
+                      selectedOptions={step2Screen2FormData.floors}
+                      selectHandler={values => {
+                        setStep2Screen2FormData(prev => ({
+                          ...prev,
+                          floors: values,
+                        }));
+                        setError(prev => ({ ...prev, floors: false }));
+                      }}
+                      placeholder="Select Floors"
                     />
                   </DesSelStep1Screen1InputBox>
                   {error.floors && (

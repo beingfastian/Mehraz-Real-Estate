@@ -22,7 +22,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     budget: "MEDIUM",
     description: "",
     construction_cost: "",
-    keywords: [],
+    keywords: ["GENERAL"],
     image: null,
     video: null,
   };

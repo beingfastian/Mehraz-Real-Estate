@@ -199,8 +199,6 @@ export default async function UserPage() {
 
       {/* bottom section start */}
       <div className="flex flex-row gap-2 pt-4 md:flex-col justify-between items-end">
-
-
         <div className="max-w-[650px] w-full h-[140px] block sm:hidden">
           <Image
             src={landingImage}
@@ -211,7 +209,6 @@ export default async function UserPage() {
           />
         </div>
 
-         
         <div className="f-col items-end  sm:items-start w-full ">
           <div className="bg-accent-gold-light h-2 sm:h-1.5 w-[72%]  md:w-10/12 mt-8 lg:mt-6 md:mt-2  "></div>
           <div className="max-w-[712px] w-full  md:w-full flex gap-4 items-stretch justify-end sm:justify-start  mt-8 lg:mt-6 md:mt-4  xs:gap-0.5 flex-1">

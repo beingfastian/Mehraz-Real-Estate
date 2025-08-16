@@ -81,16 +81,12 @@ const Route = () => {
       return true;
     } catch (error) {
       console.log("Error", error.message);
-      toast.error(error.message); 
+      toast.error(error.message);
       return false;
     }
   }
 
-  return (
-    <UserProtectedRoute>
-      <HighCustompage />
-    </UserProtectedRoute>
-  );
+  return <HighCustompage />;
 };
 
 export default Route;

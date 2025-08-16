@@ -40,7 +40,7 @@ const Level_selector = ({
         <div className="w-[1px] h-full bg-black/30 absolute left-1/2 -translate-x-1/2 top-0"></div>
         <div className="flex-1 f-col sm:justify-center w-full">
           <p class="text-base md:text-sm sm:text-xs font-medium text-center text-[#2f2f2f]/60">
-            Changes
+            Charges
           </p>
           <p
             class={`text-base md:text-sm sm:text-xs font-medium text-center text-accent-black opacity-90 ${sec_label_classname}`}>

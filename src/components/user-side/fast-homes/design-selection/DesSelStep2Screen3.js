@@ -13,75 +13,12 @@ import {
   getBookmarkedDesigns,
   setBookmarkedDesigns,
 } from "@/utilities/user-side/design-selection/localStorageBookmarks";
-import { useRouter } from "next/navigation";
 
 import DesSelStep1Screen2ProjectsCarouselMax from "./DesSelStep1Screen2ProjectsCarouselMax";
 import DesSelStep1Screen2ProjectsCarouselMin from "./DesSelStep1Screen2ProjectsCarouselMin";
 import DesSelStep1Screen2ProjectsCarouselMinMobile from "./DesSelStep1Screen2ProjectsCarouselMinMobile";
 
-const allDesigns = [
-  {
-    id: "hajfkajlj214141",
-    area: {
-      id: "4jB5BRiha5F45jcGzTEE",
-      area: 10,
-      category: "UPTO_18",
-      unit: "MARLA",
-    },
-    floors: {
-      id: "GywcLbBL9cjTxRq6GgX9",
-      name: "FIRST",
-    },
-    familyUnit: {
-      id: "GywcLbBL9cjTxRq6GgX9",
-      name: "ONE UNIT",
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris....",
-    descriptionOp1: "moon",
-    descriptionOp2: "moon",
-    style: {
-      name: "MODERN",
-      budget: "LOW",
-    },
-    image:
-      "https://images.unsplash.com/photo-1716547286289-3e650d7bdf7a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-
-    designCost: 10000,
-    constructionCost: 200000000,
-  },
-  {
-    id: "hajfkajlj214142",
-    area: {
-      id: "4jB5BRiha5F45jcGzTEE",
-      area: 15,
-      category: "UPTO_18",
-      unit: "MARLA",
-    },
-    floors: {
-      id: "GywcLbBL9cjTxRq6GgX9",
-      name: "FIRST",
-    },
-    familyUnit: {
-      id: "GywcLbBL9cjTxRq6GgX9",
-      name: "ONE UNIT",
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris jaej",
-    descriptionOp1:
-      "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris",
-    descriptionOp2:
-      "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis",
-    style: {
-      name: "MODERN",
-      budget: "LOW",
-    },
-    image:
-      "https://images.unsplash.com/photo-1705179116249-a659af885205?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    designCost: 12000,
-    constructionCost: 200000000,
-  },
-];
+import getStep2Screen3Designs from "@/Firebase/user-side/design-selection/step-2/getStep2Screen3Designs";
 
 const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
   const { router, pathname, searchParams } = useRPS();
@@ -90,27 +27,52 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
   const familyUnitParam = searchParams.get("familyUnit");
   const requirementsParam = searchParams.get("requirements");
 
-  const claimHandler = () => {
-    router.push("/didNotFind");
-  };
-
-  // const [allDesigns, setAllDesigns] = useState(null);
+  const [allDesigns, setAllDesigns] = useState(null);
   const [designsToShow, setDesignsToShow] = useState([]);
   const [designGroups, setDesignGroups] = useState([]);
 
   const designView = searchParams.get("designView") || "max";
+  const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
 
-  const changeView = newView => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("designView", newView);
-    router.push(`${pathname}?${newSearchParams.toString()}`);
-  };
+  useEffect(() => {
+    const fetchDesigns = async () => {
+      try {
+        const designsFromDb = await getStep2Screen3Designs(
+          areaParam,
+          floorParam,
+          familyUnitParam,
+          requirementsParam,
+        );
+        setAllDesigns(designsFromDb);
+      } catch (error) {
+        console.error("Error getting design data:", error);
+      }
+    };
+    fetchDesigns();
+  }, [areaParam, floorParam, familyUnitParam, requirementsParam]);
 
   useEffect(() => {
     if (!designView) {
       changeView("max");
     }
   }, []);
+
+  useEffect(() => {
+    if (allDesigns) {
+      setDesignsToShow(allDesigns);
+      const groups = [];
+      for (let i = 0; i < allDesigns.length; i += 4) {
+        groups.push(allDesigns.slice(i, i + 4));
+      }
+      setDesignGroups(groups);
+    }
+  }, [allDesigns]);
+
+  const changeView = newView => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("designView", newView);
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
 
   useEffect(() => {
     if (allDesigns) {
@@ -122,13 +84,10 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
       }
       setDesignGroups(groups);
     }
-  }, [allDesigns, designsToShow]);
-
-  const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
+  }, [allDesigns]);
 
   const checkLocalStorageBookmarked = id => {
-    const localStorageBookmarkedDesigns = getBookmarkedDesigns();
-    return localStorageBookmarkedDesigns.includes(id);
+    return getBookmarkedDesigns().includes(id);
   };
 
   const bookmarkLocalStorageHandler = id => {
@@ -149,6 +108,7 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
     newParams.delete("designView");
     router.push(`${pathname}?${newParams.toString()}`);
   };
+
   const selectSkipDesignHandler = id => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("step", 2);
@@ -157,6 +117,11 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
     newParams.delete("designView");
     router.push(`${pathname}?${newParams.toString()}`);
   };
+
+  const claimHandler = () => {
+    router.push("/didNotFind");
+  };
+
   return (
     <>
       {!allDesigns ? (
@@ -186,12 +151,10 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
                 {designsToShow.map(design => (
                   <DesSelStep2Screen3DesignSlideMax
                     key={design.id}
-                    selectDesignHandler={() => {
-                      selectDesignHandler(design.id);
-                    }}
-                    selectSkipDesignHandler={() => {
-                      selectSkipDesignHandler(design.id);
-                    }}
+                    selectDesignHandler={() => selectDesignHandler(design.id)}
+                    selectSkipDesignHandler={() =>
+                      selectSkipDesignHandler(design.id)
+                    }
                     design={design}
                     isLocalStorageBookmarked={checkLocalStorageBookmarked(
                       design.id,
@@ -206,18 +169,16 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
           ) : (
             designView === "min" && (
               <>
-                {/* 3 slides carousel for descktop */}
                 <Suspense fallback={<UserScreenSpinner />}>
                   <DesSelStep1Screen2ProjectsCarouselMin>
                     {designsToShow.map((design, index) => (
                       <DesSelStep2Screen3DesignSlideMin
                         key={design.id}
                         design={design}
-                        selectDesignHandler={() => {
-                          selectDesignHandler(design.id);
-                        }}
+                        selectDesignHandler={() =>
+                          selectDesignHandler(design.id)
+                        }
                         seeMoreHandler={() => {
-                          // index + 1 is because in the max designView, the last slide is cloned to the 0th index and the first slide is cloned to the last index to produce a infinite carousel effect
                           setMaxViewCurrSlide(index + 1);
                           changeView("max");
                         }}
@@ -231,13 +192,12 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
                     ))}
                   </DesSelStep1Screen2ProjectsCarouselMin>
                 </Suspense>
-                {/* 4 slides grid carousel for mobile and tablet */}
                 <Suspense fallback={<UserScreenSpinner />}>
                   <DesSelStep1Screen2ProjectsCarouselMinMobile>
-                    {designGroups?.map((group, groupIndex) => (
+                    {designGroups.map((group, groupIndex) => (
                       <div key={groupIndex}>
                         <div className="px-1 grid grid-cols-2 gap-2 mb-2">
-                          {group?.map((design, designIndex) => (
+                          {group.map((design, designIndex) => (
                             <DesSelStep2Screen3DesignSlideMinMobile
                               key={design.id}
                               design={design}
@@ -253,9 +213,9 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
                               bookmarkLocalStorageHandler={() =>
                                 bookmarkLocalStorageHandler(design.id)
                               }
-                              selectDesignHandler={() => {
-                                selectDesignHandler(design.id);
-                              }}
+                              selectDesignHandler={() =>
+                                selectDesignHandler(design.id)
+                              }
                             />
                           ))}
                         </div>
@@ -270,7 +230,7 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
             <div className="flex flex-col items-center gap-2">
               <p
                 onClick={claimHandler}
-                className="text-[#3F3F3F] w-full opacity-90 text-center ase-text-0  uppercase font-bold transition-font-weight cursor-pointer">
+                className="text-[#3F3F3F] w-full opacity-90 text-center ase-text-0 uppercase font-bold cursor-pointer">
                 didn&apos;t find what you need?
               </p>
             </div>

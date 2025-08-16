@@ -9,7 +9,10 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 import { positivenumbercheck } from "@/components";
 import { Spinner } from "@/components";
-import BlackButton from "../BlackButton";
+import Common_btn from "@/components/common/Btns/Common_btn";
+import CustomRadioTile from "@/components/common/CustomRadioTile/Radio_btn";
+import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
+
 const ProjectDetails = ({
   setStep,
   hightcustomdetail,
@@ -22,13 +25,21 @@ const ProjectDetails = ({
   const [area2, setArea2] = useState("");
   const [location2, setLocation2] = useState("");
   const [maxBudget, setMaxBudget] = useState("");
-  const [unit, setUnit] = useState("sqft");
+  const [unit, setUnit] = useState("sq-ft");
   const [currency, setCurrency] = useState("pkr");
   const [requirement, setRequirement] = useState("");
-
   const [placetype, setPlaceType] = useState(1);
-  const searchParams = useSearchParams(); // Use useSearchParams to get query params
-  const categoryName = searchParams.get("category"); // Get specific query parameter
+  const [dimensions, setDimensions] = useState({
+    width: "",
+    length: "",
+    width2: "",
+    length2: "",
+  });
+
+  const searchParams = useSearchParams();
+  const categoryName = searchParams.get("category");
+  const router = useRouter();
+
   function handleprocesschange(num) {
     if (placetype == num) return;
     else {
@@ -44,6 +55,43 @@ const ProjectDetails = ({
       }
     }
   }
+
+  const handleInputChange = e => {
+    const { name, value } = e.target;
+    if (name.includes("dimension")) {
+      setDimensions(prevDimensions => ({
+        ...prevDimensions,
+        [name.split(".")[1]]: value,
+      }));
+    } else {
+      switch (name) {
+        case "location":
+          setLocation(value);
+          break;
+        case "location2":
+          setLocation2(value);
+          break;
+        case "unit":
+          setUnit(value);
+          break;
+        case "area":
+          setArea(value);
+          break;
+        case "area2":
+          setArea2(value);
+          break;
+        case "currency":
+          setCurrency(value);
+          break;
+        case "maxBudget":
+          setMaxBudget(value);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   function handlealreadyplot() {
     if (!positivenumbercheck(area)) {
       toast.error("AREA Must be Positive Number");
@@ -67,17 +115,15 @@ const ProjectDetails = ({
         buyplot: false,
       };
     });
-    // db intraction start
-
-    // db intraction end
     setStep(prev => prev + 1);
   }
+
   async function handlebuyplot() {
     try {
-      if (!auth.user) {
-        toast.error("Please Login to countinue");
-        return;
-      }
+      // if (!auth.user) {
+      //   toast.error("Please Login to countinue");
+      //   return;
+      // }
       if ((area2 && !unit) || (!currency && location2 && maxBudget)) {
         toast.error("Please Select the Units");
         return;
@@ -86,8 +132,6 @@ const ProjectDetails = ({
         toast.error("please Fill All required Fields");
         return;
       }
-      // try {
-      // Now store the download URL and other data to Firestore
       setLoading(true);
       const docRef = await addDoc(collection(db, "highcustom"), {
         ...hightcustomdetail,
@@ -102,8 +146,6 @@ const ProjectDetails = ({
         reviewed: false,
         createdAt: Date.now(),
       });
-      // console.log("dec Ref is:", docRef);
-      // console.log("doc key is: ", docRef.id);
       setLoading(false);
       toast.success("Detail send to Admin MEHRAZ TEAM will Reach You!");
       setStep(prev => prev + 2);
@@ -113,233 +155,207 @@ const ProjectDetails = ({
     }
   }
 
-  const router = useRouter();
-
-  useEffect(() => {}, [categoryName]);
   return (
-    <>
-      {/* back button  */}
-      <button
-        className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn sm:absolute sm:top-14 sm:left-1 sm:z-10 md:absolute md:top-20 md:left-1 md:z-10 absolute z-50"
-        onClick={e => {
-          setStep(prev => prev - 1);
-        }}>
-        <FaChevronLeft size={24} className="w-6 h-auto sm:w-4" />
-      </button>
-      <span className="text-3xl text-[#6A6A6A] relative left-[10%] sm:justify-center sm:top-0 sm:left-0 inline sm:flex md:block md:w-[100%] md:left-[0px] md:text-center">
-        STEP 1/2
-      </span>
-      {/* back button end  */}
-      <div className="h-full w-full flex flex-col items-center relative top-[-10%] sm:top-[0%] md:top-[0%]">
-        <h1 className=" px-5 border border-gray-200 dark:border-gray-700 rounded-full bg-gray-800 w-64 sm:w-fit text-center text-white text-2xl my-4">
-          <span className=" font-bold">Plot</span> Info
-        </h1>
-        <div className="container1 w-[70%] md:w-[90%] sm:w-full flex flex-col items-center">
-          <div className="flex items-center px-5 py-1 border border-gray-200 dark:border-gray-700 rounded-full bg-gray-800 w-64 sm:w-fit text-center">
-            <input
-              id="already-have-plot"
-              type="radio"
-              value=""
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onChange={() => handleprocesschange(1)}
-              checked={placetype == 1 ? true : false}
-            />
-            <label
-              htmlFor="already-have-plot"
-              className="w-full ms-2 font-medium dark:text-gray-300  text-white text-xl sm:text-base">
-              <span className="font-bold">Already</span> have an Plot
-            </label>
-          </div>
-          {/* card start */}
+    <PageWrapper>
+      <div className="plot_cotainer plot_container_max_width relative">
+        {/* Back button */}
+        <button
+          className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn absolute top-0 left-0 z-10"
+          onClick={e => {
+            setStep(prev => prev - 1);
+          }}>
+          <FaChevronLeft size={24} className="w-6 h-auto" />
+        </button>
 
-          {placetype == 1 && (
-            <div className="block p-6 sm:px-[2px] bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 w-[100%]">
-              <form>
-                <div className=" flex justify-around items-center relative">
-                  <label
-                    htmlFor="area"
-                    className=" mb-2 text-gray-900 dark:text-white w-[20%] text-xl sm:text-base flex items-center">
-                    AREA <span className="text-red-500 font-bold ml-1">*</span>
-                  </label>
+        <div className="relative translate-y-1/4 max-w-[366px] sm:max-w-[170px] w-full mx-auto rounded-full bg-accent-black">
+          <p className="extra-large text-center text-white">
+            <span className="bold">PROJECT </span>
+            <span>DETAILS</span>
+          </p>
+        </div>
+
+        <div className="f-col gap-2 md:gap-1.5 sm:gap-1 mt-8">
+          <CustomRadioTile
+            title={"already have a plot"}
+            id={1}
+            checked={placetype === 1}
+            onChange={() => handleprocesschange(1)}
+          />
+
+          {placetype === 1 && (
+            <form className="plot_type_detail_container px-12 lg:px-8 md:px-6 sm:px-4 py-6 lg:py-5 md:py-4 sm:py-3">
+              <div className="plot_detail_field_container">
+                <p className="plot_detail_input_lable mr-6">
+                  LOCATION <span className="text-danger">*</span>
+                </p>
+                <div className="plot_detail_input_container">
                   <input
-                    type="Number"
-                    min="1"
-                    id="area"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-[70%] sm:w-[80%]"
-                    placeholder="50sq ft"
-                    onChange={e => setArea(e.target.value)}
-                    required
-                  />
-                  {/* area type selection start  */}
-                  <select
-                    id="underline_select"
-                    className="block py-2.5 px-0 text-sm text-gray-500 bg-transparent border-0 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer absolute left-[85%] sm:left-[80%] md:left-[80%] lg:left-[80%] border-b-0  p-[0px] sm:w-[57px] w-[90px]"
-                    onChange={e => setUnit(e.target.value)}>
-                    <option value="sq-ft" selected>
-                      SQ FT
-                    </option>
-                    <option value="marla">Marla</option>
-                  </select>
-                  {/* area selection end  */}
-                </div>
-                <div className=" flex justify-around items-center mt-2">
-                <label
-                    htmlFor="location"
-                    className=" mb-2 text-gray-900 dark:text-white w-[20%] text-xl sm:text-base flex items-center">
-                    Location <span className="text-red-500 font-bold ml-1">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="location"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-[70%] sm:w-[80%]"
+                    className="plot_detail_input"
                     placeholder="DHA, Lahore"
-                    onChange={e => setLocation(e.target.value)}
+                    name="location"
+                    value={location}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
-              </form>
-            </div>
-          )}
+              </div>
 
-          {/* card end  */}
-        </div>
-        <div className="or w-[50%] mx-auto flex items-center my-5">
-          <span className="border-b border-gray-500 border-solid w-[50%]"></span>
-          OR
-          <span className="border-b border-gray-500 border-solid w-[50%]"></span>
-        </div>
-        <div className="container2 w-[70%] sm:w-full flex flex-col items-center">
-          <div className="flex items-center px-5 py-1 border border-gray-200 dark:border-gray-700 rounded-full bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green w-64 sm:w-fit text-center">
-            <input
-              id="buy-plot"
-              type="radio"
-              value=""
-              name="buy-plot"
-              onChange={() => handleprocesschange(2)}
-              checked={placetype == 2 ? true : false}
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="buy-plot"
-              className="w-full ms-2 font-medium dark:text-gray-300  text-white text-xl sm:text-base">
-              <span className="font-bold">Buy</span> Plot
-            </label>
-          </div>{" "}
-          {placetype == 2 && (
-            <div className="block p-6 sm:px-[2px] bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 w-[100%]">
-              <div>
-                <div className=" flex justify-around items-center relative">
-                  <label
-                    htmlFor="area"
-                    className="block mb-2 text-gray-900 dark:text-white w-[20%] text-xl sm:text-base">
-                    AREA <span className="text-red-500 font-bold ml-1">*</span>
-                  </label>
+              <div className="plot_detail_field_container">
+                <div className="f-col md:flex-row md:!justify-between md:items-center w-auto md:w-full gap-1 flex-wrap mr-6">
+                  <p className="plot_detail_input_lable">
+                    AREA <span className="text-danger">*</span>
+                  </p>
+                  <div className="flex items-center gap-1">
+                    <p className="base-text text-center text-accent-black">
+                      UNIT
+                    </p>
+                    <div className="w-[97px] h-[30px] flex items-center justify-center rounded-[5px] border border-black/60 overflow-hidden">
+                      <select
+                        className="w-full h-full bg-transparent p-0 text-center text-black/60 bold outline-none cursor-pointer focus:border-black/60 focus:ring-0"
+                        name="unit"
+                        value={unit}
+                        onChange={handleInputChange}
+                        required>
+                        <option value="sq-ft">SQ FT</option>
+                        <option value="marla">Marla</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div className="plot_detail_input_container w-full">
                   <input
                     type="number"
                     min="1"
-                    id="area"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-[70%] sm:w-[80%]"
-                    placeholder="50sq ft"
-                    onChange={e => setArea2(e.target.value)}
+                    className="plot_detail_input"
+                    placeholder="50"
+                    name="area"
+                    value={area}
+                    onChange={handleInputChange}
                     required
                   />
-                  {/* area type selection start  */}
-                  <select
-                    id="underline_select"
-                    className="block py-2.5 px-0 text-sm text-gray-500 bg-transparent border-0 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer absolute left-[85%] sm:left-[80%] md:left-[80%] lg:left-[80%] border-b-0  p-[0px] sm:w-[57px] w-[90px]"
-                    onChange={e => setUnit(e.target.value)}>
-                    <option value="sq-ft" selected>
-                      SQ FT
-                    </option>
-                    <option value="marla">Marla</option>
-                  </select>
-                  {/* area selection end  */}
-                </div>
-                <div className=" flex justify-around items-center mt-2">
-                  <label
-                    htmlFor="location"
-                    className="block mb-2 text-sm  text-gray-900 dark:text-white w-[20%]">
-                    <span className=" flex justify-between items-center">
-                      <span className="text-xl sm:text-base">
-                        LOCATION&nbsp;
-                      </span>
-                      <span className=" text-[#2F2F2F]  text-xs">
-                        PREFFERED
-                      </span>
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    id="location"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-[70%] sm:w-[80%]"
-                    placeholder="DHA, Lahore"
-                    onChange={e => setLocation2(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className=" flex justify-around items-center mt-2 relative">
-                  <label
-                    htmlFor="budget"
-                    className="block mb-2 text-sm  text-gray-900 dark:text-white w-[20%]">
-                    <span className=" flex justify-between items-center">
-                      <span className="text-xl sm:text-base">
-                        BUDEGET RANGE&nbsp;
-                      </span>
-                      <span className=" text-[#2F2F2F]  text-xs">
-                        (IDEAL - MAX){" "}
-                      </span>
-                    </span>
-                  </label>
-                  <input
-                    type="Number"
-                    min="1"
-                    id="budget"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-[70%] sm:w-[80%]"
-                    placeholder="100,000"
-                    onChange={e => setMaxBudget(e.target.value)}
-                    required
-                  />
-                  {/* area type selection start  */}
-                  <select
-                    id="underline_select"
-                    className="block py-2.5 px-0 text-sm text-gray-500 bg-transparent border-0 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer absolute left-[85%] sm:left-[80%] md:left-[80%] lg:left-[80%] border-b-0  p-[0px] sm:w-[57px] w-[90px]"
-                    onChange={e => setCurrency(e.target.value)}>
-                    <option value="pkr" selected>
-                      PKR
-                    </option>
-                    <option value="USD">American Dollar</option>
-                  </select>
-                  {/* area selection end  */}
                 </div>
               </div>
-            </div>
+            </form>
           )}
         </div>
-        {/* <button
-          type="button"
-          className={`py-2.5 px-8 me-2 mb-2 text-sm text-white  focus:outline-none ${
-            loading ? "bg-white border-gray-800" : "bg-gray-800"
-          }  border border-white hover:text-gray-800 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-800 dark:bg-gray-800 dark:text-gray-800 dark:border-gray-800 dark:hover:text-gray-800 dark:hover:bg-gray-800 hover:bg-white hover:border-gray-800 font-bold my-7`}
-          disabled={loading}
-          onClick={() =>
-            placetype == 1 ? handlealreadyplot() : handlebuyplot()
-          }>
-          {loading ? (
-            <Spinner size={"sm"} className={"border-white"} />
-          ) : (
-            "Done"
-          )}
-        </button> */}
-        <span className="mt-8">
-          <BlackButton
-            onclickfunction={placetype == 1 ? handlealreadyplot : handlebuyplot}
-            loading={loading}
-            text={"Next"}
+
+        <div className="w-8/12 h-[1px] bg-accent-black mx-auto flex-center">
+          <span className="base-text font-light text-accent-black uppercase bg-white px-2 md:px-1.5 sm:px-1 text-center">
+            or
+          </span>
+        </div>
+
+        <div className="f-col gap-2">
+          <CustomRadioTile
+            title={"buy plot"}
+            isInfo={true}
+            id={2}
+            checked={placetype === 2}
+            onChange={() => handleprocesschange(2)}
           />
-        </span>
+
+          {placetype === 2 && (
+            <form className="plot_type_detail_container max-w-[968px] mx-auto px-[3.8125rem] lg:px-[2.5rem] md:px-[1.875rem] sm:px-[1.25rem] py-6 lg:py-5 md:py-4 sm:py-3">
+              <p className="text-xl lg:text-lg md:text-base sm:text-sm text-center uppercase text-accent-black/60">
+                <span>tell your needs . get your </span>
+                <span className="bold">personal agent</span>
+                &nbsp;
+                <span className="bold">&#x26;</span>
+                &nbsp;
+                <span className="bold">consultATION</span>
+              </p>
+
+              <div className="buy_plot_field_container">
+                <label
+                  htmlFor="area2"
+                  className="buy_plot_form_lable !justify-normal">
+                  AREA <span className="text-danger">*</span>
+                </label>
+                <div className="buy_plot_form_input">
+                  <input
+                    type="number"
+                    min="1"
+                    className="buy_plot_form_input_input"
+                    placeholder="50"
+                    name="area2"
+                    value={area2}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <select
+                    className="appearance-none bg-transparent border border-transparent text-base bold text-accent-black py-2 px-4 rounded-r-lg leading-tight no-outline uppercase"
+                    name="unit"
+                    value={unit}
+                    onChange={handleInputChange}
+                    required>
+                    <option value="sq-ft">SQ FT</option>
+                    <option value="marla">Marla</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="buy_plot_field_container">
+                <label htmlFor="location2" className="buy_plot_form_lable">
+                  Location
+                  <span className="buy_plot_form_lable_span">PREFERRED</span>
+                </label>
+                <div className="buy_plot_form_input">
+                  <input
+                    type="text"
+                    className="buy_plot_form_input_input placeholder:uppercase"
+                    placeholder="DHA, Lahore"
+                    name="location2"
+                    value={location2}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="buy_plot_field_container">
+                <label htmlFor="maxBudget" className="buy_plot_form_lable">
+                  Budget range
+                  <span className="buy_plot_form_lable_span">(ideal-max)</span>
+                </label>
+                <div className="buy_plot_form_input">
+                  <input
+                    type="number"
+                    min="1"
+                    className="buy_plot_form_input_input placeholder:uppercase"
+                    placeholder="100,000"
+                    name="maxBudget"
+                    value={maxBudget}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <select
+                    className="appearance-none bg-transparent border border-transparent text-base bold text-accent-black py-2 px-4 rounded-r-lg leading-tight no-outline uppercase"
+                    name="currency"
+                    value={currency}
+                    onChange={handleInputChange}
+                    required>
+                    <option value="pkr">PKR</option>
+                    <option value="USD">USD</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          )}
+        </div>
+
+        <Common_btn
+          text={
+            loading ? (
+              <Spinner size={"sm"} className={"border-white"} />
+            ) : (
+              "Done"
+            )
+          }
+          handler={placetype === 1 ? handlealreadyplot : handlebuyplot}
+          disabled={loading}
+        />
       </div>
-    </>
+    </PageWrapper>
   );
 };
 
