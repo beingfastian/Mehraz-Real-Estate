@@ -3,6 +3,7 @@
 import { fastHomesIcon } from "@/assets";
 import {
   FastHomesBoxesElem,
+  FastHomesBoxesElemRight,
   FastHomesBoxesElemMob,
   FastHomesLink,
 } from "@/components";
@@ -50,6 +51,7 @@ const FastHomesPage = () => {
             </h3>
           </div>
           <hr className="w-full opacity-40 mt-4 lg:mt-1" />
+
           <div className="w-full flex items-center justify-center py-8 xl:py-6 lg:flex-col lg:gap-2 lg:py-4">
             <FastHomesLink
               text="upto 18 marlas"
@@ -58,7 +60,13 @@ const FastHomesPage = () => {
             <span className="hidden lg:block text-white text-sm uppercase opacity-60">
               4-18 marla homes
             </span>
-            <hr className="w-1/12 self-center opacity-15 lg:w-1/3 lg:mb-2" />
+            {/* OR Divider */}
+            <div className="relative flex items-center w-1/12 lg:w-1/3 lg:mb-2">
+              <hr className="w-full border-t border-white/15" />
+              <span className="absolute left-1/2 -translate-x-1/2 bg-transparent text-white text-md font-bold uppercase opacity-70 px-1">
+                or
+              </span>
+            </div>
             <FastHomesLink
               text="1 kanal & above"
               href="/fast-homes/design-selection?category=1_KANAL_ABOVE&step=0&screen=0"
@@ -90,7 +98,7 @@ const FastHomesPage = () => {
           </div>
         </div>
         <FastHomesBoxesElemMob />
-        <FastHomesBoxesElem />
+        <FastHomesBoxesElemRight />
       </div>
     </div>
   );

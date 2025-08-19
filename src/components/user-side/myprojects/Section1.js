@@ -44,7 +44,7 @@ const Section1 = ({ setSteps }) => {
     router.push(`${pathname}?${newParams.toString()}`);
   };
   return (
-    <div className="min-h-[50%] h-auto m-[30px] pt-[40px] max-w-[80%] mx-auto">
+    <div className="min-h-[50%] h-auto m-[30px] sm:m-[25px] pt-[40px] sm:pt-[20px] max-w-[80%] mx-auto">
       {/* constainer 1 start  */}
       <div className=" flex justify-between flex-wrap">
         <div className="child-container1 flex min-w-[50%] sm:w-[100%] md:w-[100%] md:justify-center md:items-center sm:justify-center sm:items-center justify-between">
@@ -64,15 +64,20 @@ const Section1 = ({ setSteps }) => {
           <div className="flex items-center"></div>
         </div>
         <div className="child-container2 flex  sm:w-[100%] md:w-[100%] md:justify-center md:items-center sm:justify-center sm:items-center">
-          <Options data={meetoptions} setSteps={setSteps} />
+          <Link
+            href="/meet"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-[#2F2F2F] font-medium hover:bg-gray-300">
+            <MdPhone className="text-xl" />
+            <span>MEET</span>
+          </Link>
           <Options data={teamoptions} setSteps={setSteps} />
         </div>
       </div>
       {/* constainer 1 end  */}
       <hr className="my-4 w-[70%] mx-auto sm:w-full sm:my-2" />
       {/* constainer 2 start  */}
-      <div className="container-2 flex justify-around items-center text-[#2F2F2F]">
-        <div>
+      <div className="container-2 flex justify-around items-center text-[#2F2F2F] sm:flex-col sm:gap-4">
+        <div className="sm:w-full">
           <div className="sm:text-xs text-center py-2 text-[#2F2F2F]/60 text-[18px] font-medium">
             MEET THE TEAM
           </div>
@@ -88,7 +93,7 @@ const Section1 = ({ setSteps }) => {
               </>
             }></UButton>
         </div>
-        <div>
+        <div className="sm:w-full">
           <div className="sm:text-xs text-[#2F2F2F]/60 text-center text-[18px] font-medium py-2">
             SELECT . ESTIMATE . START
           </div>
@@ -106,23 +111,23 @@ const Section1 = ({ setSteps }) => {
             }></UButton>
         </div>
       </div>
-      <hr className="my-4 w-[70%] mx-auto sm:w-full sm:my-2" />
+      <hr className="my-4 w-[70%] mx-auto sm:w-full sm:my-4" />
       {/* constainer 2 start  */}
       <div>
-        <div className="max-w-[50%] my-6 mx-auto rounded-2xl shadow-lg bg-white flex justify-between items-center p-3 gap-4 border-grey-500 border-[1px]">
+        <div className="max-w-[50%] sm:max-w-full my-6 mx-auto rounded-2xl shadow-lg bg-white flex justify-between items-center p-3 gap-4 border-grey-500 border-[1px]">
           {/* Left side text */}
           <div>
-            <p className="text-gray-800/80 font-[16px] font-bold p-1">
+            <p className="text-gray-800/80 font-[16px] font-bold p-1 sm:text-xs">
               PERSONALIZE YOUR DESIGN
             </p>
           </div>
 
-          <button className="py-1 px-4 uppercase text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
+          <button className="py-1 px-4 uppercase text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full sm:text-xs relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
             <span>TELL US </span>
             <span className="font-bold">ANY CHANGES YOU NEED</span>
           </button>
         </div>
-        <div className="w-full h-[200px] block mx-auto">
+        <div className="w-full h-[200px] sm:h-[100px] block mx-auto">
           <Image
             src={landingImage}
             alt="landing image"

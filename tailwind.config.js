@@ -20,7 +20,7 @@ module.exports = {
   ],
   theme: {
     screens: {
-      "xxl": { max: "1536px" },
+      xxl: { max: "1536px" },
       xl: { max: "1280px" },
       lg: { max: "1024px" },
       md: { max: "768px" },
@@ -114,7 +114,7 @@ module.exports = {
       backgroundImage: {
         "landing-cta-1": "url('/images/user-side/landing-cta-1-bg.webp')",
         "landing-cta-2": "url('/images/user-side/landing-cta-2-bg.webp')",
-        "fast-homes": "url('/images/user-side/fast-homes-bg.webp')",
+        "fast-homes": "url('/images/user-side/bg.jpg')",
         claim: "url('/images/user-side/claim_bg.jpg')",
         team: "url('/images/user-side/team-lead-bg.jpg')",
         "secondary-cta":

@@ -58,13 +58,12 @@ const DesSelStep2Screen2RangeInput = ({
           {budgetPoints.map((point, index) => (
             <span
               key={index}
-              className={`text-[#2F2F2F] ${
-                index !== 0 && index !== budgetPoints.length - 1
-                  ? ""
-                  : "opacity-0"
-              }
-                ${index % 2 === 0 ? "lg:opacity-0" : ""}
-                `}>
+              className={`
+      text-[#2F2F2F]
+      ${index !== 0 && index !== budgetPoints.length - 1 ? "" : "opacity-0"}
+      ${index % 2 === 0 ? "sm:hidden block lg:opacity-0" : ""}
+      ${index % 2 !== 0 ? "lg:inline" : ""} 
+    `}>
               {point}
             </span>
           ))}

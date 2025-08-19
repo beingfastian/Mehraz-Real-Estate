@@ -54,10 +54,10 @@ export { default as shareGrayFilledIcon } from "./icons/user-fast-homes/share-gr
 export { default as circleCheckIcon } from "./icons/user-fast-homes/circle-check.svg";
 export { default as SavedIcon } from "./icons/saved_icon.svg";
 export { default as tour360icon } from "./icons/user-projects/360-tour.png";
-export {default as chatIcon} from "./icons/chat.svg"
-export {default as phoneSvg} from "./icons/admin/phone.svg"
-export {default as teamSvg} from "./icons/admin/team.png";
-export {default as hamburgerIcon} from "./icons/hamburger.png"
+export { default as chatIcon } from "./icons/chat.svg";
+export { default as phoneSvg } from "./icons/admin/phone.svg";
+export { default as teamSvg } from "./icons/admin/team.png";
+export { default as hamburgerIcon } from "./icons/hamburger.png";
 // Images
 export { default as logo1Img } from "./images/logo1.svg";
 export { default as logo2Img } from "./images/logo2.svg";
@@ -70,6 +70,16 @@ export { default as safe_global } from "./images/safe_global.svg";
 export { default as fastHomeIcon } from "./images/user-side/fast_home.svg";
 export { default as high_CustomIcon } from "./images/user-side/high_custom.svg";
 export { default as landingImage } from "./images/user-side/landing.png";
+
+//fast home landing page image cards
+export { default as card1 } from "./images/user-side/Fast Homes/1.png";
+export { default as card2 } from "./images/user-side/Fast Homes/2.png";
+export { default as card3 } from "./images/user-side/Fast Homes/3.png";
+export { default as card4 } from "./images/user-side/Fast Homes/4.png";
+export { default as card5 } from "./images/user-side/Fast Homes/5.png";
+export { default as card6 } from "./images/user-side/Fast Homes/6.png";
+export { default as card7 } from "./images/user-side/Fast Homes/7.png";
+export { default as card8 } from "./images/user-side/Fast Homes/8.png";
 
 //fast home design selection
 export { default as check_tickIcon } from "./icons/user-fast-homes/tick.svg";
@@ -84,7 +94,6 @@ export { default as tiles } from "./images/user-side/tiles.svg";
 
 // payment Icons
 export { default as bankIcon } from "./icons/payment/bank.svg";
-
 
 // high custom icon
 export { default as customicon } from "./icons/custom.svg";
@@ -120,10 +129,8 @@ export { default as blackFinish } from "./icons/blackfinsh.svg";
 export { default as blackCouch } from "./icons/blackcouch.svg";
 export { default as blackLeaf } from "./icons/blackleaf.svg";
 
+//admin icons
+export { default as adminChatArrowIcon } from "./icons/admin/arrow.svg";
+export { default as mediaImg } from "./icons/admin/media.png";
 
-
-//admin icons 
-export {default as adminChatArrowIcon} from "./icons/admin/arrow.svg"
-export {default as mediaImg} from "./icons/admin/media.png"
-
-export {default as profileIcon} from "./icons/admin/profile.svg"
+export { default as profileIcon } from "./icons/admin/profile.svg";

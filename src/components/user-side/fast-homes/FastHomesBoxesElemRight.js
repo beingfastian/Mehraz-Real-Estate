@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { card1, card2, card3, card4 } from "@/assets";
+import { card5, card6, card7, card8 } from "@/assets";
 
-const FastHomesBoxesElem = () => {
-  const cards = [card1, card2, card3, card4]; // store in array for easy mapping
+const FastHomesBoxesElemRight = () => {
+  const cards = [card5, card6, card7, card8]; // store in array for easy mapping
 
   return (
     <div className="space-y-5 block lg:hidden">
@@ -23,4 +23,4 @@ const FastHomesBoxesElem = () => {
   );
 };
 
-export default FastHomesBoxesElem;
+export default FastHomesBoxesElemRight;

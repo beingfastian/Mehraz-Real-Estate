@@ -57,7 +57,7 @@ const SomeFinals = () => {
           some finals
         </h1>
       </div>
-      <div className="plot_container_max_width plot_cotainer">
+      <div className="plot_container_max_width plot_cotainer sm:pt-[50px]">
         <Detail_RadioBtn
           main_title="Plot for Construction"
           subtitle={

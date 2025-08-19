@@ -230,7 +230,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
                         }));
                         setError(prev => ({ ...prev, floors: false }));
                       }}
-                      placeholder="Select Floors"
+                      placeholder="FLOORS"
                     />
                   </DesSelStep1Screen1InputBox>
                   {error.floors && (
@@ -306,43 +306,37 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
             <p className="text-black/60 text-center mt-2 sm:mt-0">
               Specific Words Give The Best Result
             </p>
-            <div className="grid grid-cols-4 gap-4 mt-[35px] lg:mt-7 md:mt-5 ">
-              <button
-                onClick={nextStepHandler}
-                className="w-[330px] md:w-[300px] sm:w-[270px] py-3 px-6 mx-auto uppercase font-semibold text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 col-start-2 col-span-2 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
-                <span className="relative z-10">Set Budget</span>
+            <div className="flex flex-col items-center gap-4 mt-[35px] lg:mt-7 md:mt-5">
+              <div className="flex-row">
+                {/* Set Budget Button */}
+                <button
+                  onClick={nextStepHandler}
+                  className="w-[330px] md:w-[300px] sm:w-[270px] py-3 px-6 uppercase font-semibold text-white hover:text-black bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-xl sm:text-base relative z-[1] group overflow-hidden transition-all duration-300 before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 group">
+                  <span className="relative z-10">Set Budget</span>
 
-                {/* Arrow Icon (White by default, turns black on hover) */}
-                <Image
-                  src={nextIcon}
-                  alt="next"
-                  className="w-12 h-12 absolute right-5 top-1/2 -translate-y-1/2 z-10 transition duration-300 group-hover:opacity-0"
-                />
-                <Image
-                  src={gradientNextIcon}
-                  alt="next"
-                  className="w-12 h-12 absolute right-5 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition duration-300"
-                />
+                  {/* Arrow Icon (White default, turns black on hover) */}
+                  <Image
+                    src={nextIcon}
+                    alt="next"
+                    className="w-12 h-12 absolute right-5 top-1/2 -translate-y-1/2 z-10 transition duration-300 group-hover:opacity-0"
+                  />
+                  <Image
+                    src={gradientNextIcon}
+                    alt="next"
+                    className="w-12 h-12 absolute right-5 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition duration-300"
+                  />
 
-                {/* Hover background and border effect */}
-                <div className="absolute inset-[2px] bg-white rounded-full z-0 opacity-0 group-hover:opacity-100 transition duration-300" />
-              </button>
+                  {/* Hover background and border effect */}
+                  <div className="absolute inset-[2px] bg-white rounded-full z-0 opacity-0 group-hover:opacity-100 transition duration-300" />
+                </button>
 
-              {/* <button
-                className="max-w-[380px] w-full h-[70px] lg:h-[60px] md:h-[50px] relative rounded-[10px] bg-gradient-to-b from-[#fedcb1] to-[#c9a84f] shadow-btn-shadow uppercase text-accent-black text-large bold col-start-2 col-span-2 mx-auto group z-[1] before:bg-white before:rounded-[10px] before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5  hover:before:opacity-100 before:transition-opacity before:duration-300 duration-300 "
-                onClick={nextStepHandler}>
-                <span className="relative -left-[2%]">SET BUDGET</span>
-                <Image
-                  src={blackNextIcon}
-                  alt="next"
-                  className="w-[55px] lg:w-[55px] md:w-[45px] sm:w-10  h-7 lg:h-7 md:h-6 sm:h-5 absolute right-0 mr-5 lg:mr-4 md:mr-2  top-1/2 -translate-y-1/2 block lg:hidden"
-                />
-              </button> */}
-              <button
-                onClick={skipAndNextStepHandler}
-                className="uppercase text-[#3F3F3F] text-2xl xl:text-xl py-2  transition-transform duration-300  text-left">
-                skip?
-              </button>
+                {/* Skip Button */}
+                <button
+                  onClick={skipAndNextStepHandler}
+                  className="uppercase text-[#3F3F3F] text-2xl xl:text-xl py-2  transition-transform duration-300  text-left absolute right-[100px]">
+                  skip?
+                </button>
+              </div>
               <button
                 onClick={claimHandler}
                 className="col-start-2 col-span-2 lg:col-start-1 lg:col-span-4 text-[#6A6A6A] text-center text-lg xl:text-base sm:text-sm xs:text-xs uppercase">

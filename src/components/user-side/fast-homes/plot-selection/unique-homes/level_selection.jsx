@@ -31,7 +31,7 @@ const Level_selection = () => {
           Select According To Level Required
         </p>
         <div className="mx-auto max-w-[48.625rem] w-full flex justify-between relative md:flex-col gap-5">
-          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-[80%]">
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-[80%] sm:hidden block">
             <div className="relative flex justify-center items-center h-full">
               {/* Vertical line */}
               <div className="h-full w-[1px] bg-accent-black/20" />

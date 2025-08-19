@@ -133,6 +133,7 @@ export { default as LandingBuyButton } from "./user-side/landing/LandingBuyButto
 
 // User Side - Fast Homes
 export { default as FastHomesBoxesElem } from "./user-side/fast-homes/FastHomesBoxesElem";
+export { default as FastHomesBoxesElemRight } from "./user-side/fast-homes/FastHomesBoxesElemRight";
 export { default as FastHomesLink } from "./user-side/fast-homes/FastHomesLink";
 export { default as FastHomesBoxesElemMob } from "./user-side/fast-homes/FastHomesBoxesElemMob";
 

@@ -155,7 +155,7 @@ const Plot_info = () => {
   return (
     <PageWrapper>
       <div className="plot_cotainer plot_container_max_width relative">
-        {/* Back button */}
+        {/*
         <button
           className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn absolute top-0 left-0 z-10"
           onClick={e => {
@@ -164,7 +164,7 @@ const Plot_info = () => {
             router.push(`${pathname}?${newParams.toString()}`);
           }}>
           <FaChevronLeft size={24} className="w-6 h-auto" />
-        </button>
+        </button> */}
 
         <div className="relative translate-y-1/4 max-w-[366px] sm:max-w-[170px] w-full mx-auto rounded-full bg-accent-black">
           <p className="extra-large text-center text-white">

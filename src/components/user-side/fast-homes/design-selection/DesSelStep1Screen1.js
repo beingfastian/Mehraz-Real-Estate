@@ -164,7 +164,7 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
                       SELECT HOME <b>STYLE</b>
                     </h3>
 
-                    <div className="grid grid-cols-3 gap-6 lg:gap-4 md:gap-3 sm:gap-2 w-full">
+                    <div className="grid grid-cols-3 md:grid-cols-3 sm:grid-cols-1 gap-6 lg:gap-4 md:gap-3 sm:gap-3 w-full">
                       {["LOW", "MEDIUM", "HIGH"].map(cost => (
                         <button
                           key={cost}

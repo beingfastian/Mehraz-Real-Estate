@@ -32,7 +32,7 @@ const WhatWeProvide = ({ setSteps }) => {
       className="relative min-h-screen bg-cover bg-center px-4 py-10 before:absolute before:inset-0 before:bg-gradient-to-b before:from-black/70 before:to-black/40 before:z-0"
       style={{ backgroundImage: `url(${localBackgroundImage.src})` }}>
       <div className="relative z-10">
-        <header className="max-w-[30%] mx-auto text-center text-white text-xl md:text-2xl font-semibold mb-10 py-1 px-4 uppercase bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full">
+        <header className="max-w-[30%] sm:text-sm sm:max-w-full sm:mx-4 mx-auto text-center text-white text-xl md:text-2xl font-semibold mb-10 sm:mb-3 py-1 px-4 uppercase bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full">
           PROVIDING ALL YOU NEED & MORE
         </header>
 
@@ -40,9 +40,12 @@ const WhatWeProvide = ({ setSteps }) => {
         <h2 className="text-white text-lg md:text-xl font-medium mb-[-15px] text-center">
           DESIGN
         </h2>
-        <div className="rounded-2xl border border-gray-400 bg-white/10 p-4 flex flex-wrap justify-center gap-8 mb-10 max-w-[80%] mx-auto">
+        <div className="rounded-2xl border border-gray-400 bg-white/10 p-4 flex flex-wrap justify-center gap-8 sm:gap-4 sm:mb-6 mb-10 max-w-[80%] sm:max-w-full sm:w-full sm:mx-px mx-auto">
           {designItems.map((item, index) => (
-            <div key={index} onClick={submitHandler} className="w-[30%]">
+            <div
+              key={index}
+              onClick={submitHandler}
+              className="w-[30%] sm:w-[45%]">
               <div className="relative cursor-pointer overflow-hidden rounded-xl border border-white">
                 <Image
                   src={dummyImage}
@@ -63,9 +66,12 @@ const WhatWeProvide = ({ setSteps }) => {
         <h2 className="text-white text-lg md:text-xl font-medium mb-[-15px] text-center">
           REALIZATION
         </h2>
-        <div className="rounded-2xl border border-gray-400 bg-white/10 p-4 flex flex-wrap justify-center gap-8 max-w-[80%] mx-auto">
+        <div className="rounded-2xl border border-gray-400 bg-white/10 p-4 flex flex-wrap justify-center gap-8 max-w-[80%] mx-auto sm:gap-4 sm:mb-6 sm:max-w-full sm:w-full sm:mx-px">
           {realizationItems.map((item, index) => (
-            <div key={index} onClick={submitHandler} className="w-[30%]">
+            <div
+              key={index}
+              onClick={submitHandler}
+              className="w-[30%] sm:w-[45%]">
               <div className="relative cursor-pointer overflow-hidden rounded-xl border border-white">
                 <Image
                   src={dummyImage}
