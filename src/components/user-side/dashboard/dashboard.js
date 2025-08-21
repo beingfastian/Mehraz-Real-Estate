@@ -1,3 +1,4 @@
+"use client";
 import getBannerImage from "@/Firebase/user-side/getBannerImage";
 import { LandingBuyButton, LandingCTAButton, ULinkButton } from "@/components";
 import localFont from "next/font/local";
@@ -12,10 +13,10 @@ import {
   fastHomesIcon,
   highCustomLightIcon,
   landingImage,
+  safe_global,
 } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { safe_global } from "../../assets";
 import Line from "@/components/common/Line/Line";
 import {
   LandingCard1,
@@ -23,83 +24,76 @@ import {
   LandingCard3,
   LandingCard4,
 } from "@/assets";
+import ProjectStatusCard from "./projectStatusCard";
+import React, { useState } from "react";
 
-const isocpeur = localFont({
-  src: [
-    {
-      path: "../fonts/isocpeur/isocpeurRegular.ttf",
-      style: "normal",
-      weight: "400",
-    },
-  ],
-  display: "swap",
-});
-
-export const metadata = {
-  title: "Mehraz | Home",
-  description: "Mehraz - Building the new Pakistan",
-  openGraph: {
-    title: "Mehraz | Home",
-    description: "Mehraz - Building the new Pakistan",
-    url: "localhost:3000/",
-  },
-};
-
-export default async function UserPage() {
+const Dashboard = ({ setSteps }) => {
+  const [showProjectStatus, setShowProjectStatus] = useState(true);
   return (
     <div className="relative w-full container py-8 lg:py-8 md:py-6 sm:py-3 f-col">
+      {/* Project Status Card */}
+      <ProjectStatusCard
+        isVisible={showProjectStatus}
+        onClose={() => setShowProjectStatus(false)}
+        onContinue={() => {
+          // Handle continue project action
+          setShowProjectStatus(true);
+        }}
+        targetDate={new Date("2025-08-22T04:03:00")} // Set your target date
+        projectStages={[
+          { stage: 1, title: "STRUCTURAL DESIGN", status: "DONE" },
+          { stage: 2, title: "ARCHITECTURAL DESIGN", status: "IN PROGRESS" },
+          { stage: 3, title: "INTERIOR DESIGN", status: "LEFT" },
+        ]}
+      />
+
       {/* top section start */}
-      <div className="flex flex-row sm:flex-col-reverse justify-between md:items-start sm:justify-start items-center text-3xl lg:text-2xl md:text-lg sm:text-base uppercase w-full gap-0 md:gap-1">
+      <div className="flex flex-row sm:flex-col-reverse justify-between md:items-start sm:justify-start items-center text-3xl lg:text-2xl md:text-lg sm:text-base uppercase w-[80%] gap-0 md:gap-1">
         <h3 className=" text-[#6C6C6C] w-fit">
           EXPLORE . MEET YOUR NEEDS . LIVE BETTER
         </h3>
-        <Link
-          href="/dashboard"
-          className="text-accent-black text-end w-fit sm:w-full">
-          already a client?
-        </Link>
       </div>
       {/* top section end */}
 
       {/* middle section start */}
       <div className="flex  w-full flex-row lg:flex-col  justify-between items-start lg:items-center h-full slogan-container-pad gap-2">
         {/* left side  start */}
-        <div className="uppercase w-full ">
+        <div className="uppercase max-w-full ">
           <div className="h-full relative w-full">
             <div className="animate-landing-slide-1 landing-left-slider--container">
-              <h1 className="gradient-text landing-page-title">
+              <h1 className="gradient-text landing-page-title-2">
                 <span className="text-nowrap">Building the</span>
                 <br />
                 <b className="text-nowrap">new pakistan</b>
               </h1>
-              <h2 className=" bg-accent-gold slogan-container">
+              <h2 className=" bg-accent-gold slogan-container-2">
                 <b>save</b> time . effort . money
               </h2>
             </div>
             <div className="absolute top-0 left-0 animate-landing-slide-2 opacity-0 landing-left-slider--container">
-              <h1 className="gradient-text landing-page-title">
+              <h1 className="gradient-text landing-page-title-2">
                 <b className="text-nowrap">emerging rise</b>
                 <br /> <span className="text-nowrap">for people</span>
               </h1>
-              <h2 className="bg-accent-green slogan-container">
+              <h2 className="bg-accent-green slogan-container-2">
                 <b>live healthy</b> live longer
               </h2>
             </div>
             <div className="absolute top-0 left-0 animate-landing-slide-3 opacity-0 landing-left-slider--container">
-              <h1 className="landing-page-title  gradient-text">
+              <h1 className="landing-page-title-2  gradient-text">
                 <span className="text-nowrap">
                   {" "}
                   <b>united</b> we&apos;ll{" "}
                 </span>
                 <br /> <b className="text-nowrap">grow</b>
               </h1>
-              <h2 className="bg-accent-gold slogan-container ">
+              <h2 className="bg-accent-gold slogan-container-2 ">
                 <b>economic</b> now & forever
               </h2>
             </div>
           </div>
           <h4
-            className={`text-[#686868]/70 text-xl md:text-lg sm:text-base tracking-ultra-wide sm:tracking-widest  py-3.5 lg:py-2.5 md:py-2 sm:py-1 ${isocpeur.className} word-spacing`}>
+            className={`text-[#686868]/70 text-md md:text-md sm:text-base tracking-ultra-wide sm:tracking-widest  py-3.5 lg:py-2.5 md:py-2 sm:py-1`}>
             LAND . DESIGN . MATERIALS . CONSTRUCTION
           </h4>
           <h5 className="max-w-[650px] w-full text-xs md:text-xxs text-accent-black/60 border-t border-b border-[rgba(0,0,0,15%)] py-1.5 md:py-1 sm:py-0.5 tracking-[0.08em] md:tracking-[0.04em] sm:tracking-normal">
@@ -298,4 +292,5 @@ export default async function UserPage() {
       <div id="recaptcha-container"></div>
     </div>
   );
-}
+};
+export default Dashboard;

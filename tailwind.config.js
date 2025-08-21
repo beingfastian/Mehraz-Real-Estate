@@ -155,17 +155,28 @@ module.exports = {
         "landing-slide-1": "landing-slide 12s linear infinite 0s",
         "landing-slide-2": "landing-slide 12s linear infinite 4s",
         "landing-slide-3": "landing-slide 12s linear infinite 8s",
+
+        // images (4 slides in 16s loop)
+        "landing-img-1": "landing-slide-img 16s linear infinite 0s",
+        "landing-img-2": "landing-slide-img 16s linear infinite 4s",
+        "landing-img-3": "landing-slide-img 16s linear infinite 8s",
+        "landing-img-4": "landing-slide-img 16s linear infinite 12s",
       },
       keyframes: {
         "alert-keyframes": {
-          from: {
-            transform: "translateX(-100%)",
-          },
-          to: {
-            tranform: "translateX(0%)",
-          },
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(0%)" },
         },
+
+        // for text slides
         "landing-slide": {
+          "0%, 32%": { opacity: 1 },
+          "35%, 97%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+
+        // for images
+        "landing-slide-img": {
           "0%, 32%": { opacity: 1 },
           "35%, 97%": { opacity: 0 },
           "100%": { opacity: 1 },

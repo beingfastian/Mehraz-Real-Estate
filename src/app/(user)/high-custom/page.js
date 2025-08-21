@@ -86,7 +86,13 @@ const Route = () => {
     }
   }
 
-  return <HighCustompage />;
+  return (
+    <>
+      <UserProtectedRoute>
+        <HighCustompage />
+      </UserProtectedRoute>
+    </>
+  );
 };
 
 export default Route;

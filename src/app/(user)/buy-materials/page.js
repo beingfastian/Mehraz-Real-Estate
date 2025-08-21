@@ -1,12 +1,13 @@
-import { BuyMaterialsPage,} from "@/components";
+import { BuyMaterialsPage, UserProtectedRoute } from "@/components";
 import React from "react";
 
 const page = () => {
   return (
     <>
-      <BuyMaterialsPage />
+      <UserProtectedRoute>
+        <BuyMaterialsPage />
+      </UserProtectedRoute>
     </>
-
   );
 };
 

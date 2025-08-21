@@ -83,12 +83,12 @@ const InitialPayment2 = ({ setSteps }) => {
         </div>
 
         {/* Service Selection */}
-        <div className="flex flex-row justify-center mt-10 gap-6 relative flex-wrap">
+        <div className="flex lg:flex-row sm:flex-col justify-center mt-10 gap-6 sm:mt-6 sm:gap-4 relative flex-wrap">
           {/* Left Card - DESIGN */}
           <div
             onClick={() => toggleSelection(0)}
-            className="shadow-xl w-[25%] flex items-center justify-center p-4 mt-6 rounded-2xl cursor-pointer">
-            <div className="w-full flex flex-col items-center p-4 mx-auto">
+            className="shadow-xl w-[25%] sm:w-full sm:p-2 sm:mt-0 flex items-center justify-center p-4 mt-6 rounded-2xl cursor-pointer">
+            <div className="flex flex-col items-center p-4 mx-auto">
               <div
                 className="w-full"
                 style={{
@@ -118,11 +118,11 @@ const InitialPayment2 = ({ setSteps }) => {
           </div>
 
           {/* Right Cards */}
-          <div className="w-[70%] border-black border-[1px] rounded-xl flex flex-col pb-6">
-            <p className="text-gray-500/80 font-medium text-[22px] text-black mx-auto py-4">
+          <div className="w-[70%] border-black border-[1px] rounded-xl flex flex-col pb-6 sm:w-full sm:pb-4">
+            <p className="text-gray-500/80 font-medium text-[22px] text-black mx-auto sm:text-[18px] py-4">
               GET COMPLETE COMFORT
             </p>
-            <div className="w-full flex justify-between items-center flex-nowrap gap-8 md:gap-6 sm:gap-4 px-6">
+            <div className="w-full flex justify-between items-center flex-nowrap gap-8 md:gap-6 sm:gap-4 px-6 sm:flex-col sm:gap-4 sm:px-4">
               {serviceCards.slice(1).map((service, i) => {
                 const actualIndex = i + 1;
                 return (

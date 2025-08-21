@@ -4,7 +4,7 @@ import { useAuth } from "@/context/UserContext";
 import { useRouter } from "next/navigation"; // For navigation in Next.js 13+
 import Spinner from "./Spinner"; // Loading spinner
 
-const ProtectedRoute = ({ children }) => {
+const ClientRoute = ({ children }) => {
   const [auth, setAuth] = useAuth();
   const router = useRouter();
 
@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     // If not loading and the user is not authenticated, redirect to login
     if (!isLoading && auth.success === false) {
-      router.push("/signUp"); // Redirect to login if not authenticated
+      router.push("/login"); // Redirect to login if not authenticated
     }
   }, [isLoading, auth.success, router]);
 
@@ -32,4 +32,4 @@ const ProtectedRoute = ({ children }) => {
   return null;
 };
 
-export default ProtectedRoute;
+export default ClientRoute;

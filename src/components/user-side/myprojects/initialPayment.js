@@ -78,17 +78,17 @@ const InitialPayment = ({ setSteps }) => {
             <span>SERVICES</span>
             <span>ADVANCE</span>
           </div>
-          <p className="mt-4 bg-accent-gold-2 text-white font-medium text-xl max-w-[40%] mx-auto rounded-2xl px-4 py-1">
+          <p className="mt-4 bg-accent-gold-2 text-white font-medium text-xl max-w-[40%] sm:max-w-full sm:w-full sm:mx-px mx-auto rounded-2xl px-4 py-1">
             Select <b className="font-bold">Home Services</b> Plans
           </p>
         </div>
 
         {/* Plans */}
-        <div className="flex justify-center gap-6 flex-row">
+        <div className="flex justify-center gap-6 sm:gap-2 flex-row sm:flex-col">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className="w-full md:w-[33%] border border-gray-300 shadow-lg rounded-b-2xl rounded-t-[35px] bg-white">
+              className="w-full md:w-[33%] sm:w-full border border-gray-300 shadow-lg rounded-b-2xl rounded-t-[35px] bg-white">
               {/* Plan Header */}
               <div className="bg-gray-100 rounded-[35px] px-4 py-2 flex items-start gap-4 relative shadow-md">
                 <input
@@ -97,14 +97,14 @@ const InitialPayment = ({ setSteps }) => {
                   className="w-8 h-8 rounded-full accent-gray-700 mt-2"
                 />
                 <div className="flex flex-col">
-                  <div className="font-bold text-xl">
+                  <div className="font-bold text-xl sm:text-sm">
                     {plan.title || "Plan"}
                   </div>
-                  <div className="text-lg text-gray-500">
+                  <div className="text-lg text-gray-500 sm:text-xs">
                     {plan.subtitle || "Subtitle"}
                   </div>
                 </div>
-                <div className="absolute top-4 right-4 text-lg text-gray-600 rounded-3xl bg-white px-4 py-1">
+                <div className="absolute top-4 right-4 text-lg sm:text-sm text-gray-600 rounded-3xl bg-white sm:px-2 px-4 py-1">
                   {plan.rate || "Rate"}
                 </div>
               </div>
@@ -122,7 +122,9 @@ const InitialPayment = ({ setSteps }) => {
                     </div>
                     <div>
                       <div className="text-md font-semibold">{item.name}</div>
-                      <div className="text-sm text-gray-500">{item.desc}</div>
+                      <div className="text-sm text-gray-500 sm:hidden block">
+                        {item.desc}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -132,16 +134,22 @@ const InitialPayment = ({ setSteps }) => {
         </div>
 
         {/* Total & Next */}
-        <div className="relative mt-8">
-          <div className="text-[20px] w-[40%] mx-auto flex justify-between items-center text-center h-[46px] rounded-[10px] px-6 shadow-md border border-gray-200 bg-white">
+        <div className="mt-8 flex sm:flex-col flex-row items-center justify-between gap-3">
+          {/* Total Cost - centered on desktop */}
+          <div className="text-[20px] w-[40%] sm:w-full flex justify-between items-center text-center h-[46px] rounded-[10px] px-6 shadow-md border border-gray-200 bg-white">
             <strong>TOTAL COST</strong>
             <span>100,000 PKR</span>
           </div>
+
+          {/* Empty spacer for desktop to center the total cost */}
+          <div className="w-[40%] sm:hidden"></div>
+
+          {/* Next Button - stays on the right */}
           <UButton
             onClick={submitHandler}
             text="NEXT"
             color="gray-white"
-            className="text-base px-10 py-2 absolute right-0 top-0"
+            className="text-base px-10 py-2 w-[40%] sm:w-full"
           />
         </div>
       </div>

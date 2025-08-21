@@ -81,10 +81,17 @@ export { default as card6 } from "./images/user-side/Fast Homes/6.png";
 export { default as card7 } from "./images/user-side/Fast Homes/7.png";
 export { default as card8 } from "./images/user-side/Fast Homes/8.png";
 
+//landing page image carousal
+export { default as LandingCard1 } from "./images/user-side/HomePageLandings/land1.png";
+export { default as LandingCard2 } from "./images/user-side/HomePageLandings/land2.png";
+export { default as LandingCard3 } from "./images/user-side/HomePageLandings/land3.png";
+export { default as LandingCard4 } from "./images/user-side/HomePageLandings/land4.png";
+
 //fast home design selection
 export { default as check_tickIcon } from "./icons/user-fast-homes/tick.svg";
 export { default as nextIcon } from "./icons/user-fast-homes/nextIcon.svg";
 export { default as blackNextIcon } from "./icons/user-fast-homes/blackNextIcon.svg";
+export { default as shareWhite } from "./icons/user-fast-homes/sharewhite.svg";
 export { default as gradientNextIcon } from "./icons/user-fast-homes/gradient-next.svg";
 export { default as rightArrowIcon } from "./icons/user-fast-homes/right_arrow.svg";
 // some final let make unique home

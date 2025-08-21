@@ -218,13 +218,14 @@ export { default as DesignPreferenceForm } from "./user-side/high-custom/DesignP
 
 // user auth page
 export { default as UserSignup } from "./user-side/userAuth/UserSignup";
-export { default as UserLogin } from "./user-side/userAuth/UserLogin.js";
+export { default as UserLogin } from "./user-side/userAuth/UserLogin";
 export { default as DeliveryForm } from "./user-side/userAuth/DeliveryForm";
 
 // number extension page ccomponent
 export { default as NumberExtensions } from "./user-side/userAuth/NumberExtensions.js";
 // user protected route
 export { default as UserProtectedRoute } from "./UserProtectedroute.js";
+export { default as ClientRoute } from "./Clientroute";
 
 // basic input checks
 export { emptystringcheck } from "./InputChecks";
@@ -235,6 +236,10 @@ export { numberlesscheck } from "./InputChecks";
 // buy materials
 export { default as BuyMaterialsPage } from "./user-side/buy-materials/Buy-MaterialsPage.js";
 export { default as Screen3 } from "./user-side/buy-materials/Screen3";
+
+//client dashboard
+export { default as ClientDashboard } from "./user-side/client-dashboard/ClientDashboard";
+export { default as Dashboard } from "./user-side/dashboard/dashboard";
 
 //buy property
 export { default as PropertySelect } from "./user-side/buy-property/PropertySelect";

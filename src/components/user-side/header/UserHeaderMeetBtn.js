@@ -9,7 +9,8 @@ const UserHeaderMeetBtn = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(prev => !prev);
+    // setIsDropdownOpen(prev => !prev);
+    window.location.href = "/chat";
   };
 
   const handleClickOutside = () => {
@@ -31,15 +32,19 @@ const UserHeaderMeetBtn = () => {
         <button
           className="text-white inline-flex items-center gap-3 md:gap-2 xs:gap-1"
           onClick={toggleDropdown}>
-          <Image src={meetIcon} alt="meet" className="w-7 h-auto md:w-6 sm:w-5" />
+          <Image
+            src={meetIcon}
+            alt="meet"
+            className="w-7 h-auto md:w-6 sm:w-5"
+          />
           <span className="base-text block sm:hidden">MEET</span>
-          <FaChevronDown
+          {/* <FaChevronDown
             className={`w-5 h-auto transition-transform duration-300 ${
               isDropdownOpen ? "-rotate-90" : ""
             }`}
-          />
+          /> */}
         </button>
-        <div
+        {/* <div
           className={`bg-white rounded-2xl shadow-dropdown-2 absolute z-[2] top-12 sm:top-10 grid transition-grid-rows-opacity-padding duration-300 ${
             isDropdownOpen
               ? "grid-rows-[1fr] p-2 opacity-100"
@@ -68,7 +73,7 @@ const UserHeaderMeetBtn = () => {
               <span className=" text-end">schedule a meet up</span>
             </Link>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

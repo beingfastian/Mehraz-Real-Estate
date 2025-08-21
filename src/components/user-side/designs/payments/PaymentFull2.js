@@ -223,7 +223,7 @@ const PaymentFull2 = () => {
               {/* NEXT button - fixed to bottom right */}
               <div className="fixed bottom-[150px] right-[150px] justify-end items-center mt-1">
                 <BlackButton
-                  onclickfunction={() => router.push("/success-apply")}
+                  onclickfunction={() => router.push("/client-dashboard")}
                   text="DONE"
                   customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400"
                 />
