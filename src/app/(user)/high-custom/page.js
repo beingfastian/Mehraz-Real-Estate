@@ -92,14 +92,12 @@ const Route = async () => {
   }
 
   return (
-    <UserProtectedRoute>
-      <HighCustompage
-        cities={cities}
-        projecttype={projecttype}
-        styles={styles}
-        error={error}
-      />
-    </UserProtectedRoute>
+    <HighCustompage
+      cities={cities}
+      projecttype={projecttype}
+      styles={styles}
+      error={error}
+    />
   );
 };
 

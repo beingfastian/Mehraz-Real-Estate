@@ -12,8 +12,16 @@ import { Card2 } from "@/components";
 import { FaCheck } from "react-icons/fa6";
 import { DesignIcon } from "@/components";
 import { whitewall, buyMaterialLightIcon, couch } from "@/assets";
+import useRPS from "@/hooks/useRPS";
 
 const InitialPayment4 = ({ setStep }) => {
+  const { router, pathname, searchParams } = useRPS();
+
+  const submitHandler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 7);
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
   const projecttype = [
     {
       icon: <DesignIcon fill="white" stroke="white" width={50} height={50} />,
@@ -95,7 +103,7 @@ const InitialPayment4 = ({ setStep }) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="flex flex-col min-h-full min-w-full">
-      <div className="flex-grow">
+      <div className="flex">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-2xl font-bold mb-1 mt-8">PAYMENT</h1>
           <p className="text-black/70 bg-gray-200/70 max-w-[50%] rounded-2xl mb-4 mx-auto">
@@ -133,7 +141,7 @@ const InitialPayment4 = ({ setStep }) => {
 
       <div className="flex min-w-[80%] w-[80%] mx-auto">
         <UButton
-          onClick={handlePayForAll}
+          onClick={submitHandler}
           text="PAY FOR ALL"
           color="gray-white"
           className="text-base px-[30px] mx-auto w-[50%] min-w-[50%] py-1 rounded-3xl"

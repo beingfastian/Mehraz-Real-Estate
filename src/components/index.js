@@ -113,6 +113,8 @@ export { default as ProductConstructionRatesModal } from "./admin-side/product-r
 export { default as ProductRatesChangesSection } from "./admin-side/product-rates/ProductRatesChangesSection";
 export { default as ProductRatesBudgetRangesSection } from "./admin-side/product-rates/ProductRatesBudgetRangesSection";
 export { default as ProductRatesInput } from "./admin-side/product-rates/ProductRatesInput";
+// Admin Side - Users
+export { default as UsersClientPage } from "./admin-side/UsersClientPage";
 
 // User Side
 export { default as ULinkButton } from "./user-side/ULinkButton";

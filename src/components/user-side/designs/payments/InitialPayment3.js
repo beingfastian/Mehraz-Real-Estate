@@ -20,8 +20,17 @@ import { MdOutlinePayment } from "react-icons/md";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import Image from "next/image";
+import useRPS from "@/hooks/useRPS";
 
 const InitialPayment3 = ({ setStep }) => {
+  const { router, pathname, searchParams } = useRPS();
+
+  const submitHandler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 6);
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
+
   const [service1, setService1] = useState([
     { checked: true, icon: <DesignIcon />, text: "DESIGN" },
     { checked: false, icon: <ConstructionIcon />, text: "CONSTRUCTION" },
@@ -102,7 +111,7 @@ const InitialPayment3 = ({ setStep }) => {
           </div>
           <div className="flex justify-end mr-6">
             <UButton
-              onClick={() => setStep(prev => prev + 1)}
+              onClick={submitHandler}
               text="DONE"
               color="gray-white"
               className="text-base px-10 py-2"

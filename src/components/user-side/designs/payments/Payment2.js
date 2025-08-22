@@ -8,14 +8,19 @@ import { fastHomeIcon } from "@/assets";
 import { UButton } from "@/components";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import useRPS from "@/hooks/useRPS";
 
 const Payment2 = ({ setStep }) => {
-  const handleFullPayment = () => {
-    setStep(5); // Set to step 5 for full payment
+  const { router, pathname, searchParams } = useRPS();
+
+  const submitHandler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 9);
+    router.push(`${pathname}?${newParams.toString()}`);
   };
 
   const handleAdvancePayment = () => {
-    setStep(4); // Set to step 4 for advance payment
+    setStep(8); // Set to step 4 for advance payment
   };
 
   return (
@@ -60,7 +65,7 @@ const Payment2 = ({ setStep }) => {
             </p>
           </div>
           <button
-            onClick={handleFullPayment}
+            onClick={submitHandler}
             className="payment-box-size flex-center relative bg-white/25 rounded-full border border-black/[0.15] cursor-pointer shadow-payment-box">
             <p className="payment-box-text-size">
               <span>PAY</span>

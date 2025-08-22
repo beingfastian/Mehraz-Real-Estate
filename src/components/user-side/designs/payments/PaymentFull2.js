@@ -1,4 +1,4 @@
-// Enhanced PaymentFull2.js with User ID debugging
+// Fixed PaymentFull2.js - Updated user ID handling
 "use client";
 import Line from "@/components/common/Line/Line";
 import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
@@ -42,14 +42,14 @@ const PaymentFull2 = () => {
     console.log("Auth isLoading:", auth?.isLoading);
 
     if (auth?.user) {
-      console.log("User ID (_id):", auth.user._id);
-      console.log("User ID (id):", auth.user.id);
+      console.log("User phone (direct access):", auth.user.phone);
+      console.log("User fullName:", auth.user.fullName);
       console.log("All user keys:", Object.keys(auth.user));
     }
     console.log("======================");
   }, [auth]);
 
-  // Get user ID with multiple fallbacks and better validation
+  // Get user ID - now properly accessing the phone from user object
   const getUserId = () => {
     console.log("Getting user ID...");
 
@@ -68,9 +68,10 @@ const PaymentFull2 = () => {
       return null;
     }
 
-    // Try different possible user ID fields
-    const userId = auth.user._id || auth.user.id || auth.user.userId;
-    console.log("Resolved user ID:", userId);
+    // Based on your signup code, the user object is { phone, fullName }
+    // So we access it directly as auth.user.phone (not auth.user.phone.phone)
+    const userId = auth.user.phone; // This should be the phone number string
+    console.log("Resolved user ID (phone number):", userId);
     return userId;
   };
 
@@ -139,10 +140,11 @@ const PaymentFull2 = () => {
   };
 
   const handleUpload = async file => {
-    const userId = 123;
+    const userId = getUserId(); // Use the fixed getUserId function
 
     console.log("=== UPLOAD DEBUG ===");
     console.log("User ID for upload:", userId);
+    console.log("User object:", auth?.user);
     console.log("File:", file);
     console.log("Auth state:", {
       isLoading: auth?.isLoading,
@@ -162,7 +164,7 @@ const PaymentFull2 = () => {
     if (!userId) {
       setUploadStatus({
         type: "error",
-        message: "Please log in to upload files. User ID not found.",
+        message: "Please log in to upload files. User phone number not found.",
       });
       return;
     }
@@ -178,8 +180,18 @@ const PaymentFull2 = () => {
     setIsUploading(true);
 
     try {
-      console.log("Starting upload with userId:", userId);
-      const result = await uploadPaymentReceipt(file, userId);
+      console.log("Starting upload with phone number:", userId);
+
+      // Create FormData for server action
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("userId", userId);
+      formData.append("userName", auth?.user?.fullName || "Unknown");
+      formData.append("uploadTimestamp", new Date().toISOString());
+      formData.append("paymentAmount", "120000"); // Current payment amount
+      formData.append("paymentType", "full");
+
+      const result = await uploadPaymentReceipt(formData);
       console.log("Upload result:", result);
 
       if (result.success) {
@@ -237,7 +249,9 @@ const PaymentFull2 = () => {
         <br />
         Auth Success: {auth?.success ? "Yes" : "No"}
         <br />
-        User ID: {getUserId() || "Not found"}
+        User Phone: {getUserId() || "Not found"}
+        <br />
+        User Name: {auth?.user?.fullName || "Not found"}
         <br />
         Has User Object: {auth?.user ? "Yes" : "No"}
       </div>

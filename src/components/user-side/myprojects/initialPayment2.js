@@ -10,6 +10,7 @@ import { MdOutlinePayment } from "react-icons/md";
 import { fastHomeIcon } from "@/assets";
 import { DesignIcon } from "@/components";
 import { whitewall, buyMaterialLightIcon, couch } from "@/assets";
+import useRPS from "@/hooks/useRPS";
 
 const InitialPayment2 = ({ setSteps }) => {
   const initialCards = [
@@ -65,6 +66,14 @@ const InitialPayment2 = ({ setSteps }) => {
     const updatedCards = [...serviceCards];
     updatedCards[index].selected = !updatedCards[index].selected;
     setServiceCards(updatedCards);
+  };
+
+  const { router, pathname, searchParams } = useRPS();
+
+  const submitHandler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 5);
+    router.push(`${pathname}?${newParams.toString()}`);
   };
 
   return (
@@ -164,13 +173,12 @@ const InitialPayment2 = ({ setSteps }) => {
 
         {/* Next Button */}
         <div className="flex justify-end mt-10">
-          <Link href="/designs/payment">
-            <UButton
-              text="NEXT"
-              color="gray-white"
-              className="text-base px-10 py-3"
-            />
-          </Link>
+          <UButton
+            text="NEXT"
+            color="gray-white"
+            className="text-base px-10 py-3"
+            onClick={submitHandler}
+          />
         </div>
       </div>
 
