@@ -18,7 +18,7 @@ const LandingBuyButton = ({
       <div className="uppercase text-center w-full">
         <Link
           href={href}
-          className={`flex items-center justify-center gap-2 sm:gap-0.5 text-white bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full normal-text-3 text-nowrap group ${bgTransitionStyles}`}>
+          className={`flex items-center py-2 justify-center gap-2 sm:gap-0.5 text-white border-white border-[2px] shadow-lg bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full normal-text-3 text-nowrap group ${bgTransitionStyles}`}>
           <div className="relative">
             <Image
               src={lightIcon}

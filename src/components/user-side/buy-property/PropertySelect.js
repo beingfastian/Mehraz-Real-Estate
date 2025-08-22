@@ -86,7 +86,7 @@ const PropertySelect = ({
           className="h-[70px] w-[70px]"
         />
         <span className="flex items-end text-xl">
-          MEHRAZ <b>&nbsp;ESTATE</b>
+          MEHRAZ <b>&nbsp;REALTY</b>
         </span>
       </div>
 

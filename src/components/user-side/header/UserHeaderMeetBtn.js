@@ -30,7 +30,7 @@ const UserHeaderMeetBtn = () => {
     <>
       <div className="relative flex items-center justify-center sm:justify-end">
         <button
-          className="text-white inline-flex items-center gap-3 md:gap-2 xs:gap-1"
+          className="text-white inline-flex border-x-[1px] border-gray-400 px-4 mx-2 items-center gap-3 md:gap-2 xs:gap-1"
           onClick={toggleDropdown}>
           <Image
             src={meetIcon}

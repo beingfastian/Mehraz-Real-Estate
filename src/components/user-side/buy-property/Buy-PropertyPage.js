@@ -119,10 +119,10 @@ const BuyPropertyPage = () => {
           {step === 1 && (
             <Screen1
               setStep={setStep}
-              heading={{ normaltext: "MEHRAZ", boldtext: "ESTATE" }}
+              heading={{ normaltext: "MEHRAZ", boldtext: "Realty" }}
               subheading={{
-                normaltext: "GET THE",
-                boldtext: "BEST REAL ESTATE IN THE COUNTRY",
+                normaltext: "YOUR SHORTCUT TO THE",
+                boldtext: "RIGHT PROPERTY",
               }}
             />
           )}

@@ -9,6 +9,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "NothingYouCouldDo";
+  src: url("./fonts/nothing/NothingYouCouldDo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
 
 ::-webkit-scrollbar {
   width: 0.5rem;
@@ -747,12 +753,16 @@ input[type="range"]::-webkit-slider-thumb {
   @apply w-2 md:w-1.5 sm:w-1.5 h-4 md:h-3  border-b-2 border-r-2 border-black translate-y-[-10%] rotate-45;
 }
 
-.gradient-text {
+/* .gradient-text {
   background: linear-gradient(to bottom, #154455 0%, #20264a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+} */
+
+.gradient-text {
+  color: #bd9e48;
 }
 
 .word-spacing {

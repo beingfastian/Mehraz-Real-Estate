@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { useAuth } from "@/context/UserContext";
 import { db } from "../../../Firebase/firebase"; // Adjust the path if needed
+import { ref, listAll } from "firebase/storage";
+import { storage } from "../../../Firebase/firebase"; // adjust path
 
 const phoneExtensions = [
   { code: "+1", minDigits: 10, shortName: "US" }, // US and Canada
@@ -91,7 +93,8 @@ const UserLogin = () => {
       try {
         const phone = extension + phoneNumber;
         const usersCollection = collection(db, "users");
-        // Query to check if the username already exists
+
+        // 1️⃣ Check if user exists
         const usernameQuery = query(
           usersCollection,
           where("phonenumber", "==", phone),
@@ -103,14 +106,30 @@ const UserLogin = () => {
           return;
         }
 
-        // ✅ Set auth context here
+        // 2️⃣ Normalize phone (digits only, no +)
+        const normalizePhone = phone => phone.replace(/[^0-9]/g, "");
+        const normalizedPhone = normalizePhone(phone);
+
+        // 3️⃣ Check if client has receipts folder in storage
+        const receiptFolderRef = ref(
+          storage,
+          `payment-receipts/_${normalizedPhone}`,
+        );
+        const folderContent = await listAll(receiptFolderRef);
+
+        if (folderContent.items.length === 0) {
+          toast.error("Not a client. No receipts found.");
+          return;
+        }
+
+        // ✅ Success: Login as client
         setAuth({
           success: true,
-          user: { phone, fullName }, // whatever you want to store
+          user: { phone, fullName, isClient: true },
         });
 
-        toast.success("Login Successful!");
-        router.push("/dashboard"); // ✅ Redirect
+        toast.success("Client Login Successful!");
+        router.push("/dashboard");
       } catch (error) {
         console.error("Error during login:", error);
         toast.error("An error occurred during login");
@@ -202,6 +221,10 @@ const UserLogin = () => {
                   )}
                 </div>
               </form>
+              <div className="border-t-[1px] border-gray-400 w-[80%] mx-auto pr-8 pl-16 text-white py-2">
+                THE NUMBER WILL BE THE <b>PRIMARY MEANS OF CONTACT</b> B/W{" "}
+                <b>MEHRAZ & YOU.</b>
+              </div>
             </div>
 
             {/* Submit button outside the container at bottom exactly centered */}

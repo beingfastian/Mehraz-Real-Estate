@@ -70,9 +70,9 @@ const CustomDetail = ({ setStep, setNextStep, styles = [] }) => {
             </div>
 
             {/* Right Side - Form Fields */}
-            <div className="flex-1 space-y-6">
+            <div className="flex-1 space-y-3">
               {/* Floors */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border-b-[1px] border-gray-200 pb-3">
                 <label className="text-lg font-medium text-gray-700 min-w-[120px]">
                   FLOORS
                 </label>
@@ -84,7 +84,7 @@ const CustomDetail = ({ setStep, setNextStep, styles = [] }) => {
               </div>
 
               {/* Budget */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border-b-[1px] border-gray-200 pb-3">
                 <label className="text-lg font-medium text-gray-700 min-w-[120px]">
                   BUDGET
                 </label>
@@ -102,7 +102,7 @@ const CustomDetail = ({ setStep, setNextStep, styles = [] }) => {
               </div>
 
               {/* Style */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border-b-[1px] border-gray-200 pb-3">
                 <label className="text-lg font-medium text-gray-700 min-w-[120px]">
                   STYLE
                 </label>
@@ -116,7 +116,7 @@ const CustomDetail = ({ setStep, setNextStep, styles = [] }) => {
               </div>
 
               {/* Family Units */}
-              <div className="flex items-center justify-between border-t-2 border-gray-500">
+              <div className="flex items-center justify-between">
                 <div>
                   <label className="text-lg font-medium text-gray-700">
                     FAMILY UNITS

@@ -17,10 +17,14 @@ const LevelCardDesign = ({
   imgRounded,
   isPersonalized,
 }) => {
+  const isSelected = designLevel === level;
+
   return (
     <div
-      onClick={() => handleDesignLevel(level)} // ✅ Pass level on card click
-      className={`cursor-pointer w-[298px] md:w-full ${containerPadding} rounded-[15px] bg-white border border-black/10 shadow-btn-shadow f-col md:flex-row md:gap-3 md:justify-between justify-normal items-baseline  md:items-center`}>
+      onClick={() => handleDesignLevel(level)}
+      className={`cursor-pointer w-[298px] md:w-full ${containerPadding} rounded-[15px] bg-white border ${
+        isSelected ? "border-blue-500 shadow-lg" : "border-black/10"
+      } shadow-btn-shadow f-col md:flex-row md:gap-3 md:justify-between justify-normal items-baseline md:items-center transition-all duration-300`}>
       <div
         className={`${imgSize} relative ${imgRounded} cursor-pointer group overflow-hidden`}>
         <div className={`h-full w-full `}>

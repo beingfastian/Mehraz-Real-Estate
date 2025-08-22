@@ -8,14 +8,11 @@ const LandingCTAButton = ({
   tagline2,
   className = "",
   imgesClassesHolder,
-      href,
+  href,
   textClassName = "",
 }) => {
-
-  
   const bgTransitionStyles =
     "relative z-[1] before:bg-gradient-to-r before:from-accent-dark-blue before:via-accent-dark-blue before:to-accent-sea-green before:opacity-0 before:z-[-1] before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:rounded-sm hover:before:opacity-100 before:transition-opacity before:duration-300";
-  
 
   return (
     <>
@@ -28,7 +25,6 @@ const LandingCTAButton = ({
               <Image
                 src={icon}
                 alt="text"
-                
                 fill
                 className={imgesClassesHolder.imgClassName}
               />
@@ -36,7 +32,7 @@ const LandingCTAButton = ({
           </div>
           <div className={`extra-large ${textClassName}`}>{text}</div>
         </div>
-        <div className="w-full text-xs tracking-widest md:text-xxs pt-2 md:pt-0  flex items-center  gap-4 md:gap-2">
+        <div className="w-full text-xs tracking-widest md:text-xxs pt-2 pb-2 md:pt-0  flex items-center  gap-4 md:gap-2">
           <span className="font-light text-nowrap ">{tagline1}</span>
           <span className="bold text-nowrap ">{tagline2}</span>
         </div>

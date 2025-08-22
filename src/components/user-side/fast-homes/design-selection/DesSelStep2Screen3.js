@@ -37,11 +37,24 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
   useEffect(() => {
     const fetchDesigns = async () => {
       try {
+        // Get additional search params
+        const categoryParam = searchParams.get("category");
+        const cityParam = searchParams.get("city");
+        const styleParam = searchParams.get("style");
+        const styleCostParam = searchParams.get("styleCost");
+        const budgetParam = searchParams.get("budget"); // Add budget param
+
         const designsFromDb = await getStep2Screen3Designs(
           areaParam,
           floorParam,
           familyUnitParam,
           requirementsParam,
+          // Additional sorting params
+          categoryParam,
+          cityParam,
+          styleParam,
+          styleCostParam,
+          budgetParam,
         );
         setAllDesigns(designsFromDb);
       } catch (error) {
@@ -49,7 +62,18 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
       }
     };
     fetchDesigns();
-  }, [areaParam, floorParam, familyUnitParam, requirementsParam]);
+  }, [
+    areaParam,
+    floorParam,
+    familyUnitParam,
+    requirementsParam,
+    // Add dependencies for new params
+    searchParams.get("category"),
+    searchParams.get("city"),
+    searchParams.get("style"),
+    searchParams.get("styleCost"),
+    searchParams.get("budget"),
+  ]);
 
   useEffect(() => {
     if (!designView) {

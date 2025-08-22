@@ -1,97 +1,3 @@
-// "use server";
-// import getStyleById from "@/Firebase/admin-side/roles-analytics-cities/styles/getStyleById";
-// import { db, storage } from "@/Firebase/firebase";
-// import { collection, getDocs, query, where } from "firebase/firestore";
-// import { getDownloadURL, ref } from "firebase/storage";
-// import replaceFamilyUnitIdWithDoc from "../replaceFamilyUnitIdWithDoc";
-// import replaceAreaIdWithDoc from "../replaceAreaIdWithDoc";
-// import replaceFloorIdWithDoc from "../replaceFloorIdWithDoc";
-
-// // Note: This is a basic implementation by ChatGPT.
-
-// // TODO: Fetch the designs from RP_DESIGNS on the basis of these things.
-
-// // first priority : Description
-// // same : area,floors,family units,
-// // (budget closest to least closest)
-
-// // second priority : diff style (i.e. homes of diff projects with same area,floors,family units & description)
-// // (budget closest to least closest)
-
-// // third priority : same : area,floors,
-// // (budget closest to least closest)
-
-// // fourth : diff style (i.e. homes of diff projects with same area,floors)
-// // (budget closest to least closest)
-
-// // fifth : same area,
-// // (budget closest to least closest)
-
-// // sixth : diff style (i.e. homes of diff projects with same area)
-// // (budget closest to least closest)
-
-// const getStep2Screen3Designs = async (
-//   areaParam,
-//   floorParam,
-//   familyUnitParam,
-//   requirementsParam,
-// ) => {
-//   const designsCollectionRef = collection(db, "RP_DESIGNS");
-//   const designs = [];
-//   try {
-//     const rpDesignDocs = await getDocs(designsCollectionRef);
-//     const rpDesignDocsData = rpDesignDocs.docs.map(doc => doc.data());
-//     await Promise.all(
-//       rpDesignDocsData.map(async doc => {
-//         // Getting images and videos
-//         const videoRef = ref(storage, `RP_DESIGNS/${doc.id}/video`);
-//         const videoUrl = await getDownloadURL(videoRef);
-//         const op1Images = await getFolderImages(`RP_DESIGNS/${doc.id}/image`);
-//         const op2Images = await getFolderImages(`RP_DESIGNS/${doc.id}/image2`);
-
-//         const data = {
-//           id: doc.id,
-//           area: await replaceAreaIdWithDoc(doc.areaId),
-//           floors: await replaceFloorIdWithDoc(doc.floorId),
-//           familyUnit: await replaceFamilyUnitIdWithDoc(doc.familyUnitId),
-//           description: doc.description,
-//           descriptionOp1: doc.descriptionOp1,
-//           descriptionOp2: doc.descriptionOp2,
-//           designCost: doc.designCost,
-//           constructionCost: doc.constructionCost,
-//           video: videoUrl,
-//           op1Images,
-//           op2Images,
-//         };
-//         designs.push(data);
-//       }),
-//     );
-//     return designs;
-//   } catch (error) {
-//     console.error("Error getting the design data for preview: ", error);
-//     throw new Error(
-//       "An error occurred while fetching data. Please check your internet connection and try again.",
-//     );
-//   }
-// };
-
-// const getFolderImages = async path => {
-//   const images = [];
-//   const option1ImagesRef = ref(storage, path);
-//   try {
-//     const option1Images = await getDownloadURL(option1ImagesRef);
-//     images.push(option1Images);
-//     return images;
-//   } catch (error) {
-//     console.error("Error getting the option1 images: ", error);
-//     throw new Error(
-//       "An error occurred while fetching data. Please check your internet connection and try again.",
-//     );
-//   }
-// };
-
-// export default getStep2Screen3Designs;
-
 "use server";
 import { db, storage } from "@/Firebase/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -105,14 +11,21 @@ const getStep2Screen3Designs = async (
   floorParam,
   familyUnitParam,
   requirementsParam,
+  // Additional params from search
+  categoryParam,
+  cityParam,
+  styleParam,
+  styleCostParam,
+  budgetParam, // assuming budget is also passed
 ) => {
   const designsCollectionRef = collection(db, "RP_DESIGNS");
   const designs = [];
 
   try {
-    // Build query based on parameters
+    // Build base query (keep existing filtering for performance)
     let designQuery = designsCollectionRef;
 
+    // Apply basic filters first for performance
     if (areaParam) {
       designQuery = query(designQuery, where("areaId", "==", areaParam));
     }
@@ -123,6 +36,12 @@ const getStep2Screen3Designs = async (
       designQuery = query(
         designQuery,
         where("familyUnitId", "==", familyUnitParam),
+      );
+    }
+    if (cityParam) {
+      designQuery = query(
+        designQuery,
+        where("cities", "array-contains-any", [cityParam, "GENERAL"]),
       );
     }
 
@@ -136,7 +55,7 @@ const getStep2Screen3Designs = async (
           const designId = doc.id;
           const storageBasePath = `RP_DESIGNS/${designId}`;
 
-          // Get primary image (adjust field name as needed)
+          // Get primary image
           const imageRef = ref(storage, `${storageBasePath}/image`);
           const imageUrl = await getDownloadURL(imageRef).catch(() => null);
 
@@ -146,10 +65,13 @@ const getStep2Screen3Designs = async (
             floors: await replaceFloorIdWithDoc(docData.floorId),
             familyUnit: await replaceFamilyUnitIdWithDoc(docData.familyUnitId),
             description: docData.description,
-            designCost: formatCost(docData.designCost),
-            constructionCost: formatCost(docData.constructionCost),
+            designCost: docData.designCost,
+            constructionCost: docData.constructionCost,
+            cities: docData.cities,
+            styleId: docData.styleId,
             image: imageUrl,
-            // Add other fields as needed
+            // Store raw data for scoring
+            rawData: docData,
           });
         } catch (error) {
           console.error(`Error processing design ${doc.id}:`, error);
@@ -157,17 +79,139 @@ const getStep2Screen3Designs = async (
       }),
     );
 
-    // Add sorting logic similar to projects if needed
-    designs.sort((a, b) => {
-      // Example: Sort by construction cost ascending
-      return a.constructionCost - b.constructionCost;
-    });
+    // Apply scoring algorithm
+    const scoredDesigns = designs.map(design => ({
+      ...design,
+      matchScore: calculateMatchScore(design, {
+        areaParam: parseFloat(areaParam),
+        floorParam: parseInt(floorParam),
+        familyUnitParam: parseInt(familyUnitParam),
+        styleParam,
+        cityParam,
+        budgetParam: parseFloat(budgetParam),
+        requirementsParam,
+      }),
+    }));
 
-    return designs;
+    // Sort by match score (highest first)
+    scoredDesigns.sort((a, b) => b.matchScore - a.matchScore);
+
+    // Format costs for display
+    return scoredDesigns.map(design => ({
+      ...design,
+      designCost: formatCost(design.designCost),
+      constructionCost: formatCost(design.constructionCost),
+    }));
   } catch (error) {
     console.error("Error getting design data:", error);
     throw new Error("Failed to fetch design data. Please try again.");
   }
+};
+
+// Scoring algorithm implementation
+const calculateMatchScore = (design, userParams) => {
+  let score = 0;
+
+  // Area scoring (30 points max)
+  if (userParams.areaParam && design.area?.value) {
+    const designArea = parseFloat(design.area.value);
+    const userArea = userParams.areaParam;
+
+    if (designArea === userArea) {
+      score += 30;
+    } else if (isWithinPercentage(designArea, userArea, 10)) {
+      score += 20;
+    }
+  }
+
+  // Budget scoring (25 points max) - using construction cost as primary budget
+  if (userParams.budgetParam && design.constructionCost) {
+    const designBudget = design.constructionCost;
+    const userBudget = userParams.budgetParam;
+
+    if (designBudget === userBudget) {
+      score += 25;
+    } else if (isWithinPercentage(designBudget, userBudget, 10)) {
+      score += 18;
+    } else if (isWithinPercentage(designBudget, userBudget, 20)) {
+      score += 10;
+    }
+  }
+
+  // Floor scoring (20 points max)
+  if (userParams.floorParam && design.floors?.value) {
+    const designFloors = parseInt(design.floors.value);
+    const userFloors = userParams.floorParam;
+
+    if (designFloors === userFloors) {
+      score += 20;
+    } else if (Math.abs(designFloors - userFloors) === 1) {
+      score += 10;
+    }
+  }
+
+  // Family Units scoring (15 points max)
+  if (userParams.familyUnitParam && design.familyUnit?.value) {
+    const designUnits = parseInt(design.familyUnit.value);
+    const userUnits = userParams.familyUnitParam;
+
+    if (designUnits === userUnits) {
+      score += 15;
+    } else if (Math.abs(designUnits - userUnits) === 1) {
+      score += 10;
+    }
+  }
+
+  // Style scoring (10 points max)
+  if (userParams.styleParam && design.styleId) {
+    if (design.styleId === userParams.styleParam) {
+      score += 10;
+    }
+    // Could add similar style logic here if you have style relationships
+  }
+
+  // Location scoring (5 points max)
+  if (userParams.cityParam && design.cities) {
+    if (design.cities.includes(userParams.cityParam)) {
+      score += 5;
+    } else if (design.cities.includes("GENERAL")) {
+      score += 3;
+    }
+  }
+
+  // Search keywords scoring (20 points max)
+  if (userParams.requirementsParam && design.description) {
+    const keywordScore = calculateKeywordScore(
+      design.description,
+      userParams.requirementsParam,
+    );
+    score += Math.min(keywordScore, 20);
+  }
+
+  return score;
+};
+
+// Helper functions
+const isWithinPercentage = (value1, value2, percentage) => {
+  const difference = Math.abs(value1 - value2);
+  const average = (value1 + value2) / 2;
+  return (difference / average) * 100 <= percentage;
+};
+
+const calculateKeywordScore = (description, requirements) => {
+  if (!description || !requirements) return 0;
+
+  const keywords = requirements.toLowerCase().split(/\s+|,/);
+  const descriptionLower = description.toLowerCase();
+
+  let matches = 0;
+  keywords.forEach(keyword => {
+    if (keyword.length > 2 && descriptionLower.includes(keyword.trim())) {
+      matches++;
+    }
+  });
+
+  return matches * 5; // 5 points per keyword match
 };
 
 // Helper function to format cost display

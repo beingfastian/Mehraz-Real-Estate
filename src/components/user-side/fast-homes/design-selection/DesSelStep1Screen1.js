@@ -161,7 +161,7 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
                 <div className="flex gap-0 lg:gap-12 flex-row py-0 lg:py-6 lg:flex-col justify-evenly  items-stretch w-full">
                   <div className="text-center w-full px-6 py-2 mx-auto">
                     <h3 className="text-[#2F2F2F]/80 text-[28px] xl:text-lg lg:text-base mb-6">
-                      SELECT HOME <b>STYLE</b>
+                      SELECT HOME <b>STYLE COST</b>
                     </h3>
 
                     <div className="grid grid-cols-3 md:grid-cols-3 sm:grid-cols-1 gap-6 lg:gap-4 md:gap-3 sm:gap-3 w-full">

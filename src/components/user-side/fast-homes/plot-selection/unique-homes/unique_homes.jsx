@@ -7,7 +7,7 @@ import Line from "@/components/common/Line/Line";
 import useRPS from "@/hooks/useRPS";
 import TextareaWithUpload from "@/components/common/fileuploader/FileUploader";
 import Common_btn from "@/components/common/Btns/Common_btn";
-import LevelCardDesign from "./component/card";
+import LevelCardDesign2 from "./component/card2";
 import { useAuth } from "@/context/UserContext";
 import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
@@ -17,13 +17,16 @@ import { Spinner } from "@/components";
 const Unique_homes = () => {
   const { router, pathname, searchParams } = useRPS();
   const [auth] = useAuth();
-  const [personalizationType, setPersonalizationType] = useState(1);
   const [selectedLevel, setSelectedLevel] = useState("low");
   const [selectedCard, setSelectedCard] = useState(null);
   const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const levelType = searchParams.get("levelType");
+  const [personalizationType, setPersonalizationType] = useState(
+    levelType === "selected" ? 1 : levelType === "full" ? 2 : 1,
+  );
   const [levelPricing, setLevelPricing] = useState({
     low: { changes: "Upto 1", charges: "Free" },
     medium: { changes: "2-3", charges: "2 pkr/sft" },
@@ -60,8 +63,15 @@ const Unique_homes = () => {
     },
   ]);
 
+  // Get the selection from query parameters
+
   // Fetch data from database on component mount
   useEffect(() => {
+    if (levelType === "selected") {
+      setPersonalizationType(1);
+    } else if (levelType === "full") {
+      setPersonalizationType(2);
+    }
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -103,7 +113,7 @@ const Unique_homes = () => {
     };
 
     fetchData();
-  }, []);
+  }, [levelType]);
 
   const selectProjectHandler = async id => {
     // if (!auth?.user) {
@@ -362,7 +372,7 @@ const Unique_homes = () => {
             <div className="w-full h-full flex flex-col items-center justify-center pt-3">
               <div className="flex flex-wrap gap-9 items-stretch justify-center">
                 {personalizedOptions.map(option => (
-                  <LevelCardDesign
+                  <LevelCardDesign2
                     key={option.id}
                     isPersonalized={true}
                     title={option.title}
@@ -370,10 +380,9 @@ const Unique_homes = () => {
                     containerPadding={"p-0"}
                     imgRounded={"rounded-[18px]"}
                     cardBodyPaddingTop={"px-3.5 py-2 pb-[30px]"}
-                    radioBtnPosition={"translate-y-1/2 bottom-0"}
                     lable_1={option.label1}
                     lable_2={option.label2}
-                    selected={option.selected}
+                    selected={selectedCard === option.id} // controlled selection
                     onClick={() => handleCardSelect(option.id)}
                   />
                 ))}

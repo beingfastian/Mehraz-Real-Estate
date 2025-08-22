@@ -17,7 +17,6 @@ import {
 import Image from "next/image";
 import { custom2 } from "@/assets";
 import StepScreenChanger from "./StepsScreen";
-import Waitingtime from "./Waitingtime";
 
 const defaultStep1Screen2FormData = {
   city: "",
@@ -146,8 +145,6 @@ const HighCustompage = ({ styles = [] }) => {
           )}
 
           {step === 5 && <CustomDetail setStep={setStep} styles={styles} />}
-
-          {step === 6 && <Waitingtime />}
         </div>
       </motion.section>
     </Suspense>

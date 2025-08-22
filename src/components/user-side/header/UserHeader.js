@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserHeaderMeetBtn, UserHeaderMenu } from "@/components";
 import { chatIcon } from "@/assets";
+import LocationSelector from "./LocationSelector";
+
 const UserHeader = () => {
   return (
     <>
@@ -17,9 +19,15 @@ const UserHeader = () => {
               className="h-9 w-[307px] lg:w-auto md:h-8 sm:h-6 xs:h-5"
             />
           </Link>
-          <div className="flex items-center gap-10  sm:gap-4">
-            <div className="flex items-center gap-9">
+          <div className="flex items-center gap-10 sm:gap-4">
+            <div className="flex items-center gap-6 sm:gap-3">
+              {/* Location Selector - Hidden on small screens */}
+              <div className="sm:hidden block">
+                <LocationSelector />
+              </div>
+
               <UserHeaderMeetBtn />
+
               <Link href="/chat" passHref legacyBehavior>
                 <a className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
                   <CiChat1 size={23} strokeWidth={1.3} />

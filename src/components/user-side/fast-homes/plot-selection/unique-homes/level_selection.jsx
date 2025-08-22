@@ -6,22 +6,22 @@ import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
 import Image from "next/image";
 import React from "react";
 import LevelCardDesign from "./component/card";
-import Common_btn from "@/components/common/Btns/Common_btn";
 import useRPS from "@/hooks/useRPS";
 
 const Level_selection = () => {
   const { router, pathname, searchParams } = useRPS();
   const [designLevel, setDesignLevel] = useState(null);
+
   const handleDesignLevel = level => {
     setDesignLevel(level);
-    submitHandler();
-  };
 
-  const submitHandler = () => {
+    // Navigate immediately after selection
     const newParams = new URLSearchParams(searchParams);
     newParams.set("screen", 8);
+    newParams.set("levelType", level);
     router.push(`${pathname}?${newParams.toString()}`);
   };
+
   return (
     <PageWrapper title={"Level Selection"}>
       <div className="some-final-section-container">
@@ -43,7 +43,7 @@ const Level_selection = () => {
             </div>
           </div>
           <LevelCardDesign
-            level={1}
+            level={"selected"}
             designLevel={designLevel}
             handleDesignLevel={handleDesignLevel}
             title={"SELECTED CHANGES"}
@@ -60,7 +60,7 @@ const Level_selection = () => {
           />
 
           <LevelCardDesign
-            level={2}
+            level={"full"}
             designLevel={designLevel}
             imgSize={
               "h-[20rem] md:h-[11.875rem] sm:h-[10.625rem]  w-full md:min-w-[10.625rem]"

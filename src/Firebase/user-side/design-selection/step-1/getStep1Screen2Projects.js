@@ -4,22 +4,6 @@ import { db, storage } from "@/Firebase/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 
-// Note: This is just a basic implementation by ChatGPT.
-
-// TODO: Fetch the projects from READY_PROJECTS on the basis of these things.
-
-// first priority : same : city, style, cost same
-
-// second priority : different styles , cost same, city same
-
-// third priority : same : style, city
-// (budget closest to least closest)
-
-// fourth : different styles ,city
-// (budget closest to least closest)
-
-// last options : different city
-
 const getStep1Screen2Projects = async (
   categoryParam,
   cityParam,
@@ -65,27 +49,41 @@ const getStep1Screen2Projects = async (
       }
     }
 
-    // Sorting projects based on the priorities
+    // New sorting logic with updated priorities
     projects.sort((a, b) => {
-      const aStyleMatch = a.style.id === styleParam;
-      const bStyleMatch = b.style.id === styleParam;
-      const aStyleCostMatch = a.productRates.styleCost === styleCostParam;
-      const bStyleCostMatch = b.productRates.styleCost === styleCostParam;
-      const aBudgetDifference = Math.abs(a.style.budget - styleCostParam);
-      const bBudgetDifference = Math.abs(b.style.budget - styleCostParam);
+      const aCost = a.productRates.styleCost;
+      const bCost = b.productRates.styleCost;
 
-      if (aStyleMatch && bStyleMatch) {
-        if (aStyleCostMatch && bStyleCostMatch) return 0;
-        if (aStyleCostMatch) return -1;
-        if (bStyleCostMatch) return 1;
-        return aBudgetDifference - bBudgetDifference;
-      }
-      if (aStyleMatch) return -1;
-      if (bStyleMatch) return 1;
-      if (aStyleCostMatch && bStyleCostMatch) return 0;
-      if (aStyleCostMatch) return -1;
-      if (bStyleCostMatch) return 1;
-      return aBudgetDifference - bBudgetDifference;
+      // First priority: exact cost match
+      const aExactCostMatch = aCost === styleCostParam;
+      const bExactCostMatch = bCost === styleCostParam;
+
+      if (aExactCostMatch && bExactCostMatch) return 0;
+      if (aExactCostMatch) return -1;
+      if (bExactCostMatch) return 1;
+
+      // Second priority: cost preference based on styleCostParam
+      const getCostPriority = (cost, targetCost) => {
+        if (targetCost === "LOW") {
+          if (cost === "MEDIUM") return 1;
+          if (cost === "HIGH") return 2;
+          return 3; // for any other case
+        } else if (targetCost === "MEDIUM") {
+          if (cost === "HIGH") return 1;
+          if (cost === "LOW") return 2;
+          return 3; // for any other case
+        } else if (targetCost === "HIGH") {
+          if (cost === "MEDIUM") return 1;
+          if (cost === "LOW") return 2;
+          return 3; // for any other case
+        }
+        return 3; // fallback
+      };
+
+      const aPriority = getCostPriority(aCost, styleCostParam);
+      const bPriority = getCostPriority(bCost, styleCostParam);
+
+      return aPriority - bPriority;
     });
 
     // Reordering projects to place highest priority projects in the middle

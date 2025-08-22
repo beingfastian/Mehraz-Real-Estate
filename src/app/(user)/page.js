@@ -34,6 +34,16 @@ const isocpeur = localFont({
   ],
   display: "swap",
 });
+const nothing = localFont({
+  src: [
+    {
+      path: "../fonts/nothing/NothingYouCouldDo-Regular.ttf",
+      style: "normal",
+      weight: "600",
+    },
+  ],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Mehraz | Home",
@@ -81,7 +91,7 @@ export default async function UserPage() {
                 <b className="text-nowrap">emerging rise</b>
                 <br /> <span className="text-nowrap">for people</span>
               </h1>
-              <h2 className="bg-accent-green slogan-container">
+              <h2 className="bg-accent-gold slogan-container">
                 <b>live healthy</b> live longer
               </h2>
             </div>
@@ -171,8 +181,8 @@ export default async function UserPage() {
                 <div className="flex-1 h-[1px] bg-white/60"></div>
 
                 {/* Text */}
-                <span className="text-base md:text-sm text-white/60 px-[17px] md:px-[12px] sm:px-[8px] whitespace-nowrap">
-                  WANT CUSTOM DESIGN?
+                <span className="text-base md:text-sm text-white/60 px-[12px] md:px-[8px] sm:px-[6px] whitespace-nowrap">
+                  Want Custom Design?
                 </span>
 
                 {/* Right line */}
@@ -193,7 +203,7 @@ export default async function UserPage() {
                   imgClassName:
                     "min-w-[91px] lg:min-w-[80px] md:min-w-[70px] sm:min-w-[60px] min-h-[95px] lg:min-h-[85px] md:min-h-[75px] sm:min-h-[65px] !relative",
                 }}
-                className="w-full h-[115px] lg:h-[105px] md:h-[90px] sm:h-[75px] bg-landing-cta-2 rounded-lg before:rounded-lg"
+                className="w-full h-[90px] lg:h-[90px] md:h-[75px] sm:h-[60px] bg-landing-cta-2 rounded-lg before:rounded-lg"
                 tagline1={"all types of projects"}
                 tagline2={"most customized service"}
               />
@@ -253,16 +263,17 @@ export default async function UserPage() {
           </div>
         </div>
 
-        <div className="f-col items-end  sm:items-start w-full ">
+        <div className="f-col items-end  sm:items-start w-full mt-4">
           <div className="flex items-center justify-center w-[80%] gap-4">
             <div className="flex-1 bg-accent-gold-light h-2 sm:h-1.5"></div>
-            <span className="text-2xl text-gray-600 whitespace-nowrap">
+            <span
+              className={`text-2xl text-gray-600 whitespace-nowrap ${nothing.className}`}>
               REALIZE DREAMS
             </span>
             <div className="flex-1 bg-accent-gold-light h-2 sm:h-1.5"></div>
           </div>
 
-          <div className="max-w-[712px] w-full  md:w-full sm:max-w-[80%] flex gap-4 items-stretch justify-end sm:justify-start  mt-8 lg:mt-6 md:mt-4 xs:gap-0.5 flex-1">
+          <div className="max-w-[712px] w-full  md:w-full sm:max-w-[80%] flex gap-4 items-stretch justify-end sm:justify-start  mt-6 lg:mt-6 md:mt-4 xs:gap-0.5 flex-1">
             <LandingBuyButton
               text={
                 <>
