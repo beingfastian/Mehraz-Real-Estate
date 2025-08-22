@@ -7,6 +7,7 @@ import Backbutton from "@/components/Backbutton";
 import { useRouter } from "next/navigation";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase"; // Adjust the path if needed
+import { useAuth } from "@/context/UserContext";
 
 const phoneExtensions = [
   { code: "+1", minDigits: 10, shortName: "US" }, // US and Canada
@@ -61,6 +62,7 @@ const UserSignup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [errors, setErrors] = useState({});
   const router = useRouter();
+  const [auth, setAuth] = useAuth();
 
   const validate = () => {
     const newErrors = {};
@@ -97,19 +99,22 @@ const UserSignup = () => {
         const querySnapshot = await getDocs(usernameQuery);
 
         if (!querySnapshot.empty) {
-          toast.error("User Logged In!");
+          setAuth({ success: true, user: { phone, fullName } });
+          toast.success("User Logged In!");
+          router.back();
           return;
         }
 
-        // Store additional user data in Firestore
         await addDoc(collection(db, "users"), {
           fullname: fullName,
           phonenumber: phone,
-          role: "user", // Default role
+          role: "user",
         });
 
+        setAuth({ success: true, user: { phone, fullName } });
         toast.success("User Registered Successfully!");
-        // Redirect or perform additional actions after successful signup
+        router.back();
+        return;
       } catch (error) {
         console.error("Error during signup:", error);
         toast.error("An error occurred during signup");

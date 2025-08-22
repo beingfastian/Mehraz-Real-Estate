@@ -12,21 +12,17 @@ import {
   UserProtectedRoute,
   HighCustompage,
 } from "@/components";
-import { custom2, customicon, myVerseImage } from "@/assets";
 import {
   industrialImage,
   renovativeImage,
   residentialImage,
   commercialImage,
 } from "@/assets";
-import Image from "next/image";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
-const defaultStep1Screen2FormData = {
-  city: "",
-};
+import getStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
 
-const Route = () => {
+const Route = async () => {
   const cities = [
     { name: "Faisalabad", label: "Faisalabad" },
     { name: "Karachi", label: "Karachi" },
@@ -34,6 +30,7 @@ const Route = () => {
     { name: "Islamabad", label: "Islamabad" },
     { name: "Peshawar", label: "Peshawar" },
   ];
+
   const projecttype = [
     {
       text: (
@@ -42,7 +39,7 @@ const Route = () => {
         </>
       ),
       URL: "residential",
-      imagesrc: residentialImage.src, // Replace with your actual image path
+      imagesrc: residentialImage.src,
     },
     {
       text: (
@@ -52,7 +49,7 @@ const Route = () => {
         </>
       ),
       URL: "commercial",
-      imagesrc: commercialImage.src, // Replace with your actual image path
+      imagesrc: commercialImage.src,
     },
     {
       text: (
@@ -61,7 +58,7 @@ const Route = () => {
         </>
       ),
       URL: "renovative",
-      imagesrc: renovativeImage.src, // Replace with your actual image path
+      imagesrc: renovativeImage.src,
     },
     {
       text: (
@@ -70,28 +67,39 @@ const Route = () => {
         </>
       ),
       URL: "industrial",
-      imagesrc: renovativeImage.src, // Replace with your actual image path
+      imagesrc: renovativeImage.src,
     },
   ];
+
   async function handlebuyplotexternal(document) {
     try {
-      console.log("here is document: ", document);
       const docRef = await addDoc(collection(db, "highcustom"), document);
-      console.log("doc ref is:", docRef);
+      console.log("Saved:", docRef);
       return true;
     } catch (error) {
       console.log("Error", error.message);
-      toast.error(error.message);
       return false;
     }
   }
 
+  // ✅ Fetch styles server-side and pass as props
+  let styles = [];
+  let error = null;
+  try {
+    styles = await getStylesFromDB(["id", "name", "budget", "image"]);
+  } catch (e) {
+    error = "Failed to fetch styles";
+  }
+
   return (
-    <>
-      <UserProtectedRoute>
-        <HighCustompage />
-      </UserProtectedRoute>
-    </>
+    <UserProtectedRoute>
+      <HighCustompage
+        cities={cities}
+        projecttype={projecttype}
+        styles={styles}
+        error={error}
+      />
+    </UserProtectedRoute>
   );
 };
 

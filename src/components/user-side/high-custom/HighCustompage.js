@@ -5,12 +5,8 @@ import {
   UserScreenSpinner,
   Screen1,
   ProjectDetails,
-  DesSelStep1Screen1InputBox,
-  DesSelSelect,
-  Placetype,
   Card,
-  SpecificDetail,
-  UserProtectedRoute,
+  CustomDetail,
 } from "@/components";
 import {
   industrialImage,
@@ -19,18 +15,21 @@ import {
   commercialImage,
 } from "@/assets";
 import Image from "next/image";
-import { custom2, customicon, myVerseImage } from "@/assets";
+import { custom2 } from "@/assets";
 import StepScreenChanger from "./StepsScreen";
 import Waitingtime from "./Waitingtime";
+
 const defaultStep1Screen2FormData = {
   city: "",
 };
-const HighCustompage = () => {
+
+const HighCustompage = ({ styles = [] }) => {
   const [step, setStep] = useState(1);
   const [step1Screen2FormData, setStep1Screen2FormData] = useState(
     defaultStep1Screen2FormData,
   );
   const [hightcustomdetail, setHighCustomDetail] = useState({});
+
   const step1Screen2FormDataInputHandler = (key, value) => {
     setStep1Screen2FormData(prevState => ({
       ...prevState,
@@ -45,6 +44,7 @@ const HighCustompage = () => {
     { name: "Faisalabad", label: "Faisalabad" },
     { name: "Peshawar", label: "Peshawar" },
   ];
+
   const projecttype = [
     {
       text: (
@@ -53,17 +53,16 @@ const HighCustompage = () => {
         </>
       ),
       URL: "residential",
-      imagesrc: residentialImage.src, // Replace with your actual image path
+      imagesrc: residentialImage.src,
     },
     {
       text: (
         <>
-          {" "}
           <b>COMMERCIAL</b> DESIGN
         </>
       ),
       URL: "commercial",
-      imagesrc: commercialImage.src, // Replace with your actual image path
+      imagesrc: commercialImage.src,
     },
     {
       text: (
@@ -72,7 +71,7 @@ const HighCustompage = () => {
         </>
       ),
       URL: "renovative",
-      imagesrc: renovativeImage.src, // Replace with your actual image path
+      imagesrc: renovativeImage.src,
     },
     {
       text: (
@@ -81,9 +80,10 @@ const HighCustompage = () => {
         </>
       ),
       URL: "industrial",
-      imagesrc: renovativeImage.src, // Replace with your actual image path
+      imagesrc: renovativeImage.src,
     },
   ];
+
   return (
     <Suspense fallback={<UserScreenSpinner />}>
       <motion.section
@@ -102,10 +102,10 @@ const HighCustompage = () => {
               }}
             />
           )}
+
           {step === 2 && (
             <div>
               <div className="flex border-b w-fit border-black pb-2 !sm:mx-auto mb-2">
-                {/* <customicon /> */}
                 <Image
                   src={custom2}
                   alt="myverse"
@@ -122,22 +122,21 @@ const HighCustompage = () => {
                 <b>SELECT TYPE</b> OF PROJECT YOU REQUIRE...
               </p>
               <div className="flex justify-center items-center flex-wrap gap-8 md:gap-6 sm:gap-4">
-                {projecttype?.length > 0 &&
-                  projecttype.map((value, index) => {
-                    return (
-                      <Card
-                        data={value}
-                        key={index}
-                        setStep={setStep}
-                        hightcustomdetail={hightcustomdetail}
-                        setHighCustomDetail={setHighCustomDetail}
-                      />
-                    );
-                  })}
+                {projecttype?.map((value, index) => (
+                  <Card
+                    data={value}
+                    key={index}
+                    setStep={setStep}
+                    hightcustomdetail={hightcustomdetail}
+                    setHighCustomDetail={setHighCustomDetail}
+                  />
+                ))}
               </div>
             </div>
           )}
+
           {step === 3 && <StepScreenChanger changeStepScreen={setStep} />}
+
           {step === 4 && (
             <ProjectDetails
               setStep={setStep}
@@ -145,13 +144,9 @@ const HighCustompage = () => {
               setHighCustomDetail={setHighCustomDetail}
             />
           )}
-          {step === 5 && (
-            <SpecificDetail
-              setStep={setStep}
-              hightcustomdetail={hightcustomdetail}
-              setHighCustomDetail={setHighCustomDetail}
-            />
-          )}
+
+          {step === 5 && <CustomDetail setStep={setStep} styles={styles} />}
+
           {step === 6 && <Waitingtime />}
         </div>
       </motion.section>

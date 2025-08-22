@@ -38,10 +38,10 @@ const TextareaWithUpload = ({
           h-full 
           no-outline 
           resize-none 
-          text-center 
+          text-left 
           text-[#2f2f2f]/60 
           placeholder:text-[#2f2f2f]/60
-          base-text
+          text-lg
         `}
         placeholder={textareaPlaceholder}
       />

@@ -1,9 +1,10 @@
+// Enhanced PaymentFull2.js with User ID debugging
 "use client";
 import Line from "@/components/common/Line/Line";
 import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
 import PaymentTitle from "@/components/payment/paymentTitle";
 import { formatNumber } from "@/helper/helper";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { bankIcon, QRScanImage } from "@/assets";
 import { payemntServices2 } from "./data2";
@@ -16,12 +17,63 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
 import { fastHomeIcon } from "@/assets";
 import { UButton } from "@/components";
+import { useRef } from "react";
+import { useAuth } from "@/context/UserContext";
+import { uploadPaymentReceipt } from "@/Firebase/admin-side/payment/uploadPaymentReceipt";
 
 const PaymentFull2 = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [pageState, setPageState] = useState("summary"); // "summary", "paymentMethod"
-  const [showPopup, setShowPopup] = useState(false);
+  const [auth, setAuth, setIsAcceptTerms, isAcceptTerms] = useAuth();
   const router = useRouter();
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [pageState, setPageState] = useState("summary");
+  const [showPopup, setShowPopup] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
+  const fileInputRef = useRef(null);
+
+  // Debug user authentication state
+  useEffect(() => {
+    console.log("=== AUTH DEBUG INFO ===");
+    console.log("Full auth object:", auth);
+    console.log("Auth user:", auth?.user);
+    console.log("Auth success:", auth?.success);
+    console.log("Auth isLoading:", auth?.isLoading);
+
+    if (auth?.user) {
+      console.log("User ID (_id):", auth.user._id);
+      console.log("User ID (id):", auth.user.id);
+      console.log("All user keys:", Object.keys(auth.user));
+    }
+    console.log("======================");
+  }, [auth]);
+
+  // Get user ID with multiple fallbacks and better validation
+  const getUserId = () => {
+    console.log("Getting user ID...");
+
+    if (!auth) {
+      console.log("No auth object");
+      return null;
+    }
+
+    if (auth.isLoading) {
+      console.log("Auth is still loading");
+      return null;
+    }
+
+    if (!auth.success || !auth.user) {
+      console.log("User not authenticated or no user object");
+      return null;
+    }
+
+    // Try different possible user ID fields
+    const userId = auth.user._id || auth.user.id || auth.user.userId;
+    console.log("Resolved user ID:", userId);
+    return userId;
+  };
+
   const handleOptionChange = option => {
     setSelectedOption(option);
   };
@@ -39,12 +91,161 @@ const PaymentFull2 = () => {
     navigator.clipboard.writeText(text);
     alert("Copied!");
   };
-  const totalPrice = 120000; // You can move this to props or backend later
+
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async event => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // File validation
+    const validTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "application/pdf",
+    ];
+    if (!validTypes.includes(file.type)) {
+      setUploadStatus({
+        type: "error",
+        message: "Please upload JPEG, PNG, or PDF files only",
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadStatus({
+        type: "error",
+        message: "File size must be less than 5MB",
+      });
+      return;
+    }
+
+    // Create preview for images
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        setFilePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFilePreview(null);
+    }
+
+    setUploadedFile(file);
+    setUploadStatus(null);
+  };
+
+  const handleUpload = async file => {
+    const userId = 123;
+
+    console.log("=== UPLOAD DEBUG ===");
+    console.log("User ID for upload:", userId);
+    console.log("File:", file);
+    console.log("Auth state:", {
+      isLoading: auth?.isLoading,
+      success: auth?.success,
+      hasUser: !!auth?.user,
+    });
+    console.log("===================");
+
+    if (auth?.isLoading) {
+      setUploadStatus({
+        type: "error",
+        message: "Please wait, loading user information...",
+      });
+      return;
+    }
+
+    if (!userId) {
+      setUploadStatus({
+        type: "error",
+        message: "Please log in to upload files. User ID not found.",
+      });
+      return;
+    }
+
+    if (!file) {
+      setUploadStatus({
+        type: "error",
+        message: "No file selected",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      console.log("Starting upload with userId:", userId);
+      const result = await uploadPaymentReceipt(file, userId);
+      console.log("Upload result:", result);
+
+      if (result.success) {
+        setUploadStatus({
+          type: "success",
+          message: "Receipt uploaded successfully!",
+        });
+      } else {
+        setUploadStatus({
+          type: "error",
+          message: result.message || "Upload failed",
+        });
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadStatus({
+        type: "error",
+        message: `Upload failed: ${error.message || "Please try again"}`,
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const removeFile = () => {
+    setUploadedFile(null);
+    setFilePreview(null);
+    setUploadStatus(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const totalPrice = 120000;
+
+  // Show loading state while auth is loading
+  if (auth?.isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p>Loading user information...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Debug Panel - Remove this in production */}
+      <div className="bg-yellow-100 p-4 text-xs border-b">
+        <strong>Debug Info:</strong>
+        <br />
+        Auth Loading: {auth?.isLoading ? "Yes" : "No"}
+        <br />
+        Auth Success: {auth?.success ? "Yes" : "No"}
+        <br />
+        User ID: {getUserId() || "Not found"}
+        <br />
+        Has User Object: {auth?.user ? "Yes" : "No"}
+      </div>
+
       <PageWrapper className="flex-1 flex flex-col">
         <div className="f-col gap-9 items-center">
           <PaymentTitle title="payment" />
+
           {pageState === "summary" && (
             <div className="flex flex-col lg:flex-col gap-8 lg:gap-10 md:gap-8 sm:gap-6 items-center w-full justify-center ">
               <div className="f-col max-w-[550px] w-full mt-[80px]">
@@ -64,21 +265,22 @@ const PaymentFull2 = () => {
               <Line
                 className={"w-[500px] h-[1px] bg-accent-black opacity-30"}
               />
+
               <div className="f-col gap-12 lg:gap-10 md:gap-8 sm:gap-6 max-w-[550px] w-full">
                 <div className="f-col gap-5 md:gap-4 sm:gap-3 w-full">
-                  <p class="opacity-70 normal-text text-center uppercase text-accent-black">
+                  <p className="opacity-70 normal-text text-center uppercase text-accent-black">
                     Payment Options
                   </p>
                 </div>
                 <div className="f-col gap-[30px] lg:gap-[20px] md:gap-[15px] ">
                   <div
-                    class={`payment-full-checkbox_container ${
+                    className={`payment-full-checkbox_container ${
                       selectedOption === payemntServices2[0]
                         ? "bg-accent-gold-lightest"
                         : "bg-dull/50"
                     }`}
                     onClick={() => handleOptionChange(payemntServices2[0])}>
-                    <label class="payment-full-checkbox">
+                    <label className="payment-full-checkbox">
                       <input
                         type="radio"
                         name="payment-option"
@@ -88,18 +290,18 @@ const PaymentFull2 = () => {
                       />
                       <div className="general-tick w-[14px] md:w-[10px] sm:w-[8px] h-[31px] md:h-[24px] sm:h-[20px] opacity-0 peer-checked:opacity-100 transition-all duration-300"></div>
                     </label>
-                    <p class="payment-full-checkbox-text">
+                    <p className="payment-full-checkbox-text">
                       Pay through any service
                     </p>
                   </div>
                   <div
-                    class={`payment-full-checkbox_container ${
+                    className={`payment-full-checkbox_container ${
                       selectedOption === payemntServices2[1]
                         ? "bg-accent-gold-lightest"
                         : "bg-dull/50"
                     }`}
                     onClick={() => handleOptionChange(payemntServices2[1])}>
-                    <label class="payment-full-checkbox">
+                    <label className="payment-full-checkbox">
                       <input
                         type="radio"
                         name="payment-option"
@@ -109,13 +311,13 @@ const PaymentFull2 = () => {
                       />
                       <div className="general-tick w-[14px] md:w-[10px] sm:w-[8px] h-[31px] md:h-[24px] sm:h-[20px] opacity-0 peer-checked:opacity-100 transition-all duration-300"></div>
                     </label>
-                    <p class="payment-full-checkbox-text">
+                    <p className="payment-full-checkbox-text">
                       Pay through gateway
                     </p>
                   </div>
                 </div>
               </div>
-              {/* Black button */}
+
               <div className="flex-center justify-center mt-8">
                 <BlackButton
                   onclickfunction={() => setPageState("paymentMethod")}
@@ -127,8 +329,9 @@ const PaymentFull2 = () => {
 
           {pageState === "paymentMethod" && (
             <div className="w-full pt-[130px] flex flex-row lg:flex-col items-stretch lg:items-center justify-center h-full gap-[81px] lg:gap-[40px] md:gap-[20px] sm:gap-[10px]">
-              {/* left start */}
+              {/* Payment method content - keeping original structure */}
               <div className="max-w-[467px] pt-[25px] f-col items-end gap-[34px] md:gap-[20px] sm:gap-[10px] w-full">
+                {/* Amount display and QR code section */}
                 <div className="max-w-[375px] w-full rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 py-2.5 md:py-2 sm:py-1.5 shadow-payment-box flex-center">
                   <div className="base-text bold text-[#606060]">AMOUNT =</div>
                   <div>
@@ -144,6 +347,7 @@ const PaymentFull2 = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className="max-w-[452.39px] w-full py-2.5 md:py-2 sm:py-1.5 rounded-[50px] md:rounded-[40px] sm:rounded-[35px] bg-[#5680f5] flex justify-between items-center px-[47px] md:px-[35px] sm:px-[30px] gap-5">
                   <div className="f-col gap-5">
                     <p className="normal-text bold text-left uppercase text-white">
@@ -168,20 +372,19 @@ const PaymentFull2 = () => {
                   </div>
                 </div>
               </div>
-              {/* left end */}
 
-              {/* mid start */}
               <div>
                 <Line className="h-full w-[1px] bg-black/40" />
               </div>
-              {/* mid end */}
 
-              {/* right start */}
+              {/* Upload section */}
               <div className="max-w-[478px] w-full f-col gap-6 md:gap-5 sm:gap-4">
                 <div className="base-text-0 text-left uppercase text-accent-black">
                   <span className="bold">pay through any service</span>
                   <span> to this account, upload payment receipt here</span>
                 </div>
+
+                {/* Account details button */}
                 <div className="payment-advance-box--right-container">
                   <div className="payment-advance-box--right-text">
                     <span>ACCOUNT</span>
@@ -193,7 +396,6 @@ const PaymentFull2 = () => {
                       alt="bank icon"
                       className={`w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px] object-contain`}
                     />
-
                     <div
                       className="opacity-70 base-text text-left text-black"
                       onClick={() => setShowPopup(true)}>
@@ -203,24 +405,103 @@ const PaymentFull2 = () => {
                   </div>
                 </div>
 
+                {/* File upload section */}
                 <div className="payment-advance-box--right-container">
                   <div className="payment-advance-box--right-text">
                     <span>Transaction</span>
                     <span className="bold"> Receipt</span>
                   </div>
 
-                  <div className="w-full py-[9px] md:py-[7px] sm:py-[5px] rounded-full bg-[#efefef]/50 hover:bg-gray-100 transition-all duration-300 border border-black/[0.15] shadow-copy flex-center gap-3.5 cursor-pointer">
-                    <div className="w-[36px] md:w-[30px] sm:w-[25px] h-[36px] md:h-[30px] sm:h-[25px] rounded-full bg-accent-black opacity-60 flex-center">
-                      <IoIosAdd className="text-white w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px]" />
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept=".jpg,.jpeg,.png,.pdf"
+                    style={{ display: "none" }}
+                  />
+
+                  {!uploadedFile ? (
+                    <div
+                      onClick={handleClick}
+                      className="w-full py-[9px] md:py-[7px] sm:py-[5px] rounded-full bg-[#efefef]/50 hover:bg-gray-100 transition-all duration-300 border border-black/[0.15] shadow-copy flex-center gap-3.5 cursor-pointer">
+                      <div className="w-[36px] md:w-[30px] sm:w-[25px] h-[36px] md:h-[30px] sm:h-[25px] rounded-full bg-accent-black opacity-60 flex-center">
+                        <IoIosAdd className="text-white w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px]" />
+                      </div>
+                      <p className="opacity-70 normal-text bold text-center text-black uppercase underline">
+                        UPLOAD
+                      </p>
                     </div>
-                    <p className="opacity-70 normal-text bold text-center text-black uppercase underline">
-                      UPLOAD
-                    </p>
-                  </div>
+                  ) : (
+                    <div className="w-full p-4 border rounded-lg bg-white">
+                      {/* File preview */}
+                      {filePreview ? (
+                        <div className="mb-3">
+                          <Image
+                            src={filePreview}
+                            alt="Receipt preview"
+                            width={200}
+                            height={200}
+                            className="max-w-full h-auto rounded border"
+                          />
+                        </div>
+                      ) : (
+                        <div className="mb-3 p-4 bg-gray-100 rounded text-center">
+                          <p>PDF File: {uploadedFile.name}</p>
+                        </div>
+                      )}
+
+                      {/* File info and actions */}
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-sm font-medium">
+                            {uploadedFile.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
+                        <button
+                          onClick={removeFile}
+                          className="text-red-500 hover:text-red-700">
+                          <FaTimes size={20} />
+                        </button>
+                      </div>
+
+                      {/* Upload status */}
+                      {uploadStatus && (
+                        <div
+                          className={`mt-2 text-sm ${
+                            uploadStatus.type === "success"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}>
+                          {uploadStatus.message}
+                        </div>
+                      )}
+
+                      {/* Upload button */}
+                      <button
+                        onClick={() => handleUpload(uploadedFile)}
+                        disabled={
+                          isUploading ||
+                          uploadStatus?.type === "success" ||
+                          !getUserId()
+                        }
+                        className="mt-3 w-full bg-blue-500 text-white py-2 rounded disabled:bg-gray-400">
+                        {!getUserId()
+                          ? "Please log in"
+                          : isUploading
+                          ? "Uploading..."
+                          : uploadStatus?.type === "success"
+                          ? "Uploaded ✓"
+                          : "Confirm Upload"}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-              {/* right end */}
-              {/* NEXT button - fixed to bottom right */}
+
+              {/* DONE button */}
               <div className="fixed bottom-[150px] right-[150px] justify-end items-center mt-1">
                 <BlackButton
                   onclickfunction={() => router.push("/client-dashboard")}
@@ -231,23 +512,20 @@ const PaymentFull2 = () => {
             </div>
           )}
 
-          {/* Modal */}
+          {/* Payment Details Modal */}
           {showPopup && (
             <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
               <div className="bg-white w-[95%] max-w-[750px] p-6 rounded-xl relative shadow-xl">
-                {/* Close Button */}
                 <button
                   className="absolute top-4 right-4 text-gray-500"
                   onClick={() => setShowPopup(false)}>
                   <FaTimes size={20} />
                 </button>
 
-                {/* Heading */}
-                <h2 className="text-center text-2xl leading-[100%] tracking-normal uppercase font-[400] mb-6 font-[FONTSPRING DEMO - Proxima Nova]">
+                <h2 className="text-center text-2xl leading-[100%] tracking-normal uppercase font-[400] mb-6">
                   PAYMENT <span className="font-bold">DETAILS</span>
                 </h2>
 
-                {/* Bank Info (as table) */}
                 <div className="rounded-lg mb-6 space-y-3">
                   <div className="bg-[#f5f5f5] rounded-[50px] px-[80px] py-3 flex items-center mx-[80px]">
                     <span className="font-bold text-sm">Account Name</span>
@@ -269,9 +547,8 @@ const PaymentFull2 = () => {
                   </div>
                 </div>
 
-                {/* Transaction Boxes */}
                 <div className="flex flex-row gap-6 w-full">
-                  {/* Inside Pakistan */}
+                  {/* Within Pakistan */}
                   <div className="w-1/2 bg-[#f5f5f5] rounded-xl p-4 flex flex-col justify-between min-h-[250px]">
                     <h3 className="text-sm mb-2 flex justify-between w-full opacity-60">
                       <span>TRANSACTION</span>
@@ -280,7 +557,6 @@ const PaymentFull2 = () => {
                       </span>
                     </h3>
 
-                    {/* Field container with vertical spacing */}
                     <div className="flex-1 flex flex-col justify-center">
                       <div className="bg-white p-3 rounded-lg space-y-1">
                         <label className="text-xs text-gray-500 block">
@@ -300,7 +576,6 @@ const PaymentFull2 = () => {
                       </div>
                     </div>
 
-                    {/* Bottom button */}
                     <button
                       onClick={() =>
                         handleCopy(
@@ -321,7 +596,6 @@ const PaymentFull2 = () => {
                       </span>
                     </h3>
 
-                    {/* Field container */}
                     <div className="flex-1 flex flex-col justify-start gap-3">
                       <div className="bg-white p-3 rounded-lg space-y-1">
                         <label className="text-xs text-gray-500 block">
@@ -351,7 +625,6 @@ const PaymentFull2 = () => {
                       </div>
                     </div>
 
-                    {/* Bottom button */}
                     <button
                       onClick={() =>
                         handleCopy(
@@ -367,8 +640,8 @@ const PaymentFull2 = () => {
             </div>
           )}
         </div>
-        {/* <PaymentModal /> */}
       </PageWrapper>
+
       <footer className="w-full bg-accent-gray py-3 mt-10">
         <div className="max-w-[80%] mx-auto grid grid-cols-3 text-white text-sm font-semibold">
           <div className="flex justify-center items-center">

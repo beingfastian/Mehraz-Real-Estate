@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { shareWhite } from "@/assets";
+import { useRouter } from "next/navigation";
 
 const ProjectStatusCard = ({
   targetDate = new Date(Date.now() + 25 * 60 * 60 * 1000 + 3 * 60 * 1000), // 1 day 3 hours from now
@@ -15,6 +16,7 @@ const ProjectStatusCard = ({
   onContinue,
 }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0 });
+  const router = useRouter();
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -80,8 +82,11 @@ const ProjectStatusCard = ({
           {/* Continue button */}
           <div className="relative">
             <button
-              onClick={onContinue}
-              className="w-full bg-white text-gray-800 font-semibold py-2 px-6 rounded-full mb-6 hover:bg-gray-100 transition-colors uppercase text-lg tracking-wide">
+              onClick={() => router.push("/client-dashboard")}
+              className="w-full bg-white text-gray-800 font-semibold py-2 px-6
+              rounded-full mb-6 hover:bg-gray-100 transition-colors uppercase
+              text-lg tracking-wide">
+              {" "}
               CONTINUE PROJECT
             </button>
             {/* Notification badge */}

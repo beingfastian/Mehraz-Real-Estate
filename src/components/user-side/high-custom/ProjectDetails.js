@@ -148,7 +148,7 @@ const ProjectDetails = ({
       });
       setLoading(false);
       toast.success("Detail send to Admin MEHRAZ TEAM will Reach You!");
-      setStep(prev => prev + 2);
+      setStep(prev => prev + 1);
     } catch (error) {
       toast.error(error.message);
       setLoading(false);

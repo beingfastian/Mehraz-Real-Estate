@@ -214,6 +214,7 @@ export { default as Placetype } from "./user-side/high-custom/Placetype.js";
 export { default as Card } from "./user-side/high-custom/Card.js";
 export { default as Card2 } from "./user-side/high-custom/Card2.js";
 export { default as SpecificDetail } from "./user-side/high-custom/SpecificDetail.js";
+export { default as CustomDetail } from "./user-side/high-custom/CustomDetail";
 export { default as DesignPreferenceForm } from "./user-side/high-custom/DesignPreference";
 
 // user auth page
