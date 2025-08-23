@@ -46,7 +46,7 @@ export const teamLeadData = [
 ];
 
 export const radioOption = {
-  architect: "architect",
+  contractor: "contractor",
   labour: "labour",
   other: "other",
 };

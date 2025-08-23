@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { radioOption } from "@/components/user-side/team-lead/data/data";
 import BackBtn from "@/components/backBtn";
 const ApplyAtMehraz = () => {
-  const [selectedOption, setSelectedOption] = useState(radioOption.architect);
+  const [selectedOption, setSelectedOption] = useState(radioOption.contractor);
 
   const handleOptionChange = useCallback(value => {
     setSelectedOption(value);
@@ -39,7 +39,7 @@ const ApplyAtMehraz = () => {
             </p>
             <div className="flex gap-[2.875rem] items-center lg:gap-[2rem] md:gap-[1.5rem] sm:gap-[1rem]">
               <CustomRadioBtn
-                text={radioOption.architect}
+                text={radioOption.contractor}
                 selected={selectedOption}
                 onChange={handleOptionChange}
               />
@@ -59,7 +59,7 @@ const ApplyAtMehraz = () => {
 
           {/* input field */}
           <div className="f-col gap-3 mt-[3.6rem] w-auto lg:w-full">
-            {(selectedOption === radioOption.architect ||
+            {(selectedOption === radioOption.contractor ||
               selectedOption === radioOption.labour ||
               selectedOption === radioOption.other) && (
               <div className="apply-form-input-container">
@@ -70,7 +70,7 @@ const ApplyAtMehraz = () => {
               </div>
             )}
 
-            {(selectedOption === radioOption.architect ||
+            {(selectedOption === radioOption.contractor ||
               selectedOption === radioOption.labour ||
               selectedOption === radioOption.other) && (
               <div className="apply-form-input-container">
@@ -80,7 +80,7 @@ const ApplyAtMehraz = () => {
                 <input className="apply-form-input" />
               </div>
             )}
-            {(selectedOption === radioOption.architect ||
+            {(selectedOption === radioOption.contractor ||
               selectedOption === radioOption.labour ||
               selectedOption === radioOption.other) && (
               <div className="apply-form-input-container">
@@ -91,7 +91,7 @@ const ApplyAtMehraz = () => {
               </div>
             )}
 
-            {(selectedOption === radioOption.architect ||
+            {(selectedOption === radioOption.contractor ||
               selectedOption === radioOption.other) && (
               <div className="apply-form-input-container">
                 <label className="apply-form-input-label">
@@ -112,7 +112,7 @@ const ApplyAtMehraz = () => {
                 />
               </div>
             )}
-            {(selectedOption === radioOption.architect ||
+            {(selectedOption === radioOption.contractor ||
               selectedOption === radioOption.other) && (
               <div className="apply-form-input-container">
                 <label className="apply-form-input-label">

@@ -5,43 +5,104 @@ import { motion } from "framer-motion";
 import { teamLeadData } from "@/components/user-side/team-lead/data/data";
 import TeamLeadCard from "@/components/user-side/team-lead/team-lead-card";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { X } from "lucide-react";
 
 const TeamApply = () => {
+  const router = useRouter();
+
+  // 🔹 Group teamLeadData into chunks of 3 (so {1,2,3} per slide)
+  const chunkedData = [];
+  for (let i = 0; i < teamLeadData.length; i += 3) {
+    chunkedData.push(teamLeadData.slice(i, i + 3));
+  }
+
   return (
     <Suspense fallback={UserScreenSpinner}>
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative min-h-[calc(100vh-72px)] bg-no-repeat bg-center bg-cover bg-team transparent-bg-layer z-[1] text-white">
-        <div className="relative container w-auto px-8 sm:px-4 h-full flex page-top-padding page-flex-gap flex-col">
-          <div className="relative flex flex-col sm:flex-col-reverse justify-center items-center gap-5 h-full">
-            <p className="text-[40px] lg:text-[36px] md:text-[32px] sm:text-[28px] text-center text-white text-nowrap">
-              <span className="text-center text-white">MEHRAZ </span>
-              <span className="font-bold text-center text-white">TEAM</span>
-            </p>
-
-            <Link href={"/apply-at-mehraz"} className="absolute lg:relative top-0 right-0 flex justify-center items-center w-[16.375rem] md:w-[14rem] sm:w-[12rem] h-[3.5rem] md:h-[3rem] sm:h-[2.8rem] gap-[0.625rem]  rounded-full bg-white shadow-btn-shadow">
-              <p className="text-[1.4rem] lg:text-xl md:text-lg text-base text-left uppercase text-[#3f3f3f] text-nowrap ">
-                <span className="font-bold ">APPLY </span>
-                <span>AT MEHRAZ</span>
-              </p>
-            </Link>
+        className="relative min-h-[calc(100vh-84px)] bg-no-repeat bg-center bg-cover bg-team transparent-bg-layer z-[1] text-white">
+        <div className="relative container w-auto px-8 sm:px-4 h-full flex flex-col gap-10 py-10">
+          {/* === TOP HEADING WITH CROSS === */}
+          <div className="relative flex justify-center items-center">
+            <h2 className="text-[40px] lg:text-[36px] md:text-[32px] sm:text-[28px] text-center text-white font-normal">
+              WORK WITH <span className="font-bold">MEHRAZ</span>
+            </h2>
+            <button
+              onClick={() => router.back()}
+              className="absolute right-0 top-1 text-white hover:text-gray-300">
+              <X size={36} />
+            </button>
           </div>
-          <DesignCarouselMain slidesCount={teamLeadData?.length}>
-            {teamLeadData.map((value, index) => {
-              return (
-                <div className="!flex justify-center items-center">
-                  <div
-                    key={index}
-                    className="overflow-hidden w-full !grid grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 page-flex-gap place-items-center">
-                    {teamLeadData.map((value, index2) => (
-                      <TeamLeadCard key={index2} item={value} />
-                    ))}
+
+          {/* === 3 APPLY BUTTONS === */}
+          <div className="flex flex-wrap justify-center items-center gap-6">
+            <div className="flex flex-col">
+              <div className="text-center">
+                Become Our <b>Partner Architect</b>
+              </div>
+              <div className="rounded-xl py-3 px-6 mt-2 border-white border-[2px]">
+                <Link
+                  href="#"
+                  className="w-[18rem] sm:w-[15rem] h-[3.5rem] flex justify-center items-center rounded-full border-2 border-white bg-white hover:bg-transparent text-black hover:text-white transition">
+                  <span className="font-bold uppercase tracking-wide">
+                    Be <b>Partner Architect</b>
+                  </span>
+                </Link>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="text-center">
+                Supply <b>Materials, & Products</b>
+              </div>
+              <div className="rounded-xl py-3 px-6 mt-2 border-white border-[2px]">
+                <Link
+                  href="#"
+                  className="w-[18rem] sm:w-[15rem] h-[3.5rem] flex justify-center items-center rounded-full border-2 border-white bg-white hover:bg-transparent text-black hover:text-white transition">
+                  <span className="font-bold uppercase tracking-wide">
+                    Be <b>Material Supplier</b>
+                  </span>
+                </Link>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="text-center">
+                Apply As <b>Labour/Contractor/Other</b>
+              </div>
+              <div className="rounded-xl py-3 px-6 mt-2 border-white border-[2px]">
+                <Link
+                  href="/apply-at-mehraz"
+                  className="w-[18rem] sm:w-[15rem] h-[3.5rem] flex justify-center items-center rounded-full border-2 border-white bg-white hover:bg-transparent text-black hover:text-white transition">
+                  <span className="font-bold uppercase tracking-wide">
+                    <b>Apply</b> at Mehraz
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* === TEAM HEADING === */}
+          <div className="flex justify-center">
+            <h2 className="text-[32px] md:text-[28px] sm:text-[24px] font-bold border-b-2 border-white pb-2">
+              MEHRAZ TEAM
+            </h2>
+          </div>
+
+          {/* === TEAM CARDS CAROUSEL === */}
+          <DesignCarouselMain slidesCount={chunkedData.length}>
+            {chunkedData.map((group, idx) => (
+              <div
+                key={idx}
+                className="!grid !grid-cols-3 gap-6 px-4 place-items-stretch">
+                {group.map((value, i) => (
+                  <div key={i} className="w-full">
+                    <TeamLeadCard item={value} />
                   </div>
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            ))}
           </DesignCarouselMain>
         </div>
       </motion.section>
