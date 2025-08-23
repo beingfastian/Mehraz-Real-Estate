@@ -2,22 +2,30 @@
 
 import Image from "next/image";
 import localBackgroundImage from "@/assets/images/bg.jpg";
-import dummyImage from "@/assets/images/bg.jpg";
+// Import individual images for each service
+import architectureImage from "@/assets/images/user-side/ProvideItems/p1.png";
+import interiorImage from "@/assets/images/user-side/ProvideItems/p2.png";
+import landscapeImage from "@/assets/images/user-side/ProvideItems/p3.png";
+import structuralImage from "@/assets/images/user-side/ProvideItems/p4.png";
+import mepImage from "@/assets/images/user-side/ProvideItems/p5.png";
+import constructionImage from "@/assets/images/user-side/ProvideItems/p6.png";
+import realEstateImage from "@/assets/images/user-side/ProvideItems/p7.png";
+import materialsImage from "@/assets/images/user-side/ProvideItems/p8.png";
 import useRPS from "@/hooks/useRPS";
 
 const WhatWeProvide = ({ setSteps }) => {
   const designItems = [
-    { title: "ARCHITECTURE DESIGN" },
-    { title: "INTERIOR DESIGN" },
-    { title: "LANDSCAPE DESIGN" },
-    { title: "STRUCTURAL DESIGN" },
-    { title: "MEP DESIGN" },
+    { title: "ARCHITECTURE DESIGN", image: architectureImage },
+    { title: "INTERIOR DESIGN", image: interiorImage },
+    { title: "LANDSCAPE DESIGN", image: landscapeImage },
+    { title: "STRUCTURAL DESIGN", image: structuralImage },
+    { title: "MEP DESIGN", image: mepImage },
   ];
 
   const realizationItems = [
-    { title: "CONSTRUCTION" },
-    { title: "REAL ESTATE" },
-    { title: "MATERIALS SUPPLY" },
+    { title: "CONSTRUCTION", image: constructionImage },
+    { title: "REAL ESTATE", image: realEstateImage },
+    { title: "MATERIALS SUPPLY", image: materialsImage },
   ];
 
   const { router, pathname, searchParams } = useRPS();
@@ -48,7 +56,7 @@ const WhatWeProvide = ({ setSteps }) => {
               className="w-[30%] sm:w-[45%]">
               <div className="relative cursor-pointer overflow-hidden rounded-xl border border-white">
                 <Image
-                  src={dummyImage}
+                  src={item.image}
                   alt={item.title}
                   width={200}
                   height={120}
@@ -74,7 +82,7 @@ const WhatWeProvide = ({ setSteps }) => {
               className="w-[30%] sm:w-[45%]">
               <div className="relative cursor-pointer overflow-hidden rounded-xl border border-white">
                 <Image
-                  src={dummyImage}
+                  src={item.image}
                   alt={item.title}
                   width={200}
                   height={100}
