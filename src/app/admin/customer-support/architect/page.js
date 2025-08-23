@@ -1,11 +1,51 @@
 "use client";
 
-import AdminChat from "@/components/admin-side/admin-chat";
+import AdminChat from "@/components/admin-side/admin-chat/index.js";
+import { socket } from "@/socket";
+import { useEffect, useState } from "react";
 
 export default function CustomerSupport() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [transport, setTransport] = useState("N/A");
+
+  useEffect(() => {
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect() {
+      console.log("Connected to socket server");
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (transport) => {
+        console.log("Transport upgraded to:", transport.name);
+        setTransport(transport.name);
+      });
+    }
+
+    function onDisconnect() {
+      console.log("Disconnected from socket server");
+      setIsConnected(false);
+      setTransport("N/A");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, []);
+
   return (
-    <div className="amdin-chat-container">
-      <AdminChat isRecept={false} />;
+    <div className="">
+      <div className="mb-4 p-4 bg-gray-100 rounded-lg">
+        <p className="text-sm text-gray-600">Status: {isConnected ? "connected" : "disconnected"}</p>
+        <p className="text-sm text-gray-600">Transport: {transport}</p>
+      </div>
+      <AdminChat isRecept={false} />
     </div>
   );
 }
