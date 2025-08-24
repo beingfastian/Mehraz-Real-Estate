@@ -7,6 +7,7 @@ import {
   ProjectDetails,
   Card,
   CustomDetail,
+  Section1,
 } from "@/components";
 import {
   industrialImage,
@@ -145,6 +146,7 @@ const HighCustompage = ({ styles = [] }) => {
           )}
 
           {step === 5 && <CustomDetail setStep={setStep} styles={styles} />}
+          {step === 6 && <Section1 setStep={setStep} styles={styles} />}
         </div>
       </motion.section>
     </Suspense>

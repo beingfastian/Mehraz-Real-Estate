@@ -10,8 +10,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import useRPS from "@/hooks/useRPS";
 
-const Payment2 = ({ setStep }) => {
+const Payment2 = ({ paymentAmount = 0, paymentType = null }) => {
   const { router, pathname, searchParams } = useRPS();
+  const formatCurrency = amount => {
+    return new Intl.NumberFormat("en-PK").format(amount);
+  };
 
   const submitHandler = () => {
     const newParams = new URLSearchParams(searchParams);
@@ -20,7 +23,9 @@ const Payment2 = ({ setStep }) => {
   };
 
   const handleAdvancePayment = () => {
-    setStep(8); // Set to step 4 for advance payment
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", 8);
+    router.push(`${pathname}?${newParams.toString()}`);
   };
 
   return (
@@ -37,7 +42,7 @@ const Payment2 = ({ setStep }) => {
               </span>
             </p>
             <div>
-              <p className="base-text-0 font-medium text-line-through text-accent-gray-light-2 !leading-none">
+              {/* <p className="base-text-0 font-medium text-line-through text-accent-gray-light-2 !leading-none">
                 140,000
               </p>
               <p className="text-large-1 font-medium uppercase">
@@ -46,7 +51,14 @@ const Payment2 = ({ setStep }) => {
                 <span className="normal-text-3 font-medium text-[#2f2f2f]">
                   PKR
                 </span>
-              </p>
+                
+              </p> */}
+              <span className="text-large-1 font-medium uppercase">
+                {formatCurrency(paymentAmount)}{" "}
+                <span className="normal-text-3 font-medium text-[#2f2f2f]">
+                  PKR
+                </span>
+              </span>
             </div>
           </div>
           <div className="flex-center gap-1">

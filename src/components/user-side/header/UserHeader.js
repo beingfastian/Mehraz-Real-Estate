@@ -1,3 +1,4 @@
+"use client";
 import { bookmarkFilledIcon, bookmarkIcon, logo2Img } from "@/assets";
 import { CiChat1 } from "react-icons/ci";
 import Image from "next/image";
@@ -5,8 +6,17 @@ import Link from "next/link";
 import { UserHeaderMeetBtn, UserHeaderMenu } from "@/components";
 import { chatIcon } from "@/assets";
 import LocationSelector from "./LocationSelector";
+import { useState } from "react";
+import AnimatedChatbot from "../../AnimatedChatbot"; // Import your chatbot component
 
 const UserHeader = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleChatToggle = e => {
+    e.preventDefault(); // Prevent navigation
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <>
       <header className="bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green py-4 h-[83px] md:h-[69px] sm:h-[54px] flex items-center">
@@ -28,24 +38,29 @@ const UserHeader = () => {
 
               <UserHeaderMeetBtn />
 
-              <Link href="/chat" passHref legacyBehavior>
-                <a className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
-                  <CiChat1 size={23} strokeWidth={1.3} />
-                  <span className="sm-text">CHAT</span>
-                </a>
-              </Link>
+              {/* Desktop Chat Button - Now opens popup instead of navigating */}
+              <button
+                onClick={handleChatToggle}
+                className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
+                <CiChat1 size={23} strokeWidth={1.3} />
+                <span className="sm-text">CHAT</span>
+              </button>
             </div>
 
-            <Link href="/chat" passHref legacyBehavior>
-              <a className="hidden sm:inline text-white">
-                <CiChat1 size={20} className="h-6 w-auto stroke-1" />
-              </a>
-            </Link>
+            {/* Mobile Chat Button - Now opens popup instead of navigating */}
+            <button
+              onClick={handleChatToggle}
+              className="hidden sm:inline text-white">
+              <CiChat1 size={20} className="h-6 w-auto stroke-1" />
+            </button>
 
             <UserHeaderMenu />
           </div>
         </div>
       </header>
+
+      {/* Chatbot Component - Controlled by header state */}
+      <AnimatedChatbot isOpen={isChatOpen} onToggle={setIsChatOpen} />
     </>
   );
 };

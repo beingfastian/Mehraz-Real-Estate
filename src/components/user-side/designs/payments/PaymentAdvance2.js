@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
 import AdvancePaymentSelection from "@/components/payment/advance-payment-selection";
@@ -15,13 +15,33 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
 import { fastHomeIcon } from "@/assets";
 import { UButton } from "@/components";
+import { useAuth } from "@/context/UserContext";
+import { uploadPaymentReceipt } from "@/Firebase/admin-side/payment/uploadPaymentReceipt";
 
-const PaymentAdvance2 = () => {
+const PaymentAdvance2 = ({ paymentAmount = 0 }) => {
+  const [auth, setAuth, setIsAcceptTerms, isAcceptTerms] = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
   const [pageState, setPageState] = useState("select"); // "select" or "summary"
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
+  const fileInputRef = useRef(null);
   const router = useRouter();
+
+  const formatCurrency = amount => {
+    return new Intl.NumberFormat("en-PK").format(amount);
+  };
+
+  // Get user ID
+  const getUserId = () => {
+    if (!auth || auth.isLoading || !auth.success || !auth.user) {
+      return null;
+    }
+    return auth.user.phone;
+  };
 
   const paymentInfo = {
     accountName: "MEHRAZ SMC PRIVATE LIMITED",
@@ -41,8 +61,6 @@ const PaymentAdvance2 = () => {
     setSelectedOption(optionId);
   };
 
-  const totalPrice = 120000; // You can move this to props or backend later
-
   const paymentOptionsData = [
     { id: "1", title: "50% or 0.5%", percentage: 0.5 },
     { id: "2", title: "60% or 1%", percentage: 0.6 },
@@ -51,6 +69,130 @@ const PaymentAdvance2 = () => {
     { id: "5", title: "90% or 7.5%", percentage: 0.9 },
     { id: "6", title: "100% or 10%", percentage: 1.0 },
   ];
+
+  // File upload handlers
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async event => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // File validation
+    const validTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "application/pdf",
+    ];
+    if (!validTypes.includes(file.type)) {
+      setUploadStatus({
+        type: "error",
+        message: "Please upload JPEG, PNG, or PDF files only",
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadStatus({
+        type: "error",
+        message: "File size must be less than 5MB",
+      });
+      return;
+    }
+
+    // Create preview for images
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        setFilePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFilePreview(null);
+    }
+
+    setUploadedFile(file);
+    setUploadStatus(null);
+  };
+
+  const handleUpload = async file => {
+    const userId = getUserId();
+
+    if (auth?.isLoading) {
+      setUploadStatus({
+        type: "error",
+        message: "Please wait, loading user information...",
+      });
+      return;
+    }
+
+    if (!userId) {
+      setUploadStatus({
+        type: "error",
+        message: "Please log in to upload files. User phone number not found.",
+      });
+      return;
+    }
+
+    if (!file) {
+      setUploadStatus({
+        type: "error",
+        message: "No file selected",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      // Calculate advance amount
+      const selectedPercentage =
+        paymentOptionsData.find(o => o.id === selectedOption)?.percentage || 0;
+      const advanceAmount = paymentAmount * selectedPercentage;
+
+      // Create FormData for server action
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("userId", userId);
+      formData.append("userName", auth?.user?.fullName || "Unknown");
+      formData.append("uploadTimestamp", new Date().toISOString());
+      formData.append("paymentAmount", advanceAmount.toString());
+      formData.append("paymentType", "advance");
+
+      const result = await uploadPaymentReceipt(formData);
+
+      if (result.success) {
+        setUploadStatus({
+          type: "success",
+          message: "Receipt uploaded successfully!",
+        });
+      } else {
+        setUploadStatus({
+          type: "error",
+          message: result.message || "Upload failed",
+        });
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadStatus({
+        type: "error",
+        message: `Upload failed: ${error.message || "Please try again"}`,
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const removeFile = () => {
+    setUploadedFile(null);
+    setFilePreview(null);
+    setUploadStatus(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -72,11 +214,16 @@ const PaymentAdvance2 = () => {
                         </span>
                       </p>
                       <div>
+                        {/* Commented out discount for consistency */}
+                        {/* 
                         <p className="base-text-0 font-medium md:font-normal text-line-through text-accent-gray-light-2">
-                          140,000
+                          {formatCurrency(Math.round(paymentAmount * 1.17))}
                         </p>
+                        */}
                         <p className="text-large-1 font-medium md:font-normal uppercase">
-                          <span className="text-danger">120,000</span>
+                          <span className="text-danger">
+                            {formatCurrency(paymentAmount)}
+                          </span>
                           <span> </span>
                           <span className="normal-text-3 font-medium text-[#2f2f2f]">
                             PKR
@@ -94,15 +241,13 @@ const PaymentAdvance2 = () => {
                 {/* Options List */}
                 <div className="f-col gap-3 pt-1 pb-20 px-[45px] md:px-[30px] sm:px-[15px] transition-all duration-300">
                   <div className="base-text text-[#606060] text-center text-[20px] py-[15px]">
-                    Total Amount = {totalPrice} PKR
+                    Total Amount = {formatCurrency(paymentAmount)} PKR
                   </div>
                   {paymentOptionsData.map(option => (
                     <AdvancePaymentSelection
                       key={option.id}
                       title={option.title}
-                      amount={new Intl.NumberFormat().format(
-                        totalPrice * option.percentage,
-                      )}
+                      amount={formatCurrency(paymentAmount * option.percentage)}
                       currency="PKR"
                       isSelected={selectedOption === option.id}
                       onChange={() => handleOptionChange(option.id)}
@@ -120,8 +265,8 @@ const PaymentAdvance2 = () => {
                       <span className="base-text bold text-[#606060] text-center">
                         ADVANCE AMOUNT ={" "}
                         <b className="bold text-black text-[28px]">
-                          {new Intl.NumberFormat().format(
-                            totalPrice *
+                          {formatCurrency(
+                            paymentAmount *
                               (paymentOptionsData.find(
                                 o => o.id === selectedOption,
                               )?.percentage || 0),
@@ -198,11 +343,16 @@ const PaymentAdvance2 = () => {
                 <div className="max-w-[375px] w-full rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 py-2.5 md:py-2 sm:py-1.5 shadow-payment-box flex-center">
                   <div className="base-text bold text-[#606060]">AMOUNT =</div>
                   <div>
-                    <p className="base-text-0 font-medium md:font-normal text-line-through text-accent-gray-light-2">
-                      140,000
-                    </p>
+                    {/* Show advance amount */}
                     <div className="text-large-1 font-medium md:font-normal uppercase">
-                      <span className="text-danger">120,000</span>
+                      <span className="text-danger">
+                        {formatCurrency(
+                          paymentAmount *
+                            (paymentOptionsData.find(
+                              o => o.id === selectedOption,
+                            )?.percentage || 0),
+                        )}
+                      </span>
                       <span> </span>
                       <span className="normal-text-3 font-medium text-[#2f2f2f]">
                         PKR
@@ -275,21 +425,99 @@ const PaymentAdvance2 = () => {
                     <span className="bold"> Receipt</span>
                   </div>
 
-                  <div className="w-full py-[9px] md:py-[7px] sm:py-[5px] rounded-full bg-[#efefef]/50 hover:bg-gray-100 transition-all duration-300 border border-black/[0.15] shadow-copy flex-center gap-3.5 cursor-pointer">
-                    <div className="w-[36px] md:w-[30px] sm:w-[25px] h-[36px] md:h-[30px] sm:h-[25px] rounded-full bg-accent-black opacity-60 flex-center">
-                      <IoIosAdd className="text-white w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px]" />
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept=".jpg,.jpeg,.png,.pdf"
+                    style={{ display: "none" }}
+                  />
+
+                  {!uploadedFile ? (
+                    <div
+                      onClick={handleClick}
+                      className="w-full py-[9px] md:py-[7px] sm:py-[5px] rounded-full bg-[#efefef]/50 hover:bg-gray-100 transition-all duration-300 border border-black/[0.15] shadow-copy flex-center gap-3.5 cursor-pointer">
+                      <div className="w-[36px] md:w-[30px] sm:w-[25px] h-[36px] md:h-[30px] sm:h-[25px] rounded-full bg-accent-black opacity-60 flex-center">
+                        <IoIosAdd className="text-white w-[30px] md:w-[25px] sm:w-[20px] h-[30px] md:h-[25px] sm:h-[20px]" />
+                      </div>
+                      <p className="opacity-70 normal-text bold text-center text-black uppercase underline">
+                        UPLOAD
+                      </p>
                     </div>
-                    <p className="opacity-70 normal-text bold text-center text-black uppercase underline">
-                      UPLOAD
-                    </p>
-                  </div>
+                  ) : (
+                    <div className="w-full p-4 border rounded-lg bg-white">
+                      {/* File preview */}
+                      {filePreview ? (
+                        <div className="mb-3">
+                          <Image
+                            src={filePreview}
+                            alt="Receipt preview"
+                            width={200}
+                            height={200}
+                            className="max-w-full h-auto rounded border"
+                          />
+                        </div>
+                      ) : (
+                        <div className="mb-3 p-4 bg-gray-100 rounded text-center">
+                          <p>PDF File: {uploadedFile.name}</p>
+                        </div>
+                      )}
+
+                      {/* File info and actions */}
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-sm font-medium">
+                            {uploadedFile.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
+                        <button
+                          onClick={removeFile}
+                          className="text-red-500 hover:text-red-700">
+                          <FaTimes size={20} />
+                        </button>
+                      </div>
+
+                      {/* Upload status */}
+                      {uploadStatus && (
+                        <div
+                          className={`mt-2 text-sm ${
+                            uploadStatus.type === "success"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}>
+                          {uploadStatus.message}
+                        </div>
+                      )}
+
+                      {/* Upload button */}
+                      <button
+                        onClick={() => handleUpload(uploadedFile)}
+                        disabled={
+                          isUploading ||
+                          uploadStatus?.type === "success" ||
+                          !getUserId()
+                        }
+                        className="mt-3 w-full bg-blue-500 text-white py-2 rounded disabled:bg-gray-400">
+                        {!getUserId()
+                          ? "Please log in"
+                          : isUploading
+                          ? "Uploading..."
+                          : uploadStatus?.type === "success"
+                          ? "Uploaded ✓"
+                          : "Confirm Upload"}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
               {/* right end */}
               {/* NEXT button - fixed to bottom right */}
               <div className="fixed bottom-[150px] right-[150px] justify-end items-center mt-1">
                 <BlackButton
-                  onclickfunction={() => router.push("/success-apply")}
+                  onclickfunction={() => router.push("/client-dashboard")}
                   text="DONE"
                   customClass="text-[29px] font-thin px-[60px] py-[20px] rounded-[8px] shadow-md shadow-gray-400"
                 />

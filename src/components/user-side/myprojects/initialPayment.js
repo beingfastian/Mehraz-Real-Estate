@@ -35,6 +35,11 @@ const InitialPayment = ({ setSteps }) => {
 
   const submitHandler = () => {
     const newParams = new URLSearchParams(searchParams);
+
+    // Save only the total cost
+    newParams.set("totalCost", totalCost);
+
+    // Move to next screen
     newParams.set("screen", 4);
     router.push(`${pathname}?${newParams.toString()}`);
   };

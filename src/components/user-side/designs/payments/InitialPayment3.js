@@ -18,17 +18,118 @@ import { FaCheck } from "react-icons/fa6";
 import { IoChatboxOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import useRPS from "@/hooks/useRPS";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/Firebase/firebase";
+import { useAuth } from "@/context/UserContext"; // Updated import path
+import { savePaymentData } from "@/services/admin-side/fetchPaymentService"; // Import the service
 
 const InitialPayment3 = ({ setStep }) => {
   const { router, pathname, searchParams } = useRPS();
+  const [auth, setAuth, setIsAcceptTerms, isAcceptTerms] = useAuth(); // Updated to match your structure
+  const initialTotalCost = searchParams.get("totalCost") || "0";
+  const [productRates, setProductRates] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dynamicTotalCost, setDynamicTotalCost] = useState(
+    parseInt(initialTotalCost) || 0,
+  );
+  const [selectedServicesData, setSelectedServicesData] = useState([]);
+  const [selectedMaterialsData, setSelectedMaterialsData] = useState([]);
 
-  const submitHandler = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("screen", 6);
-    router.push(`${pathname}?${newParams.toString()}`);
+  // Extract project type from URL
+  const getProjectTypeFromUrl = () => {
+    const pathSegments = pathname.split("/");
+    // Find segments that match our project types
+    const projectTypes = ["fast-homes", "high-custom"];
+    const projectType = pathSegments.find(segment =>
+      projectTypes.includes(segment),
+    );
+    return projectType || "unknown-project";
+  };
+
+  // Get user ID - matching your PaymentFull2 implementation
+  const getUserId = () => {
+    if (!auth) {
+      return null;
+    }
+
+    if (auth.isLoading) {
+      return null;
+    }
+
+    if (!auth.success || !auth.user) {
+      return null;
+    }
+
+    // Based on your structure: auth.user.phone
+    return auth.user.phone;
+  };
+
+  const submitHandler = async () => {
+    const userId = getUserId();
+
+    if (!userId) {
+      alert("User not authenticated. Please log in.");
+      return;
+    }
+
+    const projectType = getProjectTypeFromUrl();
+
+    // Prepare payment data
+    const paymentData = {
+      userId: userId, // Phone number as userId
+      projectType: projectType,
+      selectedDesignServices: selectedServicesData.filter(
+        service =>
+          service.type?.toLowerCase() === "design" ||
+          service.id === "home-service-plan",
+      ),
+      selectedConstructionServices: selectedServicesData.filter(
+        service => service.type?.toLowerCase() === "construction",
+      ),
+      selectedMaterials:
+        selectedMaterialsData.filter(item => item.category === "materials") ||
+        [],
+      selectedFurnitures:
+        selectedMaterialsData.filter(item => item.category === "furniture") ||
+        [],
+      costDesign: selectedServicesData
+        .filter(
+          service =>
+            service.type?.toLowerCase() === "design" ||
+            service.id === "home-service-plan",
+        )
+        .reduce((sum, service) => sum + (service.numericRate || 0), 0),
+      costConstruction: selectedServicesData
+        .filter(service => service.type?.toLowerCase() === "construction")
+        .reduce((sum, service) => sum + (service.numericRate || 0), 0),
+      costMaterials: selectedMaterialsData
+        .filter(item => item.category === "materials")
+        .reduce((sum, item) => sum + (item.numericPrice || 0), 0),
+      costFurnitures: selectedMaterialsData
+        .filter(item => item.category === "furniture")
+        .reduce((sum, item) => sum + (item.numericPrice || 0), 0),
+      totalCost: dynamicTotalCost,
+      timestamp: new Date().toISOString(),
+    };
+
+    console.log("Saving payment data:", paymentData);
+
+    // Save to Firestore
+    const result = await savePaymentData(paymentData);
+
+    if (result.success) {
+      console.log("Payment saved successfully!");
+      // Continue to next screen
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set("screen", 6);
+      newParams.set("totalCost", dynamicTotalCost.toString());
+      router.push(`${pathname}?${newParams.toString()}`);
+    } else {
+      alert("Error saving payment data: " + result.error);
+    }
   };
 
   const [service1, setService1] = useState([
@@ -37,6 +138,64 @@ const InitialPayment3 = ({ setStep }) => {
     { checked: false, icon: <MeterialsIcon />, text: "MATERIALS" },
     { checked: false, icon: <FurnitureIcon />, text: "FURNITURE" },
   ]);
+
+  // Fetch product rates from Firebase
+  useEffect(() => {
+    const fetchProductRates = async () => {
+      try {
+        setLoading(true);
+        const productRatesRef = collection(db, "PRODUCT_RATES");
+        const snapshot = await getDocs(productRatesRef);
+
+        const rates = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+
+          // Extract numeric rate for calculations
+          const extractNumericRate = rateString => {
+            if (typeof rateString === "number") return rateString;
+            const match = rateString?.toString().match(/(\d+)/);
+            return match ? parseInt(match[1]) : 0;
+          };
+
+          rates.push({
+            id: doc.id,
+            service: data.service || data.serviceName || "Unknown Service",
+            includes:
+              data.description || data.includes || "No description available",
+            rate: data.rate || "0 PKR/Yard",
+            cost: data.cost || "0 PKR/SQM",
+            numericRate: extractNumericRate(data.rate),
+            seeHow: data.seeHow || "",
+            type: data.type?.toLowerCase() || "design", // Default to design if no type
+          });
+        });
+
+        setProductRates(rates);
+      } catch (error) {
+        console.error("Error fetching product rates:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductRates();
+  }, []);
+
+  // Handle total cost updates from SecondCard
+  const handleTotalCostUpdate = newTotal => {
+    setDynamicTotalCost(newTotal);
+  };
+
+  // Handle selected services data updates
+  const handleSelectedServicesUpdate = servicesData => {
+    setSelectedServicesData(servicesData);
+  };
+
+  // Handle selected materials data updates
+  const handleSelectedMaterialsUpdate = materialsData => {
+    setSelectedMaterialsData(materialsData);
+  };
 
   return (
     <motion.section
@@ -93,14 +252,31 @@ const InitialPayment3 = ({ setStep }) => {
               </p>
 
               <div className="w-full h-full bg-white border p-3 rounded-lg shadow flex-grow">
-                <SecondCard service1={service1} />
+                {loading ? (
+                  <div className="flex justify-center items-center h-full">
+                    <div className="text-gray-500">Loading services...</div>
+                  </div>
+                ) : (
+                  <SecondCard
+                    service1={service1}
+                    totalCost={initialTotalCost}
+                    productRates={productRates}
+                    onTotalCostUpdate={handleTotalCostUpdate}
+                    onSelectedServicesUpdate={handleSelectedServicesUpdate}
+                    onSelectedMaterialsUpdate={handleSelectedMaterialsUpdate}
+                  />
+                )}
               </div>
             </div>
 
             {/* Right: ThirdCard */}
             <div className="col-span-3 md:col-span-12 flex flex-col mt-14">
               <div className="h-full bg-white p-3">
-                <ThirdCard step={1} setStep={setStep} />
+                <ThirdCard
+                  step={1}
+                  setStep={setStep}
+                  totalCost={dynamicTotalCost}
+                />
               </div>
             </div>
           </div>

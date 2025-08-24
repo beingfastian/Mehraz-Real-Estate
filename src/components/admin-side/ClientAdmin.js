@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, Eye, Check, X, Loader2 } from "lucide-react";
 import getClientsFromFirestore from "@/Firebase/admin-side/clients/getClientsFromFirestore";
+import { verifyPayment } from "@/Firebase/admin-side/payment/verifyPayment";
 
 const ClientAdmin = () => {
   const [clients, setClients] = useState([]);
@@ -11,6 +12,8 @@ const ClientAdmin = () => {
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [verifiedClients, setVerifiedClients] = useState(new Set());
   const [error, setError] = useState(null);
+  const [verifyingReceipt, setVerifyingReceipt] = useState(null);
+  const [paymentAmount, setPaymentAmount] = useState("");
 
   // Fetch clients on component mount
   useEffect(() => {
@@ -19,8 +22,17 @@ const ClientAdmin = () => {
         setLoading(true);
         setError(null);
         const clientsData = await getClientsFromFirestore();
-        setClients(clientsData); // ✅ now an array
-        setFilteredClients(clientsData); // ✅ now an array
+        setClients(clientsData);
+        setFilteredClients(clientsData);
+
+        // Set verified clients
+        const verified = new Set();
+        clientsData.forEach(client => {
+          if (client.isVerified) {
+            verified.add(client.id);
+          }
+        });
+        setVerifiedClients(verified);
       } catch (err) {
         console.error("Error fetching clients:", err);
         setError("Failed to load clients. Please try again.");
@@ -42,17 +54,48 @@ const ClientAdmin = () => {
     setFilteredClients(filtered);
   }, [searchTerm, clients]);
 
-  const handleVerify = clientId => {
-    setVerifiedClients(prev => new Set([...prev, clientId]));
-    setSelectedReceipt(null);
+  const handleVerify = async client => {
+    try {
+      setVerifyingReceipt(client.id);
+
+      const amount = parseFloat(paymentAmount);
+      if (!amount || amount <= 0) {
+        setError("Please enter a valid payment amount");
+        return;
+      }
+
+      const receiptData = {
+        userId: client.phonenumber,
+        fileName: client.fileName,
+        receiptUrl: client.receiptUrl,
+        amount: amount,
+        fullname: client.fullname,
+      };
+
+      const result = await verifyPayment(receiptData);
+
+      if (result.success) {
+        setVerifiedClients(prev => new Set([...prev, client.id]));
+        setSelectedReceipt(null);
+        setPaymentAmount("");
+        setError(null);
+      }
+    } catch (error) {
+      console.error("Error verifying payment:", error);
+      setError(`Failed to verify payment: ${error.message}`);
+    } finally {
+      setVerifyingReceipt(null);
+    }
   };
 
   const openReceiptPreview = client => {
     setSelectedReceipt(client);
+    setPaymentAmount("");
   };
 
   const closeReceiptPreview = () => {
     setSelectedReceipt(null);
+    setPaymentAmount("");
   };
 
   const refreshClients = async () => {
@@ -169,7 +212,7 @@ const ClientAdmin = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <div className="flex flex-col items-center space-y-2">
-                        {verifiedClients.has(client.id) ? (
+                        {verifiedClients.has(client.id) || client.isVerified ? (
                           <div className="flex flex-col items-center">
                             <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
                               VERIFIED
@@ -266,12 +309,36 @@ const ClientAdmin = () => {
                 )}
               </div>
 
+              {/* Amount Input */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Payment Amount (PKR)
+                </label>
+                <input
+                  type="number"
+                  value={paymentAmount}
+                  onChange={e => setPaymentAmount(e.target.value)}
+                  placeholder="Enter payment amount"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
               <div className="flex space-x-3">
                 <button
-                  onClick={() => handleVerify(selectedReceipt.id)}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2">
-                  <Check className="h-4 w-4" />
-                  <span>Verify Payment</span>
+                  onClick={() => handleVerify(selectedReceipt)}
+                  disabled={verifyingReceipt === selectedReceipt.id}
+                  className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2">
+                  {verifyingReceipt === selectedReceipt.id ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Verifying...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check className="h-4 w-4" />
+                      <span>Verify Payment</span>
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={closeReceiptPreview}
@@ -280,6 +347,18 @@ const ClientAdmin = () => {
                 </button>
               </div>
             </div>
+
+            {/* Error Display */}
+            {error && (
+              <div className="p-4 bg-red-50 border-t border-red-200">
+                <p className="text-red-600 text-sm">{error}</p>
+                <button
+                  onClick={() => setError(null)}
+                  className="text-red-600 text-sm underline mt-2">
+                  Dismiss
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}

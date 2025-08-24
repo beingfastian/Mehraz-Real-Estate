@@ -38,6 +38,7 @@ const linksData = {
   members: [
     { text: "clients", href: "/admin/clients" },
     { text: "users", href: "/admin/users" },
+    { text: "payments", href: "/admin/payments" },
   ],
   teamsAndOthers: [
     {

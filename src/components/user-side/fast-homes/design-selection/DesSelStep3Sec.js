@@ -1,5 +1,5 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { UserScreenSpinner, UserProtectedRoute } from "@/components";
 import DesSelStep3Screen0 from "../../myprojects/DesSelStep3Screen0";
 import Section1 from "../../myprojects/Section1";
@@ -21,6 +21,9 @@ const DesSelStep3Sec = ({
   screen,
   changeStepScreen,
 }) => {
+  const [paymentAmount, setPaymentAmount] = useState(0);
+  const [paymentType, setPaymentType] = useState(null); // 'all', 'design', 'construction', 'materials', 'furniture'
+
   return (
     <>
       {screen === "0" ? (
@@ -51,19 +54,22 @@ const DesSelStep3Sec = ({
         </Suspense>
       ) : screen === "6" ? (
         <Suspense fallback={<UserScreenSpinner />}>
-          <InitialPayment4 />
+          <InitialPayment4
+            setPaymentAmount={setPaymentAmount}
+            setPaymentType={setPaymentType}
+          />
         </Suspense>
       ) : screen === "7" ? (
         <Suspense fallback={<UserScreenSpinner />}>
-          <Payment2 />
+          <Payment2 paymentAmount={paymentAmount} paymentType={paymentType} />
         </Suspense>
       ) : screen === "8" ? (
         <Suspense fallback={<UserScreenSpinner />}>
-          <PaymentAdvance2 />
+          <PaymentAdvance2 paymentAmount={paymentAmount} />
         </Suspense>
       ) : screen === "9" ? (
         <Suspense fallback={<UserScreenSpinner />}>
-          <PaymentFull2 />
+          <PaymentFull2 paymentAmount={paymentAmount} />
         </Suspense>
       ) : null}
     </>

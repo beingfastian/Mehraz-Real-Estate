@@ -16,6 +16,10 @@ const CustomDetail = ({ setStep, setNextStep, styles = [] }) => {
   const handleDescriptionChange = value => setDescription(value);
   const handleFileUpload = file => setFile(file);
 
+  const handleSubmit = () => {
+    setStep(prev => prev + 1);
+  };
+
   const toggleModal = () => setIsModalOpen(prev => !prev);
 
   const step1Screen2FormDataInputHandler = (key, value) => {
@@ -136,7 +140,9 @@ const CustomDetail = ({ setStep, setNextStep, styles = [] }) => {
 
           {/* Get Quote Button */}
           <div className="flex justify-center mt-8">
-            <button className="bg-gray-700 text-white px-8 py-3 rounded hover:bg-gray-800 transition-colors font-medium">
+            <button
+              onClick={handleSubmit}
+              className="bg-gray-700 text-white px-8 py-3 rounded hover:bg-gray-800 transition-colors font-medium">
               GET QUOTE
             </button>
           </div>

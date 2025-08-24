@@ -1,4 +1,4 @@
-// Fixed PaymentFull2.js - Updated user ID handling
+// Fixed PaymentFull2.js - Updated to use passed payment amount
 "use client";
 import Line from "@/components/common/Line/Line";
 import PageWrapper from "@/components/common/pageWrapper/PageWrapper";
@@ -21,7 +21,7 @@ import { useRef } from "react";
 import { useAuth } from "@/context/UserContext";
 import { uploadPaymentReceipt } from "@/Firebase/admin-side/payment/uploadPaymentReceipt";
 
-const PaymentFull2 = () => {
+const PaymentFull2 = ({ paymentAmount = 0 }) => {
   const [auth, setAuth, setIsAcceptTerms, isAcceptTerms] = useAuth();
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
@@ -32,6 +32,10 @@ const PaymentFull2 = () => {
   const [uploadStatus, setUploadStatus] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
   const fileInputRef = useRef(null);
+
+  const formatCurrency = amount => {
+    return new Intl.NumberFormat("en-PK").format(amount);
+  };
 
   // Debug user authentication state
   useEffect(() => {
@@ -188,7 +192,7 @@ const PaymentFull2 = () => {
       formData.append("userId", userId);
       formData.append("userName", auth?.user?.fullName || "Unknown");
       formData.append("uploadTimestamp", new Date().toISOString());
-      formData.append("paymentAmount", "120000"); // Current payment amount
+      formData.append("paymentAmount", paymentAmount.toString());
       formData.append("paymentType", "full");
 
       const result = await uploadPaymentReceipt(formData);
@@ -225,8 +229,6 @@ const PaymentFull2 = () => {
     }
   };
 
-  const totalPrice = 120000;
-
   // Show loading state while auth is loading
   if (auth?.isLoading) {
     return (
@@ -241,21 +243,6 @@ const PaymentFull2 = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Debug Panel - Remove this in production */}
-      <div className="bg-yellow-100 p-4 text-xs border-b">
-        <strong>Debug Info:</strong>
-        <br />
-        Auth Loading: {auth?.isLoading ? "Yes" : "No"}
-        <br />
-        Auth Success: {auth?.success ? "Yes" : "No"}
-        <br />
-        User Phone: {getUserId() || "Not found"}
-        <br />
-        User Name: {auth?.user?.fullName || "Not found"}
-        <br />
-        Has User Object: {auth?.user ? "Yes" : "No"}
-      </div>
-
       <PageWrapper className="flex-1 flex flex-col">
         <div className="f-col gap-9 items-center">
           <PaymentTitle title="payment" />
@@ -270,7 +257,9 @@ const PaymentFull2 = () => {
                       boxShadow: "0px 0px 10px 8px rgba(0, 0, 0, 0.1)",
                     }}>
                     AMOUNT ={" "}
-                    <b className="bold text-[28px] text-black">{totalPrice}</b>{" "}
+                    <b className="bold text-[28px] text-black">
+                      {formatCurrency(paymentAmount)}
+                    </b>{" "}
                     PKR
                   </div>
                 </div>
@@ -349,11 +338,16 @@ const PaymentFull2 = () => {
                 <div className="max-w-[375px] w-full rounded-[10px] md:rounded-lg sm:rounded-md bg-white/25 py-2.5 md:py-2 sm:py-1.5 shadow-payment-box flex-center">
                   <div className="base-text bold text-[#606060]">AMOUNT =</div>
                   <div>
-                    <p className="base-text-0 font-medium md:font-normal text-line-through text-accent-gray-light-2">
-                      140,000
+                    {/* Commented out discount for consistency */}
+                    {/* 
+                    <p className="base-text-0 font-medium text-line-through text-accent-gray-light-2">
+                      {formatCurrency(Math.round(paymentAmount * 1.17))}
                     </p>
-                    <div className="text-large-1 font-medium md:font-normal uppercase">
-                      <span className="text-danger">120,000</span>
+                    */}
+                    <div className="text-large-1 font-medium uppercase">
+                      <span className="text-danger">
+                        {formatCurrency(paymentAmount)}
+                      </span>
                       <span> </span>
                       <span className="normal-text-3 font-medium text-[#2f2f2f]">
                         PKR
