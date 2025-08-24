@@ -24,7 +24,7 @@ import useRPS from "@/hooks/useRPS";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 import { useAuth } from "@/context/UserContext"; // Updated import path
-import { savePaymentData } from "@/services/admin-side/fetchPaymentService"; // Import the service
+import { fetchPaymentService } from "@/services/admin-side/fetchPaymentService"; // Import the service
 
 const InitialPayment3 = ({ setStep }) => {
   const { router, pathname, searchParams } = useRPS();
@@ -118,7 +118,7 @@ const InitialPayment3 = ({ setStep }) => {
     console.log("Saving payment data:", paymentData);
 
     // Save to Firestore
-    const result = await savePaymentData(paymentData);
+    const result = await fetchPaymentService(paymentData);
 
     if (result.success) {
       console.log("Payment saved successfully!");

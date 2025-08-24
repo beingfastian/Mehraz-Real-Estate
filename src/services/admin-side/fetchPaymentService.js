@@ -3,7 +3,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 
-export const fetchPaymentData = async (userId, projectType) => {
+export const fetchPaymentService = async (userId, projectType) => {
   try {
     if (!userId || !projectType) {
       throw new Error("User ID and project type are required");

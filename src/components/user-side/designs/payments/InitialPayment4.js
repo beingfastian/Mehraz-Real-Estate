@@ -14,7 +14,7 @@ import { DesignIcon } from "@/components";
 import { whitewall, buyMaterialLightIcon, couch } from "@/assets";
 import useRPS from "@/hooks/useRPS";
 import { useAuth } from "@/context/UserContext";
-import { fetchPaymentData } from "@/services/admin-side/fetchPaymentService";
+import { fetchPaymentService } from "@/services/admin-side/fetchPaymentService";
 
 const InitialPayment4 = ({ setStep, setPaymentAmount, setPaymentType }) => {
   const { router, pathname, searchParams } = useRPS();
@@ -55,7 +55,7 @@ const InitialPayment4 = ({ setStep, setPaymentAmount, setPaymentType }) => {
 
       try {
         setLoading(true);
-        const result = await fetchPaymentData(userId, projectType);
+        const result = await fetchPaymentService(userId, projectType);
 
         if (result.success) {
           setPaymentData(result.data);
