@@ -18,7 +18,6 @@ const Materials = async () => {
     "specs",
     "orderedAs",
     "image1",
-    "image2",
     "cities",
   ]);
   const materialCategories = await getMaterialCategoriesFromDb([

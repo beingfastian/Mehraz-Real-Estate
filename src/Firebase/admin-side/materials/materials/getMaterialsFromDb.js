@@ -14,7 +14,6 @@ const getMaterialsFromDb = async (
     "specs",
     "orderedAs",
     "image1",
-    "image2",
   ],
 ) => {
   const materialsRef = collection(db, "MATERIALS");
@@ -27,7 +26,7 @@ const getMaterialsFromDb = async (
       fields.forEach(field => {
         if (field === "id") {
           materialData[field] = doc.id;
-        } else if (field === "image1" || field === "image2") {
+        } else if (field === "image1") {
           const imageName = `${doc.id}/${field}`;
           const imageRef = ref(storage, `MATERIALS/${imageName}`);
           promises.push(

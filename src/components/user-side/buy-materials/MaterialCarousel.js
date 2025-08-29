@@ -9,36 +9,45 @@ import {
   whitewall,
   couch,
 } from "@/assets";
+import buildingBg from "@/assets/images/user-side/materials/building.png";
+import finishBg from "@/assets/images/user-side/materials/finish.png";
+import furnitureBg from "@/assets/images/user-side/materials/furniture.png";
+import landscapeBg from "@/assets/images/user-side/materials/land.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const MaterialCarousel = ({ selectedMaterial, setSelectedMaterial }) => {
-  const materials = [
-    {
-      icon: whitewall,
-      alt: "White wall icon",
-      heading: "BUILDING",
-      content: "Grey Structure",
-    },
-    {
-      icon: finsih,
-      alt: "Finish icon",
-      heading: "FINISH",
-      content: "Interior",
-    },
-    {
-      icon: couch,
-      alt: "Couch icon",
-      heading: "FURNITURE",
-      content: "& Decor",
-    },
-    {
-      icon: leaf,
-      alt: "Leaf icon",
-      heading: "LANDSCAPE",
-      content: "& Decor",
-    },
-  ];
+const materials = [
+  {
+    icon: whitewall,
+    alt: "White wall icon",
+    heading: "BUILDING",
+    content: "Grey Structure",
+    background: buildingBg, // ✅ different bg
+  },
+  {
+    icon: finsih,
+    alt: "Finish icon",
+    heading: "FINISH",
+    content: "Interior",
+    background: finishBg, // ✅ different bg
+  },
+  {
+    icon: couch,
+    alt: "Couch icon",
+    heading: "FURNITURE",
+    content: "& Decor",
+    background: furnitureBg, // ✅ different bg
+  },
+  {
+    icon: leaf,
+    alt: "Leaf icon",
+    heading: "LANDSCAPE",
+    content: "& Decor",
+    background: landscapeBg, // ✅ different bg
+  },
+];
+
 
   return (
     <DesignCarouselMain slidesCount={1}>
@@ -97,7 +106,7 @@ const MaterialCard = ({ material, isSelected, onClick }) => {
           <span className="text-sm">{material.content}</span>
         </div>
         <Image
-          src={landpic}
+          src={material.background}
           alt="Background Decoration"
           fill
           className="absolute top-0 left-0 w-full h-full object-cover z-10"

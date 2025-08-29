@@ -24,7 +24,6 @@ const addNewMaterialService = (
       .concat(trimmedSpecs.filter(spec => spec === "")),
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
     image1: currentMaterial.image1,
-    image2: currentMaterial.image2,
     cities: currentMaterial.cities,
   };
 
@@ -48,15 +47,12 @@ const addNewMaterialService = (
     showAlert({ type: "WARNING", message: "Please enter ordered as." });
   } else if (formattedData.image1 === null) {
     showAlert({ type: "WARNING", message: "Please attach image 1." });
-  } else if (formattedData.image2 === null) {
-    showAlert({ type: "WARNING", message: "Please attach image 2." });
   } else if (formattedData.cities.length === 0) {
     showAlert({ type: "WARNING", message: "Please select at least one city." });
   } else {
     setShowModalSpinner(true);
     // Converting image to FormData
     formattedData.image1 = fileToFormData("image1", formattedData.image1);
-    formattedData.image2 = fileToFormData("image2", formattedData.image2);
 
     addNewMaterialToDb(formattedData).then(({ type, message }) => {
       showAlert({ type, message });
@@ -87,7 +83,6 @@ const editMaterialService = (
       .concat(trimmedSpecs.filter(spec => spec === "")),
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
     image1: currentMaterial.image1,
-    image2: currentMaterial.image2,
     cities: currentMaterial.cities,
   };
 
@@ -117,8 +112,6 @@ const editMaterialService = (
     showAlert({ type: "WARNING", message: "Please enter ordered as." });
   } else if (formattedData.image1 === null) {
     showAlert({ type: "WARNING", message: "Please attach image 1." });
-  } else if (formattedData.image2 === null) {
-    showAlert({ type: "WARNING", message: "Please attach image 2." });
   } else if (formattedData.cities.length === 0) {
     showAlert({ type: "WARNING", message: "Please select at least one city." });
   } else {
@@ -126,9 +119,6 @@ const editMaterialService = (
     // Converting image to FormData
     if (formattedData.image1 instanceof File) {
       formattedData.image1 = fileToFormData("image1", formattedData.image1);
-    }
-    if (formattedData.image2 instanceof File) {
-      formattedData.image2 = fileToFormData("image2", formattedData.image2);
     }
     updateMaterialFromDb(formattedData).then(response => {
       showAlert({ type: response.type, message: response.message });

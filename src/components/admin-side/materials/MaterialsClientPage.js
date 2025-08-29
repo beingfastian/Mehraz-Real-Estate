@@ -54,7 +54,6 @@ const MaterialsClientPage = ({
     specs: ["", "", ""],
     orderedAs: "",
     image1: null,
-    image2: null,
     cities: [],
   };
   const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);

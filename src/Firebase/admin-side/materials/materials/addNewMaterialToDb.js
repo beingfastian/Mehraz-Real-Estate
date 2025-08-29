@@ -25,7 +25,6 @@ const addNewMaterialToDb = async ({
   specs,
   orderedAs,
   image1,
-  image2,
   cities
 }) => {
   try {
@@ -42,10 +41,8 @@ const addNewMaterialToDb = async ({
 
     const id = ulid();
     const image1Ref = ref(storage, `MATERIALS/${id}/image1`);
-    const image2Ref = ref(storage, `MATERIALS/${id}/image2`);
     await Promise.all([
       uploadBytes(image1Ref, image1.get("image1")),
-      uploadBytes(image2Ref, image2.get("image2")),
     ]);
 
     const newDocRef = doc(materialsCollectionRef, id);

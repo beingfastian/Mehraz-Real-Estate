@@ -12,9 +12,13 @@ import Backbutton from "@/components/Backbutton";
 import UserScreenSpinner from "../UserScreenSpinner";
 import OrderListCard from "./OrderListCard";
 
-const OrderList = ({ setStep }) => {
-  const OrderListItem = [1, 2, 3, 4]; // more than 2 items for scroll effect
+const OrderList = ({ setStep, selectedMaterials }) => {
   const [selectedCategory, setSelectedCategory] = useState("ALL");
+  const totalCost = selectedMaterials.reduce((acc, mat) => {
+  const quantity = Number(mat.quantity) || 1;
+  return acc + (mat.rate * quantity);
+}, 0);
+
 
   return (
     <Suspense fallback={UserScreenSpinner}>
@@ -103,25 +107,28 @@ const OrderList = ({ setStep }) => {
                 )}
               </aside>
 
-              {/* 🧾 MATERIAL PRODUCTS LIST */}
-              <div
-                className={`bottom-bar w-full h-[511px] pl-4 ${
-                  OrderListItem.length > 1 ? "overflow-y-scroll" : ""
-                }`}>
-                {OrderListItem.map((_, index) => (
-                  <OrderListCard key={index} />
-                ))}
-              </div>
+<div
+  className={`bottom-bar w-full h-[511px] pl-4 ${
+    selectedMaterials.length > 1 ? "overflow-y-scroll" : ""
+  }`}
+>
+{selectedMaterials.map((mat, index) => (
+  <OrderListCard key={index} material={mat} />
+))}
+
+</div>
+
             </div>
 
             <hr className="mb-[25px]" />
 
             {/* 📦 TOTAL + CONFIRM */}
             <div className="flex justify-between items-center bg-white px-6">
-              <div className="text-[20px] flex items-center w-[550px] h-[46px] rounded-[10px] px-6 shadow-md border border-gray-200 bg-white ml-[400px]">
-                <strong>TOTAL COST</strong>
-                <span className="ml-4">100,000 PKR</span>
-              </div>
+<div className="text-[20px] flex items-center w-[550px] h-[46px] rounded-[10px] px-6 shadow-md border border-gray-200 bg-white ml-[400px]">
+  <strong>TOTAL COST</strong>
+  <span className="ml-4">{totalCost.toLocaleString()} PKR</span>
+</div>
+
               <button
                 onClick={() => setStep(prev => prev + 1)}
                 className="bg-gradient-to-r from-[#002B5B] to-[#00688B] text-white px-6 py-2 rounded-full text-lg font-semibold">

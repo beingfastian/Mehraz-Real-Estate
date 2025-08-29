@@ -8,6 +8,9 @@ import React from "react";
 import LevelCardDesign from "./component/card";
 import useRPS from "@/hooks/useRPS";
 
+import selected from "@/assets/images/user-side/image 38.png";
+import full from "@/assets/images/user-side/image 39.png";
+
 const Level_selection = () => {
   const { router, pathname, searchParams } = useRPS();
   const [designLevel, setDesignLevel] = useState(null);
@@ -57,6 +60,7 @@ const Level_selection = () => {
             subLable_1={"Small Changes"}
             lable_1={"Upto 5"}
             lable_2={"Economic"}
+            imgCard={selected}
           />
 
           <LevelCardDesign
@@ -73,6 +77,7 @@ const Level_selection = () => {
             radioBtnPosition={"-translate-y-1/2 top-0"}
             lable_1={"All at once "}
             lable_2={"upto 4x price"}
+            imgCard={full}
           />
         </div>
       </div>

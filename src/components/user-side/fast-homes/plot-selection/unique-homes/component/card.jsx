@@ -16,6 +16,7 @@ const LevelCardDesign = ({
   imgSize,
   imgRounded,
   isPersonalized,
+  imgCard,
 }) => {
   const isSelected = designLevel === level;
 
@@ -29,7 +30,7 @@ const LevelCardDesign = ({
         className={`${imgSize} relative ${imgRounded} cursor-pointer group overflow-hidden`}>
         <div className={`h-full w-full `}>
           <Image
-            src={card}
+            src={imgCard}
             alt="card"
             className={`h-full w-full ${
               !isPersonalized && "object-cover"

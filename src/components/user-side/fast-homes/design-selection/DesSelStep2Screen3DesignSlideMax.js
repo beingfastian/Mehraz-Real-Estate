@@ -20,9 +20,9 @@ const DesSelStep2Screen3DesignSlideMax = ({
   ];
 
   return (
-    <div className="h-full flex rounded-lg shadow-btn border border-black border-opacity-25 overflow-hidden lg:flex-col-reverse">
-      {/* Left Panel - Details */}
-      <div className="h-full w-2/5 xl:w-1/2 lg:w-full lg:h-3/5 flex flex-col lg:grid lg:grid-cols-1 overflow-y-auto">
+    <div className="h-full flex rounded-lg shadow-btn border border-black border-opacity-25 overflow-hidden lg:flex-col-reverse shadow-lg">
+      {/* Left Panel - Details (Expanded) */}
+      <div className="h-full flex-1 lg:w-full lg:h-3/5 flex flex-col lg:grid lg:grid-cols-1 overflow-y-auto">
         <div className="text-black/90 lg:w-full px-5 pt-4 sm:px-2">
           <h1 className="text-xl xl:text-lg sm:text-base font-bold text-center uppercase">
             {design.area?.name || "Design Details"}
@@ -59,7 +59,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
             <UButton
               onClick={selectDesignHandler}
               color="solid-gold"
-              className="w-full flex items-center justify-center gap-2 text-center text-lg xl:text-base font-bold py-1.5 px-4 rounded-tr-full rounded-br-full"
+              className="w-full flex items-center justify-center gap-2 text-center text-lg xl:text-base font-bold py-1.5 px-4 shadow-md"
               text={
                 <>
                   <span>Explore Home</span>
@@ -75,7 +75,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
             />
             <UButton
               onClick={selectSkipDesignHandler}
-              className="w-full flex items-center justify-center gap-2 text-lg xl:text-base font-bold py-1.5 px-4"
+              className="w-full flex items-center shadow-md justify-center gap-2 text-lg xl:text-base font-bold py-1.5 px-4"
               color="gradient-blue-green"
               text={
                 <>
@@ -94,8 +94,8 @@ const DesSelStep2Screen3DesignSlideMax = ({
         </div>
       </div>
 
-      {/* Right Panel - Image/Chart */}
-      <div className="h-full w-3/5 xl:w-1/2 lg:w-full lg:h-2/5 relative">
+      {/* Right Panel - Image/Chart (Fixed width) */}
+      <div className="h-full lg:h-2/5 aspect-[4/3] flex-shrink-0 relative">
         {showChart ? (
           <div className="h-full w-full bg-gray-100 flex items-center justify-center p-4">
             <Chart

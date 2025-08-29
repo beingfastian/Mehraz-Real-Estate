@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { MapPin, X, Check } from "lucide-react";
+import { MapPin, X, Check } from "lucide-react";;
 
 const LocationSelector = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,9 +76,10 @@ const LocationSelector = () => {
       {/* Location Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center gap-2 text-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
-        <MapPin size={20} strokeWidth={1.5} />
-        <span className="sm-text font-medium">{selectedLocation}</span>
+        className="text-white inline-flex px-4 items-center gap-3 md:gap-2 xs:gap-1">
+        <MapPin size={20} strokeWidth={1.5} className="w-7 h-auto md:w-6 sm:w-5"/>
+        <span className="base-text block sm:hidden">{selectedLocation}</span>
+
       </button>
 
       {/* Popup */}

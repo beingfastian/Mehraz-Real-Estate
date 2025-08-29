@@ -78,9 +78,9 @@ export default async function UserPage() {
           <div className="h-full relative w-full">
             <div className="animate-landing-slide-1 landing-left-slider--container">
               <h1 className="gradient-text landing-page-title">
-                <span className="text-nowrap">Building the</span>
+                <span className="text-nowrap">Building Your</span>
                 <br />
-                <b className="text-nowrap">new pakistan</b>
+                <b className="text-nowrap">Dream</b>
               </h1>
               <h2 className=" bg-accent-gold slogan-container">
                 <b>save</b> time . effort . money
@@ -88,23 +88,24 @@ export default async function UserPage() {
             </div>
             <div className="absolute top-0 left-0 animate-landing-slide-2 opacity-0 landing-left-slider--container">
               <h1 className="gradient-text landing-page-title">
-                <b className="text-nowrap">emerging rise</b>
-                <br /> <span className="text-nowrap">for people</span>
+                <span className="text-nowrap">All You Need</span>
+                <br /> <b className="text-nowrap">For A Home</b>
               </h1>
               <h2 className="bg-accent-gold slogan-container">
-                <b>live healthy</b> live longer
+                
+                                <b>economic</b> now & forever
               </h2>
             </div>
             <div className="absolute top-0 left-0 animate-landing-slide-3 opacity-0 landing-left-slider--container">
               <h1 className="landing-page-title  gradient-text">
                 <span className="text-nowrap">
                   {" "}
-                  <b>united</b> we&apos;ll{" "}
+                  Build A Future
                 </span>
-                <br /> <b className="text-nowrap">grow</b>
+                <br /> <b className="text-nowrap">Together</b>
               </h1>
               <h2 className="bg-accent-gold slogan-container ">
-                <b>economic</b> now & forever
+<b>live healthy</b> live longer
               </h2>
             </div>
           </div>

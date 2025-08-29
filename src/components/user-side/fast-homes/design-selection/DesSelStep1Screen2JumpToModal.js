@@ -20,9 +20,7 @@ const DesSelStep1Screen2JumpToModal = ({
   const { router, pathname, searchParams } = useRPS();
 
   const defaultStep1Screen3FormData = {
-    city: searchParams.get("city") || "",
     styleCost: searchParams.get("styleCost") || "",
-    style: searchParams.get("style") || "",
   };
 
   const [step1Screen3FormData, setStep1Screen3FormData] = useState(
@@ -40,9 +38,7 @@ const DesSelStep1Screen2JumpToModal = ({
 
   const applyChangesHandler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("city", step1Screen3FormData.city);
     newSearchParams.set("styleCost", step1Screen3FormData.styleCost);
-    newSearchParams.set("style", step1Screen3FormData.style);
     router.push(`${pathname}?${newSearchParams.toString()}`);
     router.refresh();
     toggleModal();
@@ -78,53 +74,33 @@ const DesSelStep1Screen2JumpToModal = ({
             </button>
           </div>
           <div className="flex lg:flex-col items-center justify-center gap-8 lg:gap-6 pt-4 pb-20">
-            <DesSelStep1Screen2InputBox label={"city"}>
-              <DesSelStep1Screen2Select
-                options={
-                  cities
-                    ? [
-                        {
-                          label: "CHOOSE",
-                          value: "",
-                        },
-                        ...cities.map(city => ({
-                          label: city.name,
-                          value: city.id,
-                        })),
-                      ]
-                    : []
-                }
-                selectedOption={step1Screen3FormData.city}
-                selectHandler={value =>
-                  step1Screen3FormDataInputHandler("city", value)
-                }
-              />
-            </DesSelStep1Screen2InputBox>
-            <DesSelStep1Screen2InputBox label={"budget"}>
-              <DesSelStep1Screen2Select
-                options={[
-                  { label: "CHOOSE", value: "" },
-                  { label: "LOW", value: "LOW" },
-                  { label: "MEDIUM", value: "MEDIUM" },
-                  { label: "HIGH", value: "HIGH" },
-                ]}
-                selectedOption={step1Screen3FormData.styleCost}
-                selectHandler={value =>
-                  step1Screen3FormDataInputHandler("styleCost", value)
-                }
-              />
-            </DesSelStep1Screen2InputBox>
-            <DesSelStep1Screen2InputBox label={"style"}>
-              <button
-                onClick={toggleStyleModal}
-                className="text-xl xl:text-lg py-2 sm:py-1 px-10 sm:px-6 bg-[#8D8E97] rounded-full uppercase text-white shadow-btn font-bold border-2 border-white border-opacity-60 transition-colors duration-300 hover:bg-white hover:text-[#000000a6] hover:border-[#000000a6]">
-                {step1Screen3FormData.style === ""
-                  ? "styles"
-                  : styles.find(
-                      style => style.id === step1Screen3FormData.style,
-                    ).name}
-              </button>
-            </DesSelStep1Screen2InputBox>
+            
+            {/* Updated Budget Selection with Styled Buttons */}
+            <div className="text-center w-full px-6 py-2 mx-auto">
+              <h3 className="text-[#2F2F2F]/80 text-[28px] xl:text-lg lg:text-base mb-6">
+                STYLE COST
+              </h3>
+
+              <div className="grid grid-cols-3 md:grid-cols-3 sm:grid-cols-1 gap-6 lg:gap-4 md:gap-3 sm:gap-3 w-full">
+                {["LOW", "MEDIUM", "HIGH"].map(cost => (
+                  <button
+                    key={cost}
+                    onClick={() =>
+                      step1Screen3FormDataInputHandler("styleCost", cost)
+                    }
+                    className={`uppercase text-[26px] font-bold rounded-full shadow-lg relative z-[1] duration-300
+                      h-[75px] lg:h-[65px] md:h-[50px] sm:h-[40px] w-full
+                      ${
+                        step1Screen3FormData.styleCost === cost
+                          ? "text-white bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green"
+                          : "text-[#21254A] bg-white border-[2px] border-[#21254A]"
+                      }`}>
+                    {cost}
+                  </button>
+                ))}
+              </div>
+            </div>
+
           </div>
           <div>
             <Button

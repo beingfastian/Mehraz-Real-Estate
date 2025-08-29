@@ -65,6 +65,7 @@ const materials = [
 ];
 const BuyMaterialsPage = () => {
   const [step, setStep] = useState(1);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [step1Screen2FormData, setStep1Screen2FormData] = useState(
     defaultStep1Screen2FormData,
   );
@@ -154,10 +155,21 @@ const BuyMaterialsPage = () => {
             />
           )}
           {step === 3 && <Screen3 setStep={setStep} materials={materials} />}
-          {step === 4 && (
-            <MaterialSelectionPage setStep={setStep} materials={materials} />
-          )}
-          {step === 5 && <OrderList setStep={setStep} />}
+{step === 4 && (
+  <MaterialSelectionPage 
+    setStep={setStep} 
+    selectedMaterials={selectedMaterials}
+    setSelectedMaterials={setSelectedMaterials}
+  />
+)}
+
+{step === 5 && (
+  <OrderList 
+    setStep={setStep} 
+    selectedMaterials={selectedMaterials} 
+  />
+)}
+
           {step === 6 && <UserLogin setStep={setStep} />}
           {step === 7 && <DeliveryForm setStep={setStep} />}
         </div>

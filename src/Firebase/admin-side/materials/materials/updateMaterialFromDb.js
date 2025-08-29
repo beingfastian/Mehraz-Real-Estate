@@ -24,7 +24,6 @@ const updateMaterialFromDb = async ({
   specs,
   orderedAs,
   image1,
-  image2,
   cities
 }) => {
   try {
@@ -46,10 +45,6 @@ const updateMaterialFromDb = async ({
     if (image1 instanceof FormData) {
       const image1Ref = ref(storage, `MATERIALS/${id}/image1`);
       await uploadBytes(image1Ref, image1.get("image1"));
-    }
-    if (image2 instanceof FormData) {
-      const image2Ref = ref(storage, `MATERIALS/${id}/image2`);
-      await uploadBytes(image2Ref, image2.get("image2"));
     }
 
     // Get some of the previous values

@@ -171,12 +171,12 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
                           onClick={() =>
                             step1Screen2FormDataInputHandler("styleCost", cost)
                           }
-                          className={`uppercase text-[26px] font-bold rounded-full relative z-[1] duration-300
+                          className={`uppercase shadow-lg text-[26px] font-bold rounded-full relative z-[1] duration-300
           h-[75px] lg:h-[65px] md:h-[50px] sm:h-[40px] w-full
           ${
             step1Screen2FormData.styleCost === cost
               ? "text-white bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green"
-              : "text-[#3F3F3F] bg-white border border-[#3F3F3F]"
+              : "text-[#21254A] bg-white border border-[#21254A]"
           }`}>
                           {cost}
                         </button>
@@ -243,5 +243,3 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
 };
 
 export default DesSelStep1Screen1;
-
-// before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300

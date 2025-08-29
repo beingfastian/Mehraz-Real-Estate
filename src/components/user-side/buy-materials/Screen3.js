@@ -12,7 +12,7 @@ import { UserHeader } from "@/components";
 import { landpic } from "@/assets";
 import MaterialCarousel from "./MaterialCarousel";
 import searchIcon from "@/assets/icons/searchIcon.svg";
-import localBackgroundImage from "@/assets/images/bg.jpg";
+import materialsBg from "@/assets/images/buy-materials.png";
 import { toast } from "react-toastify";
 
 const Screen3 = ({ setStep }) => {
@@ -21,7 +21,7 @@ const Screen3 = ({ setStep }) => {
   const [searchText, setSearchText] = useState("");
 
   return (
-    <div className="flex flex-grow h-full absolute top-0 left-0 w-full">
+    <div className="flex flex-grow h-full absolute top-12 left-0 w-full">
       <div className="w-full fixed top-0 left-0 z-20">
         <UserHeader />
       </div>
@@ -30,10 +30,10 @@ const Screen3 = ({ setStep }) => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         style={{
-          backgroundImage: `url(${localBackgroundImage.src})`,
+          backgroundImage: `url(${materialsBg.src})`,
         }}
         className="relative z-[1] min-h-full w-full flex items-center justify-center bg-fast-homes bg-no-repeat bg-center bg-cover before:absolute before:z-[-1] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-gradient-to-b before:from-[#000000e6] before:to-[#3c3c3cb3] flex-grow h-full">
-        <div className="h-full w-full flex justify-center items-center flex-col py-8 md:py-12 lg:py-20 px-4">
+        <div className="h-full w-full flex justify-center items-center flex-col py-4 md:py-8 lg:py-12 px-4">
           <div
             className={`${
               pathname == "/buy-materials" ? "min-h-[80vh]" : "h-[50vh]"
@@ -96,7 +96,7 @@ const Screen3 = ({ setStep }) => {
                 </div>
 
                 {/* SELECT Label - Made responsive */}
-                <div className="w-full flex justify-center items-center relative mb-4 sm:mb-6">
+                <div className="w-full flex justify-center items-center relative -mb-3 sm:mb-3">
                   <div className="px-4 bg-[#d9d9d9] px-[40px] sm:px-[60px] lg:px-[80px] py-[3px] sm:py-[4px] lg:py-[5px] rounded-[8px] sm:rounded-[10px]">
                     <span className="text-[#2f2f2f]/90 text-[18px] sm:text-[20px] lg:text-[24px] font-semibold uppercase opacity-65">
                       SELECT
